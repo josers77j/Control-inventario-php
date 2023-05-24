@@ -3,7 +3,7 @@
 		<ul class="sidebar-menu">
 		<?php
 
-		if($_SESSION["id_rol"] == "1"){
+		if($_SESSION["role"] == "Administrador"){
 			echo '<li class="active">
 				<a href="inicio">
 					<i class="fa fa-home"></i>

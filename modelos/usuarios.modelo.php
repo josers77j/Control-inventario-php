@@ -3,15 +3,26 @@
 require_once "conexion.php";
 
 class ModeloUsuarios{
-	static public function mdlMostrarUsuarios($tabla, $item, $valor){
+	static public function mdlMostrarUsuarios($tabla1, $tabla2, $tabla3, $item, $valor){
 		if($item != null){
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
-			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
-			$stmt -> execute();
+			$stmt = Conexion::conectar()->prepare("SELECT u.id_usuario, u.token, u.usuario, u.nombres, u.correo, u.telefono, u.contrasenia, s.nombre as 'estado', r.nombre as 'role' 
+				FROM $tabla1 AS u 
+				INNER JOIN $tabla2 AS s ON u.id_status = s.id_status 
+				INNER JOIN $tabla3 AS r ON u.id_rol = r.id_rol 
+				WHERE $item = :valor
+				ORDER BY u.id_usuario DESC");
+				
+			$stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
+			$stmt->execute();
 
-			return $stmt -> fetch();
+			return $stmt->fetch();
 		}else{
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+			$stmt = Conexion::conectar()->prepare(
+				"SELECT u.id_usuario, u.token, u.usuario, u.nombres, u.correo, u.telefono, u.contrasenia, s.nombre, r.nombre 
+					FROM $tabla1 AS u 
+					INNER JOIN $tabla2 AS s ON u.id_status = s.id_status 
+					INNER JOIN $tabla3 AS r ON u.id_rol = r.id_rol 
+					ORDER BY u.id_usuario DESC");
 			$stmt -> execute();
 
 			return $stmt -> fetchAll();
