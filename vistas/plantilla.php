@@ -63,10 +63,31 @@ session_start();
 
   if(isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok"){
    
+    echo '<div class="wrapper">';
+    include "modulos/cabezote.php";
+    include "modulos/menu.php";
+
+    if(isset($_GET["ruta"])){
+
+      if($_GET["ruta"] == "inicio" ||
+         $_GET["ruta"] == "salir"){
+
+        include "modulos/".$_GET["ruta"].".php";
+      }else{
+        include "modulos/404.php";
+      }
+    }else{
+      include "modulos/inicio.php";
+    }
+    include "modulos/footer.php";
+    echo '</div>';
+
   }else{
     include "modulos/login.php";
   }
   ?>
+
+  <script src="./js/plantilla.js"></script>
 
 </body>
 </html>

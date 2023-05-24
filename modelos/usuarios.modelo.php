@@ -22,13 +22,15 @@ class ModeloUsuarios{
 	}
 
 	static public function mdlIngresarUsuario($tabla, $datos){
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(nombre, usuario, password, perfil, foto) VALUES (:nombre, :usuario, :password, :perfil, :foto)");
+		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(usuario, nombres, correo, telefono, contrasenia, id_rol, id_status) VALUES (:usuario, :nombres, :correo, :telefono, :contrasenia, :id_rol, :id_status)");
 
-		$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-		$stmt->bindParam(":usuario", $datos["usuario"], PDO::PARAM_STR);
-		$stmt->bindParam(":password", $datos["password"], PDO::PARAM_STR);
-		$stmt->bindParam(":perfil", $datos["perfil"], PDO::PARAM_STR);
-		$stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
+		$stmt -> bindParam(":usuario", $datos["usuario"], PDO::PARAM_STR);
+		$stmt -> bindParam(":nombres", $datos["nombres"], PDO::PARAM_STR);
+		$stmt -> bindParam(":correo", $datos["correo"], PDO::PARAM_STR);
+		$stmt -> bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
+		$stmt -> bindParam(":contrasenia", $datos["contrasenia"], PDO::PARAM_STR);
+		$stmt -> bindParam(":id_rol", $datos["id_rol"], PDO::PARAM_STR);
+		$stmt -> bindParam(":id_status", $datos["id_status"], PDO::PARAM_STR);
 
 		if($stmt->execute()){
 			return "ok";	
@@ -42,12 +44,14 @@ class ModeloUsuarios{
 	}
 
 	static public function mdlEditarUsuario($tabla, $datos){
-		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombre = :nombre, password = :password, perfil = :perfil, foto = :foto WHERE usuario = :usuario");
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombres = :nombres, correo = :correo, telefono = :telefono, contrasenia = :contrasenia, id_rol = :id_rol, id_status = :id_status WHERE usuario = :usuario");
 
-		$stmt -> bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-		$stmt -> bindParam(":password", $datos["password"], PDO::PARAM_STR);
-		$stmt -> bindParam(":perfil", $datos["perfil"], PDO::PARAM_STR);
-		$stmt -> bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
+		$stmt -> bindParam(":nombres", $datos["nombres"], PDO::PARAM_STR);
+		$stmt -> bindParam(":correo", $datos["correo"], PDO::PARAM_STR);
+		$stmt -> bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
+		$stmt -> bindParam(":contrasenia", $datos["contrasenia"], PDO::PARAM_STR);
+		$stmt -> bindParam(":id_rol", $datos["id_rol"], PDO::PARAM_STR);
+		$stmt -> bindParam(":id_status", $datos["id_status"], PDO::PARAM_STR);
 		$stmt -> bindParam(":usuario", $datos["usuario"], PDO::PARAM_STR);
 
 		if($stmt -> execute()){
