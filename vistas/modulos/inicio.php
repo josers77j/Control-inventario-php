@@ -17,7 +17,7 @@
          <div class="col-lg-12"> 
 
           <?php
-          if($_SESSION["role"] == "Administrador" || $_SESSION["role"] == "Administrador"){
+          if($_SESSION["role"] == "Administrador" || $_SESSION["role"] == "Usuario"){
              echo '<div class="box box-success">
              <div class="box-header">
              <h1>Bienvenid@ ' .$_SESSION["nombres"].'</h1>

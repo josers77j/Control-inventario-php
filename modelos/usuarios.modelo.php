@@ -5,7 +5,7 @@ require_once "conexion.php";
 class ModeloUsuarios{
 	static public function mdlMostrarUsuarios($tabla1, $tabla2, $tabla3, $item, $valor){
 		if($item != null){
-			$stmt = Conexion::conectar()->prepare("SELECT u.id_usuario, u.token, u.usuario, u.nombres, u.correo, u.telefono, u.contrasenia, s.nombre as 'estado', r.nombre as 'role' 
+			$stmt = Conexion::conectar()->prepare("SELECT u.id_usuario, u.token, u.usuario, u.nombres, u.correo, u.telefono, u.contrasenia, s.id_status, s.nombre as 'estado', r.id_rol, r.nombre as 'role' 
 				FROM $tabla1 AS u 
 				INNER JOIN $tabla2 AS s ON u.id_status = s.id_status 
 				INNER JOIN $tabla3 AS r ON u.id_rol = r.id_rol 
@@ -18,11 +18,12 @@ class ModeloUsuarios{
 			return $stmt->fetch();
 		}else{
 			$stmt = Conexion::conectar()->prepare(
-				"SELECT u.id_usuario, u.token, u.usuario, u.nombres, u.correo, u.telefono, u.contrasenia, s.nombre, r.nombre 
+				"SELECT u.id_usuario, u.token, u.usuario, u.nombres, u.correo, u.telefono, u.contrasenia, s.id_status, s.nombre as 'estado', r.id_rol, r.nombre as 'role' 
 					FROM $tabla1 AS u 
 					INNER JOIN $tabla2 AS s ON u.id_status = s.id_status 
 					INNER JOIN $tabla3 AS r ON u.id_rol = r.id_rol 
-					ORDER BY u.id_usuario DESC");
+					ORDER BY u.id_usuario DESC;");
+
 			$stmt -> execute();
 
 			return $stmt -> fetchAll();
@@ -94,7 +95,7 @@ class ModeloUsuarios{
 	}
 
 	static public function mdlBorrarUsuario($tabla, $datos){
-		$stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id = :id");
+		$stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id_usuario = :id");
 		$stmt -> bindParam(":id", $datos, PDO::PARAM_INT);
 		if($stmt -> execute()){
 			return "ok";
