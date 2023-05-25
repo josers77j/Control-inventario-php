@@ -35,7 +35,11 @@ if($_SESSION["role"] == "Usuario"){
                 <th>Telefono</th>
                 <th>Role</th>
                 <th>Estado</th>
-                <th>Acciones</th>
+                <?php
+                  if($_SESSION["role"] == "Administrador"){
+                    echo '<th>Acciones</th>';
+                  }
+                ?>
               </tr>
           </thead>
         <tbody>
@@ -62,13 +66,22 @@ if($_SESSION["role"] == "Usuario"){
                     echo '<td><button class="btn btn-danger btn-xs btnActivar" idUsuario="'.$value["id_usuario"].'" estadoUsuario="1">Desactivado</button></td>';
                   }  
 
-                  echo '<td>
-                    <div class="btn-group">
-                      <button class="btn btn-warning btnEditarUsuario" idUsuario="'.$value["usuario"].'" data-toggle="modal" data-target="#modalEditarUsuario"><i class="fa fa-pencil"></i></button>
-                      <button class="btn btn-danger btnEliminarUsuario" idUsuario="'.$value["id_usuario"].'" usuario="'.$value["usuario"].'"><i class="fa fa-times"></i></button>
-                    </div>
-                  </td>
-                </tr>';
+
+                  if($_SESSION["role"] == "Administrador"){
+                    echo '<td>
+                    <div class="btn-group">';
+                      if($_SESSION["id_usuario"] == $value["id_usuario"]){
+                        echo '<button class="btn btn-warning btnEditarUsuario" idUsuario="'.$value["usuario"].'" data-toggle="modal" data-target="#modalEditarUsuario"><i class="fa fa-pencil"></i></button>';
+                      }if($_SESSION["id_usuario"] != $value["id_usuario"]){
+                        echo '<button class="btn btn-warning btnEditarUsuario" idUsuario="'.$value["usuario"].'" data-toggle="modal" data-target="#modalEditarUsuario"><i class="fa fa-pencil"></i></button>
+                        <button class="btn btn-danger btnEliminarUsuario" idUsuario="'.$value["id_usuario"].'" usuario="'.$value["usuario"].'"><i class="fa fa-times"></i></button>';
+                      }
+                    
+                    echo '</div>
+                  </td>';
+                  }
+                  
+                echo '</tr>';
         }
         ?> 
         </tbody>
@@ -131,14 +144,7 @@ if($_SESSION["role"] == "Usuario"){
                 <span class="input-group-addon"><i class="fa fa-users"></i></span> 
                 <select class="form-control input-lg" name="nuevoRol" id="nuevoRol">
                     <option value="">Selecionar Role</option>
-                    <?php
-                    $item = null;
-                    $valor = null;
-                    $role = ControladorRole::ctrMostrarRole($item, $valor);
-                    foreach ($role as $key => $value) {
-                        echo '<option value="'.$value["id_rol"].'">'.$value["nombre"].'</option>';
-                    }
-                    ?>
+                    <option value="2" selected="selected">Usuario</option>
                 </select>
               </div>
             </div>
@@ -229,16 +235,7 @@ if($_SESSION["role"] == "Usuario"){
             <div class="form-group">
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                <select class="form-control input-lg" name="editarRol">
-                    <?php
-                    $item = null;
-                    $valor = null;
-                    $role = ControladorRole::ctrMostrarRole($item, $valor);
-                    foreach ($role as $key => $value) {
-                        echo '<option id="'.$value["nombre"].'" value="'.$value["id_rol"].'">'.$value["nombre"].'</option>';
-                    }
-                    ?>
-                </select>
+                <input type="text"  disabled="disabled" class="form-control input-lg" name="editarRol" id="editarRol">
               </div>
             </div>
 
