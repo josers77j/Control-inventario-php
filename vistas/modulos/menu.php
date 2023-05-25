@@ -26,6 +26,13 @@
 				</a>
 			</li>
 
+			<li>
+				<a href="productos">
+					<i class="fa fa-product-hunt"></i>
+					<span>Productos</span>
+				</a>
+			</li>
+
 			';
 
 		}
