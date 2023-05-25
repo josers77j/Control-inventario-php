@@ -1,10 +1,10 @@
 <aside class="main-sidebar">
-	 <section class="sidebar">
+	<section class="sidebar">
 		<ul class="sidebar-menu">
-		<?php
+			<?php
 
-		if($_SESSION["role"] == "Administrador"){
-			echo '
+			if ($_SESSION["role"] == "Administrador") {
+				echo '
 			<li class="active">
 				<a href="inicio">
 					<i class="fa fa-home"></i>
@@ -33,13 +33,19 @@
 				</a>
 			</li>
 
+			<li>
+			<a href="categorias">
+				<i class="fa fa-product-hunt"></i>
+					<span>Categorias</span>
+				</a>
+			</li>
+
 			';
+			}
 
-		}
-
-		?>
+			?>
 		</ul>
 
-	 </section>
+	</section>
 
 </aside>
