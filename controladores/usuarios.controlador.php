@@ -27,6 +27,7 @@ class ControladorUsuarios{
 						$_SESSION["telefono"] = $respuesta["telefono"];
                         $_SESSION["contrasenia"] = $respuesta["contrasenia"];
 						$_SESSION["role"] = $respuesta["role"];
+						$_SESSION["id_rol"] = $respuesta["id_rol"];
 						$_SESSION["estado"] = $respuesta["estado"];
 
                         echo '<script>
@@ -163,7 +164,6 @@ class ControladorUsuarios{
 							   "correo" => $_POST["editarCorreo"],
 							   "telefono" => $_POST["editarTelefono"],
 							   "contrasenia" => $encriptar,
-							   "id_rol" => $_POST["editarRol"],
 							   "id_status" => $_POST["editarStatus"]							   
 							);
 							

@@ -40,7 +40,7 @@ $(".tablas").on("click", ".btnEditarUsuario", function(){
 			})
 
 			/* ================= Role ================== */
-
+/* 
 			var datosCategoria = new FormData();
           	datosCategoria.append("idRole",respuesta["id_rol"]);
 
@@ -55,12 +55,14 @@ $(".tablas").on("click", ".btnEditarUsuario", function(){
 				dataType:"json",
 				success:function(respuesta){
 
-					$(`#${respuesta["nombre"]}`).val(respuesta["id_rol"]);
-					$(`#${respuesta["nombre"]}`).html(respuesta["nombre"]);
+					$(`#editarRol`).val(respuesta["id_rol"]);
+					$(`#editarRol`).html(respuesta["nombre"]);
 				}
 
-			})
+			}) */
 				
+
+			$("#editarRol").val(respuesta["role"]);
 			$("#editarUsuario").val(respuesta["usuario"]);
 			$("#editarNombre").val(respuesta["nombres"]);
 			$("#editarCorreo").val(respuesta["correo"]);

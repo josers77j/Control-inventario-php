@@ -56,13 +56,12 @@ class ModeloUsuarios{
 	}
 
 	static public function mdlEditarUsuario($tabla, $datos){
-		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombres = :nombres, correo = :correo, telefono = :telefono, contrasenia = :contrasenia, id_rol = :id_rol, id_status = :id_status WHERE usuario = :usuario");
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombres = :nombres, correo = :correo, telefono = :telefono, contrasenia = :contrasenia, id_status = :id_status WHERE usuario = :usuario");
 
 		$stmt -> bindParam(":nombres", $datos["nombres"], PDO::PARAM_STR);
 		$stmt -> bindParam(":correo", $datos["correo"], PDO::PARAM_STR);
 		$stmt -> bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
 		$stmt -> bindParam(":contrasenia", $datos["contrasenia"], PDO::PARAM_STR);
-		$stmt -> bindParam(":id_rol", $datos["id_rol"], PDO::PARAM_STR);
 		$stmt -> bindParam(":id_status", $datos["id_status"], PDO::PARAM_STR);
 		$stmt -> bindParam(":usuario", $datos["usuario"], PDO::PARAM_STR);
 

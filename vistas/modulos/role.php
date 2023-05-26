@@ -1,15 +1,10 @@
 <?php
 
 if($_SESSION["role"] == "Usuario"){
-
   echo '<script>
-
     window.location = "inicio";
-
   </script>';
-
   return;
-
 }
 
 ?>
@@ -56,10 +51,10 @@ if($_SESSION["role"] == "Usuario"){
                     <td>'.$value["descripcion"].'</td>
 
                     <td>
-                      <div class="btn-group">
-                        <button class="btn btn-warning btnEditarRole"  idRole="'.$value["id_rol"].'" data-toggle="modal" data-target="#modalEditarRole"><i class="fa fa-pencil"></i></button>';
+                      <div class="btn-group">';
                         if($_SESSION["role"] == "Administrador"){
-                          echo '<button class="btn btn-danger btnEliminarRole" idRole="'.$value["id_rol"].'"><i class="fa fa-times"></i></button>';
+                          echo '
+                          <button class="btn btn-warning btnEditarRole"  idRole="'.$value["id_rol"].'" data-toggle="modal" data-target="#modalEditarRole"><i class="fa fa-pencil"></i></button>';
                         }
                       echo '</div>  
                     </td>
@@ -133,7 +128,7 @@ if($_SESSION["role"] == "Usuario"){
             <div class="form-group">
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-th"></i></span> 
-                <input type="text" class="form-control input-lg" name="editarNombreRole" id="editarNombreRole" placeholder="Ingresar nombre" required>
+                <input type="text" class="form-control input-lg" name="editarNombreRole" id="editarNombreRole" placeholder="Ingresar nombre" disabled>
               </div>
             </div>
 
