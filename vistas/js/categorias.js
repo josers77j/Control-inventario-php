@@ -19,8 +19,6 @@ $(".tablas").on("click", ".btnEditarCategoria", function(){
             $("#editarDescripcionCategoria").val(respuesta["descripcion"]);
             $("#idCategoria").val(respuesta["id_categoria"]);
         }
-
-
     })
 })
 

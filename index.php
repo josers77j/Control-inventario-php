@@ -6,13 +6,14 @@ require_once "controladores/role.controlador.php";
 require_once "controladores/status.controlador.php";
 require_once "controladores/categorias.controlador.php";
 require_once "controladores/productos.controlador.php";
+require_once "controladores/programas.controlador.php";
 
 require_once "modelos/usuarios.modelo.php";
 require_once "modelos/role.modelo.php";
 require_once "modelos/status.modelo.php";
 require_once "modelos/productos.modelo.php";
 require_once "modelos/categorias.modelo.php";
-
+require_once "modelos/programas.modelo.php";
 
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();

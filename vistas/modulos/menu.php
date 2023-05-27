@@ -3,7 +3,7 @@
 		<ul class="sidebar-menu">
 			<?php
 
-			if($_SESSION["role"] == "Usuario"){
+			if ($_SESSION["role"] == "Usuario") {
 				echo '
 				<li class="active">
 						<a href="inicio">
@@ -27,7 +27,6 @@
 				</li>
 				
 				';
-				
 			}
 
 			if ($_SESSION["role"] == "Administrador") {
@@ -55,7 +54,7 @@
 
 					<li>
 						<a href="role">
-							<i class="fa fa-key"></i>
+						<i class="fa fa-address-card" aria-hidden="true"></i>
 							<span>Roles</span>
 						</a>
 					</li>
@@ -64,6 +63,13 @@
 						<a href="productos">
 							<i class="fa fa-product-hunt"></i>
 							<span>Productos</span>
+						</a>
+					</li>
+
+					<li>
+						<a href="programas">
+						<i class="fa fa-archive" aria-hidden="true"></i>
+							<span>Programas</span>
 						</a>
 					</li>
 
