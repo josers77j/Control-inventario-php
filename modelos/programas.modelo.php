@@ -31,6 +31,7 @@ class ModeloProgramas{
 		$stmt -> bindParam(":descripcion", $datos["descripcion"], PDO::PARAM_STR);
 		$stmt -> bindParam(":presupuesto", $datos["presupuesto"], PDO::PARAM_STR);
         $stmt -> bindParam(":fecha", $datos["fecha"], PDO::PARAM_STR);
+		
 		if($stmt->execute()){
 			return "ok";
 		}else{

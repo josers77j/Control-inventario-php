@@ -4,7 +4,7 @@ class ControladorCategoria
     static public function crtCrearCategoria()
     {
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST["nuevoNombreCategoria"])) {
             if (
                 preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoNombreCategoria"]) &&
                 preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoDescripcionCategoria"])
@@ -52,7 +52,7 @@ class ControladorCategoria
 
     static public function ctrEditarCategoria()
     {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST["editarNombreCategoria"])) {
             if (
                 preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombreCategoria"]) &&
                 preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarDescripcionCategoria"])

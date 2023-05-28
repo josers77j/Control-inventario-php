@@ -1,24 +1,34 @@
 <?php
 class ControladorProgramas
 {
+
+    static public function ctrMostrarPrograma($item, $valor)
+    {
+        $tabla = "tbl_programa";
+        $respuesta = ModeloProgramas::mdlMostrarProgramas($tabla, $item, $valor);
+
+        return $respuesta;
+    }
+
     static public function crtCrearPrograma()
     {
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST["nuevoNombrePrograma"])) {
             if (
                 preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoNombrePrograma"]) &&
                 preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoDescripcionPrograma"]) &&
                 preg_match('/^[-+]?[0-9]+(\.[0-9]+)?$/', $_POST["nuevoPresupuestoPrograma"])
             ) {
-
                 $tabla = "tbl_programa";
+
                 $datos = array(
                     "nombre" => $_POST["nuevoNombrePrograma"],
                     "descripcion" => $_POST["nuevoDescripcionPrograma"],
                     "presupuesto" => $_POST["nuevoPresupuestoPrograma"],
                     "fecha" => $_POST["nuevofechaPrograma"]
                 );
+
                 $respuesta = ModeloProgramas::mdlIngresarProgramas($tabla, $datos);
+
                 if ($respuesta == "ok") {
                     echo '<script>
 					swal({
@@ -35,32 +45,26 @@ class ControladorProgramas
                 }
             } else {
                 echo '<script>
-					swal({
-						  type: "error",
-						  title: "¡El programa no puede estar vacio y/o incluir caracteres especiales!",
-						  showConfirmButton: true,
-						  confirmButtonText: "Cerrar"
-						  }).then(function(result){
-							if (result.value) {}
-							window.location = "programas";        
-						})
-			  	</script>';
+                    swal({
+                          type: "error",
+                          title: "¡El programa no puede estar vacio y/o incluir caracteres especiales!",
+                          showConfirmButton: true,
+                          confirmButtonText: "Cerrar"
+                          }).then(function(result){
+                            if (result.value) {}
+                            window.location = "programas";        
+                        })
+                  </script>';
             }
         }
     }
 
-    static public function ctrMostrarPrograma($item, $valor)
-    {
-        $tabla = "tbl_programa";
-        $respuesta = ModeloProgramas::mdlMostrarProgramas($tabla, $item, $valor);
 
-        return $respuesta;
-    }
 
     static public function ctrEditarPrograma()
     {
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (isset($_POST["editarNombrePrograma"])) {
 
             if (
                 preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombrePrograma"]) &&
