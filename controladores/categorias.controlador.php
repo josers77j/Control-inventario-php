@@ -1,47 +1,6 @@
 <?php
 class ControladorCategoria
 {
-    static public function crtCrearCategoria()
-    {
-
-        if (isset($_POST["nuevoNombreCategoria"])) {
-            if (
-                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoNombreCategoria"]) &&
-                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoDescripcionCategoria"])
-            ) {
-                $tabla = "tbl_categoria";
-                $datos = array("nombre" => $_POST["nuevoNombreCategoria"], "descripcion" => $_POST["nuevoDescripcionCategoria"]);
-                $respuesta = ModeloCategorias::mdlIngresarCategorias($tabla, $datos);
-                if ($respuesta == "ok") {
-                    echo '<script>
-					swal({
-						  type: "success",
-						  title: "La categoria ha sido guardada correctamente",
-						  showConfirmButton: true,
-						  confirmButtonText: "Cerrar"
-						  }).then(function(result){
-									if (result.value) {}
-                                    window.location = "categorias";
-								})
-
-					</script>';
-                }
-            } else {
-                echo '<script>
-					swal({
-						  type: "error",
-						  title: "¡La categoria no puede estar vacia y/o incluir caracteres especiales!",
-						  showConfirmButton: true,
-						  confirmButtonText: "Cerrar"
-						  }).then(function(result){
-							if (result.value) {}
-							window.location = "categorias";        
-						})
-			  	</script>';
-            }
-        }
-    }
-
     static public function ctrMostrarCategoria($item, $valor)
     {
         $tabla = "tbl_categoria";
@@ -50,75 +9,51 @@ class ControladorCategoria
         return $respuesta;
     }
 
-    static public function ctrEditarCategoria()
+    static public function crtCrearCategoria($data)
     {
-        if (isset($_POST["editarNombreCategoria"])) {
             if (
-                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombreCategoria"]) &&
-                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarDescripcionCategoria"])
+                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $data[0]) &&
+                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $data[1])
+            ) {
+                $tabla = "tbl_categoria";
+                $datos = array("nombre" => $data[0], "descripcion" => $data[1]);
+                $respuesta = ModeloCategorias::mdlIngresarCategorias($tabla, $datos);
+                
+                return $respuesta;                
+            }else{
+                $respuesta = "error";
+                return $respuesta;
+            }
+    }
+
+    static public function ctrEditarCategoria($data)
+    {
+            if (
+                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $data[0]) &&
+                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $data[1]) &&
+                preg_match('/^[0-9 ]+$/', $data[2])
             ) {
                 $tabla = "tbl_categoria";
 
                 $datos = array(
-                    "nombre" => $_POST["editarNombreCategoria"],
-                    "descripcion" => $_POST["editarDescripcionCategoria"],
-                    "id_categoria" => $_POST["idCategoria"]
+                    "nombre" => $data[0],
+                    "descripcion" => $data[1],
+                    "id_categoria" => $data[2]
                 );
                 $respuesta = ModeloCategorias::mdlEditarCategorias($tabla, $datos);
 
-                if ($respuesta == "ok") {
-                    echo '<script>
-
-					swal({
-						  type: "success",
-						  title: "La categoria ha sido modificada correctamente",
-						  showConfirmButton: true,
-						  confirmButtonText: "Cerrar"
-						  }).then(function(result){
-									if (result.value){}
-                                    window.location = "categorias";
-								})
-
-					</script>';
-                }
+                return $respuesta;
             } else {
-                echo '<script>
-                swal({
-                      type: "error",
-                      title: "La categoria no puede estar vacía y/o llevar caracteres especiales!",
-                      showConfirmButton: true,
-                      confirmButtonText: "Cerrar"
-                      }).then(function(result){
-                        if (result.value){}
-                        window.location = "categorias";
-                    })
-              </script>';
+                $respuesta = "error";
+                return $respuesta;
             }
-        }
+        
     }
 
-    static public function ctrBorrarCategoria()
+    static public function ctrBorrarCategoria($id)
     {
-        if (isset($_GET["idCategoria"])) {
             $tabla = "tbl_categoria";
-            $datos = $_GET["idCategoria"];
-
-            $respuesta = ModeloCategorias::mdlBorrarCategorias($tabla, $datos);
-            if ($respuesta == "ok") {
-                echo '<script>
-
-            
-            swal({
-                  type: "success",
-                  title: "La categoria ha sido borrada correctamente",
-                  showConfirmButton: true,
-                  confirmButtonText: "Cerrar"
-                  }).then(function(result){
-                            if (result.value) {}
-                            window.location = "categorias";
-                        })
-            </script>';
-            }
-        }
+            $respuesta = ModeloCategorias::mdlBorrarCategorias($tabla, $id);
+            return $respuesta;
     }
 }

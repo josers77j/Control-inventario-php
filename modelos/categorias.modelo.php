@@ -61,9 +61,9 @@ class ModeloCategorias{
 
 	}
 
-    static public function mdlBorrarCategorias($tabla, $datos){
+    static public function mdlBorrarCategorias($tabla, $id){
 		$stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id_categoria = :id");
-		$stmt -> bindParam(":id", $datos, PDO::PARAM_INT);
+		$stmt -> bindParam(":id", $id, PDO::PARAM_INT);
 
 		if($stmt -> execute()){
 			return "ok";

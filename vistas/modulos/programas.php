@@ -156,8 +156,7 @@
                 <input type="date" class="form-control input-lg" id="editarfechaPrograma" name="editarfechaPrograma" placeholder="Ingresar fecha de vencimiento" required>
               </div>
             </div>
-
-<input type="hidden" name="idPrograma" id="idPrograma" >
+              <input type="hidden" name="idPrograma" id="idPrograma" >
           </div>
         </div>
 
