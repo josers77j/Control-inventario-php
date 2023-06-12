@@ -3,22 +3,6 @@
 require_once "conexion.php";
 
 class ModeloRole{
-	static public function mdlIngresarRole($tabla, $datos){
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(nombre, descripcion) VALUES (:nombre, :descripcion)");
-		
-        $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-        $stmt->bindParam(":descripcion", $datos["descripcion"], PDO::PARAM_STR);
-
-		if($stmt->execute()){
-			return "ok";
-		}else{
-			return "error";
-		}
-
-		$stmt->close();
-		$stmt = null;
-
-	}
 
 	static public function mdlMostrarRole($tabla, $item, $valor){
 
@@ -34,6 +18,23 @@ class ModeloRole{
 		}
 
 		$stmt -> close();
+		$stmt = null;
+
+	}
+
+	static public function mdlIngresarRole($tabla, $datos){
+		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(nombre, descripcion) VALUES (:nombre, :descripcion)");
+		
+        $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
+        $stmt->bindParam(":descripcion", $datos["descripcion"], PDO::PARAM_STR);
+
+		if($stmt->execute()){
+			return "ok";
+		}else{
+			return "error";
+		}
+
+		$stmt->close();
 		$stmt = null;
 
 	}

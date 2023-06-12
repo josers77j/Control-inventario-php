@@ -74,6 +74,7 @@ session_start();
          $_GET["ruta"] == "status" ||
          $_GET["ruta"] == "role" ||
          $_GET["ruta"] == "productos" ||
+         $_GET["ruta"] == "programas" ||
          $_GET["ruta"] == "categorias" ||
          $_GET["ruta"] == "salir"){
 
@@ -98,6 +99,7 @@ session_start();
   <script src="vistas/js/status.js"></script>
   <script src="vistas/js/categorias.js"></script>
   <script src="vistas/js/productos.js"></script>
+  <script src="vistas/js/programas.js"></script>
   
 
 </body>
