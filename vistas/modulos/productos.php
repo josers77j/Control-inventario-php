@@ -51,21 +51,21 @@
         </div>
 
         <div class="modal-body">
-          <div class="box-body">
-            
-            <div class="form-group">
+          <div class="box-body">					        
+  
+          <div class="form-group">
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-th"></i></span> 
                 <select class="form-control input-lg" id="nuevaCategoria" name="nuevaCategoria" required>    
                   <option value="">Selecionar categoría</option>
-                  <!-- 
+                  <?php
                   $item = null;
                   $valor = null;
-                  $categorias = ControladorCategorias::ctrMostrarCategorias($item, $valor);
+                  $categorias = ControladorCategoria::ctrMostrarCategoria($item, $valor);
                   foreach ($categorias as $key => $value) {
-                    echo '<option value="'.$value["id"].'">'.$value["categoria"].'</option>';
+                    echo '<option value="'.$value["id_categoria"].'">'.$value["nombre"].'</option>';
                   }
-                  ?> -->
+                  ?>
                 </select>
               </div>
             </div>
@@ -73,70 +73,69 @@
             <div class="form-group">
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-code"></i></span> 
-                <input type="text" class="form-control input-lg" id="nuevoCodigo" name="nuevoCodigo" placeholder="Ingresar código" readonly required>
+                <input type="text" class="form-control input-lg" id="nuevoCodigoProducto" name="nuevoCodigoProducto" placeholder="Ingresar código" readonly required>
               </div>
             </div>
 
             <div class="form-group">
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-product-hunt"></i></span>
-                <input type="text" class="form-control input-lg" name="nuevaDescripcion" placeholder="Ingresar descripción" required>
+                <input type="text" class="form-control input-lg" name="nuevoNombreProducto" placeholder="Ingresar nombre" required>
               </div>
-            </div>
+            </div> 
 
             <div class="form-group">
               <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
-                <input type="date" class="form-control input-lg" name="nuevaFechaVencimiento" placeholder="Ingresar fecha de vencimiento" required>
+                <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                <input type="number" step="any" min="0" class="form-control input-lg" name="nuevoPrecioUnitarioProducto" placeholder="Ingresar precio unitario" required>
               </div>
             </div>
 
              <div class="form-group">              
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-check"></i></span> 
-                <input type="number" class="form-control input-lg" name="nuevoStock" min="0" placeholder="Stock" required>
+                <input type="number" class="form-control input-lg" name="nuevaCantidadProducto" min="0" placeholder="Stock" required>
               </div>
             </div>
 
-             <div class="form-group row">
-                <div class="col-xs-6">
-                  <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-arrow-up"></i></span> 
-                    <input type="number" class="form-control input-lg" id="nuevoPrecioCompra" name="nuevoPrecioCompra" step="any" min="0" placeholder="Precio de compra" required>
-                  </div>
-                </div>
+            <div class="form-group">              
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-arrow-up"></i></span> 
+                <input type="number" class="form-control input-lg" name="nuevoNumeroContratoProducto" min="0" placeholder="Numero de contrato" required>
+              </div>
+            </div>
 
-                <div class="col-xs-6">
-                  <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-arrow-down"></i></span> 
-                    <input type="number" class="form-control input-lg" id="nuevoPrecioVenta" name="nuevoPrecioVenta" step="any" min="0" placeholder="Precio de venta" required>
-                </div>
-                  <br>
+            <div class="form-group">              
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-arrow-up"></i></span> 
+                <input type="number" class="form-control input-lg" name="nuevoNumeroOfertaCompraProducto" min="0" placeholder="Numero de oferta de compra" required>
+              </div>
+            </div>
 
-                  <div class="col-xs-6"> 
-                    <div class="form-group">   
-                      <label>
-                        <input type="checkbox" class="minimal porcentaje" checked>
-                        Utilizar procentaje
-                      </label>
-                    </div>
-                  </div>
-
-                  <div class="col-xs-6" style="padding:0">                    
-                    <div class="input-group">
-                      <input type="number" class="form-control input-lg nuevoPorcentaje" min="0" value="40" required>
-                      <span class="input-group-addon"><i class="fa fa-percent"></i></span>
-                    </div>
-                  </div>
-                </div>
+            <div class="form-group">              
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span> 
+                <input type="date"  class="form-control input-lg" name="nuevaFechaRecepcionProducto" min="0" placeholder="Fecha de recepcion" required>
+              </div>
             </div>
 
             <div class="form-group">
-              <div class="panel">SUBIR IMAGEN</div>
-              <input type="file" class="nuevaImagen" name="nuevaImagen">
-              <p class="help-block">Peso máximo de la imagen 2MB</p>
-              <img src="vistas/img/productos/default/anonymous.png" class="img-thumbnail previsualizar" width="100px">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                <select class="form-control input-lg" name="nuevaIdStatusProducto" id="nuevaIdStatusProducto">
+                    <option value="">Selecionar status</option>
+                    <?php
+                    $item = null;
+                    $valor = null;
+                    $status = ControladorStatus::ctrMostrarStatus($item, $valor);
+                    foreach ($status as $key => $value) {
+                        echo '<option value="'.$value["id_status"].'">'.$value["nombre"].'</option>';
+                    }
+                    ?>
+                </select>
+              </div>
             </div>
+
           </div>
         </div>
 
@@ -164,87 +163,92 @@
         </div>
         <div class="modal-body">
           <div class="box-body">
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-th"></i></span>
-                <select class="form-control input-lg"  name="editarCategoria" readonly required>
-                  <option id="editarCategoria"></option>
-                </select>
-              </div>
-            </div>
 
             <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-code"></i></span> 
-                <input type="text" class="form-control input-lg" id="editarCodigo" name="editarCodigo" readonly required>
-              </div>
-            </div>
-
-             <div class="form-group">              
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-product-hunt"></i></span> 
-                <input type="text" class="form-control input-lg" id="editarDescripcion" name="editarDescripcion" required>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span> 
-                <input type="date" class="form-control input-lg" id="editarFechaVencimiento" name="editarFechaVencimiento" placeholder="Ingresar fecha de vencimiento" required>
-              </div>
-            </div>
-
-             <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-check"></i></span>
-                <input type="number" class="form-control input-lg" id="editarStock" name="editarStock" min="0" required>
-              </div>
-            </div>
-
-             <div class="form-group row">
-                <div class="col-xs-6">
-                  <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-arrow-up"></i></span> 
-                    <input type="number" class="form-control input-lg" id="editarPrecioCompra" name="editarPrecioCompra" step="any" min="0" required>
-                  </div>
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-th"></i></span> 
+                  <select class="form-control input-lg" id="editarIdCategoriaProducto" name="editarIdCategoriaProducto" required>    
+                    <option value="">Selecionar categoría</option>
+                    <?php
+                    $item = null;
+                    $valor = null;
+                    $categorias = ControladorCategoria::ctrMostrarCategoria($item, $valor);
+                    foreach ($categorias as $key => $value) {
+                      echo '<option id="'.$value["nombre"].'" value="'.$value["id_categoria"].'" >'.$value["nombre"].'</option>';
+                    }
+                    ?>
+                  </select>
                 </div>
-
-                <div class="col-xs-6">
-                  <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-arrow-down"></i></span>
-                    <input type="number" class="form-control input-lg" id="editarPrecioVenta" name="editarPrecioVenta" step="any" min="0" readonly required>
-                  </div>
-
-                  <br>
-
-                  <div class="col-xs-6">
-                    <div class="form-group">
-                      <label>
-                        <input type="checkbox" class="minimal porcentaje" checked>
-                        Utilizar procentaje
-                      </label>
-                    </div>
-                  </div>
-
-                  <div class="col-xs-6" style="padding:0">
-                    <div class="input-group">     
-                      <input type="number" class="form-control input-lg nuevoPorcentaje" min="0" value="40" required>
-                      <span class="input-group-addon"><i class="fa fa-percent"></i></span>
-                     </div>
-                  </div>
+              </div>
+              
+              <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-code"></i></span> 
+                  <input type="text" class="form-control input-lg" id="editarCodigoProducto" name="editarCodigoProducto" placeholder="Ingresar código" readonly required>
                 </div>
-            </div>
+              </div>
 
-             <div class="form-group">
-              <div class="panel">SUBIR IMAGEN</div>
-              <input type="file" class="nuevaImagen" name="editarImagen">
-              <p class="help-block">Peso máximo de la imagen 2MB</p>
-              <img src="vistas/img/productos/default/anonymous.png" class="img-thumbnail previsualizar" width="100px">
-              <input type="hidden" name="imagenActual" id="imagenActual">
-            </div>
+              <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-product-hunt"></i></span>
+                  <input type="text" class="form-control input-lg" name="editarNombreProducto" id="editarNombreProducto" placeholder="Ingresar nombre" required>
+                </div>
+              </div> 
 
+              <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                  <input type="number" step="any" min="0" class="form-control input-lg" name="editarPrecioUnitarioProducto" id="editarPrecioUnitarioProducto" placeholder="Ingresar precio unitario" required>
+                </div>
+              </div>
+
+              <div class="form-group">              
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-check"></i></span> 
+                  <input type="number" class="form-control input-lg" name="editarCantidadProducto" id="editarCantidadProducto" min="0" placeholder="Stock" required>
+                </div>
+              </div>
+
+              <div class="form-group">              
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-arrow-up"></i></span> 
+                  <input type="number" class="form-control input-lg" name="editarNumeroContratoProducto" id="editarNumeroContratoProducto" min="0" placeholder="Numero de contrato" required>
+                </div>
+              </div>
+
+              <div class="form-group">              
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-arrow-up"></i></span> 
+                  <input type="number" class="form-control input-lg" name="editarNumeroOfertaCompraProducto" id="editarNumeroOfertaCompraProducto" min="0" placeholder="Numero de oferta de compra" required>
+                </div>
+              </div>
+
+              <div class="form-group">              
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span> 
+                  <input type="datetime-local"  class="form-control input-lg" name="editarFechaRecepcionProducto" id="editarFechaRecepcionProducto" placeholder="Fecha de recepcion" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                  <select class="form-control input-lg" name="editarIdStatusProducto" id="editarIdStatusProducto">
+                      <option value="">Selecionar status</option>
+                      <?php
+                      $item = null;
+                      $valor = null;
+                      $status = ControladorStatus::ctrMostrarStatus($item, $valor);
+                      echo "status: '.$status.'";
+
+                      foreach ($status as $key => $value) {
+                          echo '<option id="'.$value["nombre"].'" value="'.$value["id_status"].'" >'.$value["nombre"].'</option>';
+                      }
+                      ?>
+                  </select>
+                </div>
+              </div>
           </div>
-
         </div>
 
         <div class="modal-footer">

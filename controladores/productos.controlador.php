@@ -14,9 +14,7 @@ class ControladorProductos{
 
 	static public function ctrCrearProducto(){
 		if(isset($_POST["nuevoNombreProducto"])){
-			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoNombreProducto"]) &&
-			   preg_match('/^[0-9]+$/', $_POST["nuevaCantidad"]) &&	
-			   preg_match('/^[0-9.]+$/', $_POST["nuevoPrecioUnitarioProducto"])){
+			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoNombreProducto"])){
 
 				$tabla = "tbl_productos";
 
@@ -74,9 +72,7 @@ class ControladorProductos{
 
 	static public function ctrEditarProducto(){
 		if(isset($_POST["editarNombreProducto"])){
-			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombreProducto"]) &&
-			   preg_match('/^[0-9]+$/', $_POST["editarCantidad"]) &&	
-			   preg_match('/^[0-9.]+$/', $_POST["editarPrecioUnitarioProducto"])){
+			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombreProducto"])){
 
 				$tabla = "tbl_productos";
 

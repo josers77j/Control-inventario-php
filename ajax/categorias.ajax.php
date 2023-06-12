@@ -4,6 +4,17 @@ require_once "../modelos/categorias.modelo.php";
 
 class AjaxCategorias{
     
+    public $idCategoria;
+
+	public function ajaxEditarCategoriaById(){
+
+		$item = "id_categoria";
+		$valor = $this->idCategoria;
+
+		$respuesta = ControladorCategoria::ctrMostrarCategoria($item, $valor);
+		echo json_encode($respuesta);
+
+	}
 
     public function ajaxObtenerCategoria(){
         $item = "id_categoria";
@@ -39,6 +50,13 @@ class AjaxCategorias{
     }
 
 }
+
+if(isset($_POST["idCategoria"])){
+	$categoria = new AjaxCategorias();
+	$categoria -> idCategoria = $_POST["idCategoria"];
+	$categoria -> ajaxEditarCategoriaById();
+}
+
 
 if (isset($_POST["metodo"])) {
     switch($_POST["metodo"]){

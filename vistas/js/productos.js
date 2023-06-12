@@ -109,8 +109,8 @@ $(".tablaProductos tbody").on("click", "button.btnEditarProducto", function(){
               dataType:"json",
               success:function(respuesta){
                   
-                  $("#editarCategoria").val(respuesta["id_categoria"]);
-                  $("#editarCategoria").html(respuesta["categoria"]);
+                  $(`#${respuesta["nombre"]}`).val(respuesta["id_categoria"]);
+                  $(`#${respuesta["nombre"]}`).html(respuesta["nombre"]);
 
               }
 
@@ -131,7 +131,6 @@ $(".tablaProductos tbody").on("click", "button.btnEditarProducto", function(){
 				processData: false,
 				dataType:"json",
 				success:function(respuesta){
-
 
 					$(`#${respuesta["nombre"]}`).val(respuesta["id_status"]);
 					$(`#${respuesta["nombre"]}`).html(respuesta["nombre"]);
