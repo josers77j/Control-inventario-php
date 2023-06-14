@@ -75,7 +75,8 @@ session_start();
          $_GET["ruta"] == "role" ||
          $_GET["ruta"] == "productos" ||
          $_GET["ruta"] == "programas" ||
-         $_GET["ruta"] == "categorias" ||
+         $_GET["ruta"] == "categorias" ||         
+         $_GET["ruta"] == "inventario" ||
          $_GET["ruta"] == "salir"){
 
         include "modulos/".$_GET["ruta"].".php";
@@ -100,6 +101,7 @@ session_start();
   <script src="vistas/js/categorias.js"></script>
   <script src="vistas/js/productos.js"></script>
   <script src="vistas/js/programas.js"></script>
+  <script src="vistas/js/inventario.js"></script>
   
 
 </body>

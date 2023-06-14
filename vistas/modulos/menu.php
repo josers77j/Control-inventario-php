@@ -25,6 +25,13 @@
 						<span>Productos</span>
 					</a>
 				</li>
+
+				<li>
+					<a href="inventario">
+						<i class="fa fa-product-hunt"></i>
+						<span>Inventario</span>
+					</a>
+				</li>
 				
 				';
 			}
@@ -73,6 +80,12 @@
 						</a>
 					</li>
 
+					<li>
+							<a href="inventario">
+							<i class="fa fa-list-alt" aria-hidden="true"></i>
+							<span>Inventario</span>
+						</a>
+					</li>
 			';
 			}
 

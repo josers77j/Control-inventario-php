@@ -56,7 +56,7 @@
           <div class="form-group">
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-th"></i></span> 
-                <select class="form-control input-lg" id="nuevaCategoria" name="nuevaCategoria" required>    
+                <select class="form-control input-lg" id="nuevaCategoria" name="nuevaIdCategoriaProducto" required>    
                   <option value="">Selecionar categoría</option>
                   <?php
                   $item = null;

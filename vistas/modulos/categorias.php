@@ -106,15 +106,8 @@
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
           <button type="submit" class="btn btn-primary actualizar-categoria">Guardar cambios</button>
         </div>
-        <?php
-        // $editarCategoria = new ControladorCategoria();
-        // $editarCategoria->ctrEditarCategoria();
-        ?>
+     
       </form>
     </div>
   </div>
 </div>
-<?php
-// $borrarCategoria = new ControladorCategoria();
-// $borrarCategoria->ctrBorrarCategoria();
-?>

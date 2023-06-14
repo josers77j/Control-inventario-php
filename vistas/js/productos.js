@@ -137,7 +137,7 @@ $(".tablaProductos tbody").on("click", "button.btnEditarProducto", function(){
 				}
 
 			})
-
+			$("#editarIdCategoriaProducto").val(respuesta["id_categoria"]);
            $("#editarCodigoProducto").val(respuesta["codigo_producto"]);
            $("#editarNombreProducto").val(respuesta["nombre"]);
 		   $("#editarPrecioUnitarioProducto").val(respuesta["precio_unitario"]);
@@ -145,6 +145,7 @@ $(".tablaProductos tbody").on("click", "button.btnEditarProducto", function(){
            $("#editarNumeroContratoProducto").val(respuesta["numero_contrato"]);
            $("#editarNumeroOfertaCompraProducto").val(respuesta["numero_oferta_compra"]);
            $("#editarFechaRecepcionProducto").val(respuesta["fecha_recepcion"]);
+		   $("#editarIdStatusProducto").val(respuesta["id_status"]);
 
       }
 

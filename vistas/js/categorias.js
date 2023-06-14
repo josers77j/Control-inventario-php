@@ -2,9 +2,38 @@
 //cargamos los datos, comprobando que la ruta actual sea categorias
 $(document).ready(function() {
   if (window.location.pathname.includes("categorias")) {
-    cargarDatos();
+    cargarCategorias();
   }
 });
+
+function configurarDataTableCategoria(selector) {
+  $(selector).DataTable({
+    language: {
+      "sProcessing": "Procesando...",
+      "sLengthMenu": "Mostrar _MENU_ registros",
+      "sZeroRecords": "No se encontraron resultados",
+      "sEmptyTable": "Ningún dato disponible en esta tabla",
+      "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+      "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+      "sInfoPostFix": "",
+      "sSearch": "Buscar:",
+      "sUrl": "",
+      "sInfoThousands": ",",
+      "sLoadingRecords": "Cargando...",
+      "oPaginate": {
+        "sFirst": "Primero",
+        "sLast": "Último",
+        "sNext": "Siguiente",
+        "sPrevious": "Anterior"
+      },
+      "oAria": {
+        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+      }
+    }
+  });
+}
 
 
 //traemos los campos que necesitemos mostrar en el formulario de editar
@@ -57,7 +86,7 @@ $(document).on('click', '.eliminar-categoria', function() {
           });
           var tablaCategorias = $('#tabla-categorias');
           tablaCategorias.DataTable().destroy();
-          cargarDatos();
+          cargarCategorias();
         },
         error: function() {
           mostrarError();
@@ -90,7 +119,7 @@ $("#FormNuevacategoria").submit(function(event) {
         });
         $("#FormNuevacategoria")[0].reset();
         $(".close").click();
-        cargarDatos();
+        cargarCategorias();
       } else {
         mostrarError();
       }
@@ -126,7 +155,7 @@ $(document).on('click', '.actualizar-categoria', function(event) {
         });
         $("#FormNuevacategoria")[0].reset();
         $(".close").click();
-        cargarDatos();
+        cargarCategorias();
       } else {
         mostrarError();
       }
@@ -138,52 +167,45 @@ $(document).on('click', '.actualizar-categoria', function(event) {
   });
 });
 
-function cargarDatos() {
+function cargarCategorias() {
+  configurarDataTableCategoria('#tabla-categorias'); // Configurar DataTable
   $.ajax({
     url: "ajax/categorias.ajax.php?metodo=mostrar",
     method: "GET",
     dataType: "json",
     success: function(respuesta) {
-      var tbody = $('#tabla-categorias').find('tbody');
+      var tablaCategorias = $('#tabla-categorias').DataTable();
+      tablaCategorias.clear().draw();
+      
       var contador = 1;
-      tbody.empty();
       $.each(respuesta, function(index, categoria) {
-        var tr = $("<tr>");
-        tr.append("<td>" + contador + "</td>");
-        tr.append("<td>" + categoria.nombre + "</td>");
-        tr.append("<td>" + categoria.descripcion + "</td>");
-        tr.append("<td>"
-          + '<div class="btn-group">'
-          + "<button data-toggle='modal' data-target='#modalEditarCategoria' class='btn btn-warning editar-categoria' data-id='" + categoria.id_categoria + "'> "
-          + '<i class="fa fa-pencil"></i>'
-          + "</button>"
-          + "<button class='btn btn-danger eliminar-categoria' data-id='" + categoria.id_categoria + "'>"
-          + '<i class="fa fa-times"></i>'
-          + "</button></li></div></td>");
-        tbody.append(tr);
+        var rowData = [
+          contador,
+          categoria.nombre,
+          categoria.descripcion,
+          '<div class="btn-group">' +
+            '<button data-toggle="modal" data-target="#modalEditarCategoria" class="btn btn-warning editar-categoria" data-id="' + categoria.id_categoria + '">' +
+            '<i class="fa fa-pencil"></i>' +
+            '</button>' +
+            '<button class="btn btn-danger eliminar-categoria" data-id="' + categoria.id_categoria + '">' +
+            '<i class="fa fa-times"></i>' +
+            '</button>' +
+          '</div>'
+        ];
+        
+        tablaCategorias.rows.add([rowData]);
         contador++;
       });
-      $('#tabla-categorias').DataTable({
-        language: {
-          search: "Buscar:",
-          lengthMenu: "Mostrar _MENU_ registros por página",
-          info: "Mostrando _START_ al _END_ de _TOTAL_ registros",
-          infoEmpty: "Mostrando 0 al 0 de 0 registros",
-          infoFiltered: "(filtrado de _MAX_ registros en total)",
-          paginate: {
-            first: "Primero",
-            last: "Último",
-            next: "Siguiente",
-            previous: "Anterior"
-          }
-        }
-      });
+
+      tablaCategorias.draw();
+      
     },
     error: function(respuesta) {
-      mostrarError();
+      mostrarError(respuesta);
     },
   });
 }
+
 
 function mostrarError() {
   swal({
