@@ -156,23 +156,41 @@ function cargarInventario() {
       
       var contador = 1;
       $.each(respuesta, function(index, inventario) {
-        var rowData = [
-          contador,
-          inventario.producto,
-          inventario.codigo_producto,
-          inventario.cantidad,
-          inventario.fecha_llegada_producto,
-          inventario.fecha_registro,
-          inventario.status,
-          '<div class="btn-group">' +
-            '<button data-toggle="modal" data-target="#modalEditarCategoria" class="btn btn-primary editar-inventario" data-id="' + inventario.id_inventario + '">' +
-            '<i class="fa fa-info-circle" aria-hidden="true"></i>' +
-            '</button>' +
-            '<button class="btn btn-danger eliminar-inventario" data-id="' + inventario.id_inventario + '">' +
-            '<i class="fa fa-times"></i>' +
-            '</button>' +
-          '</div>'
-        ];
+        if (inventario.status == "Inactivo") {
+          var rowData = [
+            contador,
+            inventario.producto,
+            inventario.codigo_producto,
+            inventario.cantidad,
+            inventario.fecha_llegada_producto,
+            inventario.fecha_registro,
+            inventario.status,
+            '<div class="btn-group">' +
+              '<button data-toggle="modal" data-target="#modalEditarCategoria" class="btn btn-primary editar-inventario" data-id="' + inventario.id_inventario + '">' +
+              '<i class="fa fa-info-circle" aria-hidden="true"></i>' +
+              '</button>' + 
+            '</div>'
+          ];
+        } else{
+          var rowData = [
+            contador,
+            inventario.producto,
+            inventario.codigo_producto,
+            inventario.cantidad,
+            inventario.fecha_llegada_producto,
+            inventario.fecha_registro,
+            inventario.status,
+            '<div class="btn-group">' + 
+              '<button data-toggle="modal" data-target="#modalEditarCategoria" class="btn btn-primary editar-inventario" data-id="' + inventario.id_inventario + '">' +
+              '<i class="fa fa-info-circle" aria-hidden="true"></i>' +
+              '</button>' + 
+              '<button class="btn btn-danger eliminar-inventario" data-id="' + inventario.id_inventario + '">' +
+              '<i class="fa fa-times"></i>' +
+              '</button>' +
+            '</div>'
+          ];
+        }
+       
         
         tablaInventario.rows.add([rowData]);
         contador++;
