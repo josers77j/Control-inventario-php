@@ -50,14 +50,39 @@
 
       <div class="modal-body">
         <div class="box-body">
-        <form class="form-horizontal" id="FormAgregarDetalleProducto">
-          <div class="box-header with-border">
-            <button class="btn btn-primary" id="agregarDetalleProducto">
-              Agregar Producto
-            </button>
-          </div>
+          <form class="form-horizontal " id="FormAgregarDetalleProducto">
+            <div class="container box-header">
+              <div class="row">
+                <div class="col-sm-3">
+                  <button class="btn btn-primary" id="agregarDetalleProducto">
+                    Agregar Producto
+                  </button>
+                </div>
+                <div class="col-sm-8">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-md-2">
+                        <p>Presupuesto:</p>
+                        <span class="label label-primary " style="font-size:15px;">0.00 </span>
+                      </div>
+                      <div class="col-md-2">
+                        <p>Importe total:</p>
+                        <span class="label label-primary " style="font-size:15px;">0.00</span>
+                      </div>
+                      <div class="col-md-2">
+                        <p>Presupuesto asignado:</p>
+                        <span class="label label-primary " style="font-size:15px;">0.00</span>
+                      </div>
+                    </div>
+                  </div>
 
-         
+
+
+                </div>
+              </div>
+            </div>
+
+
             <div class="form-group">
 
               <div class="col-md-4">
@@ -71,8 +96,8 @@
                 <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-archive" aria-hidden="true"></i></span>
                   <select class="form-control input-lg" name="nuevoProductoInventario" id="nuevoProductoInventario">
-                 
-               
+
+
                   </select>
                 </div>
               </div>
@@ -86,7 +111,7 @@
 
             </div>
 
-    
+
           </form>
 
 
@@ -112,7 +137,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
-       
+
       </div>
 
     </div>

@@ -59,12 +59,7 @@
 						</a>
 					</li>
 
-					<li>
-						<a href="categorias">
-						<i class="fa fa-th"></i>
-							<span>Categorias</span>
-						</a>
-					</li>
+
 
 					<li>
 						<a href="role">
@@ -74,11 +69,25 @@
 					</li>
 
 					<li>
+						<a href="categorias">
+						<i class="fa fa-th"></i>
+							<span>Categorias</span>
+						</a>
+					</li>
+										
+					<li>
 						<a href="productos">
 							<i class="fa fa-product-hunt"></i>
 							<span>Productos</span>
 						</a>
 					</li>
+					
+					<li>
+						<a href="inventario">
+						<i class="fa fa-list-alt" aria-hidden="true"></i>
+							<span>Inventario</span>
+						</a>
+					</li>					
 
 					<li>
 						<a href="programas">
@@ -87,12 +96,7 @@
 						</a>
 					</li>
 
-					<li>
-						<a href="inventario">
-						<i class="fa fa-list-alt" aria-hidden="true"></i>
-							<span>Inventario</span>
-						</a>
-					</li>
+
 
 					<li>
 						<a href="gestor-programas">
