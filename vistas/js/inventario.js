@@ -166,7 +166,7 @@ function cargarInventario() {
             inventario.fecha_registro,
             inventario.status,
             '<div class="btn-group">' +
-              '<button data-toggle="modal" data-target="#modalEditarCategoria" class="btn btn-primary editar-inventario" data-id="' + inventario.id_inventario + '">' +
+              '<button data-toggle="modal" data-target="#modalEditarInventario" class="btn btn-info editar-inventario" data-id="' + inventario.id_inventario + '">' +
               '<i class="fa fa-info-circle" aria-hidden="true"></i>' +
               '</button>' + 
             '</div>'
@@ -181,7 +181,7 @@ function cargarInventario() {
             inventario.fecha_registro,
             inventario.status,
             '<div class="btn-group">' + 
-              '<button data-toggle="modal" data-target="#modalEditarCategoria" class="btn btn-primary editar-inventario" data-id="' + inventario.id_inventario + '">' +
+              '<button data-toggle="modal" data-target="#modalEditarInventario" class="btn btn-info editar-inventario" data-id="' + inventario.id_inventario + '">' +
               '<i class="fa fa-info-circle" aria-hidden="true"></i>' +
               '</button>' + 
               '<button class="btn btn-danger eliminar-inventario" data-id="' + inventario.id_inventario + '">' +

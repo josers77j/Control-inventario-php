@@ -76,7 +76,9 @@ session_start();
          $_GET["ruta"] == "productos" ||
          $_GET["ruta"] == "programas" ||
          $_GET["ruta"] == "categorias" ||         
-         $_GET["ruta"] == "inventario" ||
+         $_GET["ruta"] == "inventario" ||                  
+         $_GET["ruta"] == "gestor-programas" ||            
+         $_GET["ruta"] == "detalle-programas" ||
          $_GET["ruta"] == "salir"){
 
         include "modulos/".$_GET["ruta"].".php";
@@ -93,7 +95,7 @@ session_start();
     include "modulos/login.php";
   }
   ?>
-
+  
   <script src="vistas/js/plantilla.js"></script>
   <script src="vistas/js/usuarios.js"></script>
   <script src="vistas/js/role.js"></script>
@@ -102,7 +104,7 @@ session_start();
   <script src="vistas/js/productos.js"></script>
   <script src="vistas/js/programas.js"></script>
   <script src="vistas/js/inventario.js"></script>
-  
+  <script src="vistas/js/gestor-programas.js"></script>
 
 </body>
 </html>

@@ -32,6 +32,13 @@
 						<span>Inventario</span>
 					</a>
 				</li>
+
+				<li>
+					<a href="gestor-programas">
+					<i class="fa fa-cubes" aria-hidden="true"></i>
+						<span>Gestionar Programas</span>
+					</a>
+				</li>				
 				
 				';
 			}
@@ -81,11 +88,21 @@
 					</li>
 
 					<li>
-							<a href="inventario">
-							<i class="fa fa-list-alt" aria-hidden="true"></i>
+						<a href="inventario">
+						<i class="fa fa-list-alt" aria-hidden="true"></i>
 							<span>Inventario</span>
 						</a>
 					</li>
+
+					<li>
+						<a href="gestor-programas">
+						<i class="fa fa-cubes" aria-hidden="true"></i>
+							<span>Gestionar Programas</span>
+						</a>
+					</li>				
+				
+
+					
 			';
 			}
 

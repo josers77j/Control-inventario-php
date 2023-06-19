@@ -20,7 +20,7 @@
           if($_SESSION["role"] == "Administrador" || $_SESSION["role"] == "Usuario"){
              echo '<div class="box box-success">
              <div class="box-header">
-             <h1>Bienvenid@ ' .$_SESSION["nombres"].'</h1>
+             <h1>Bienvenid@ ' .$_SESSION["nombres"].' (o´ω`o)ﾉ</h1>
              </div>
              </div>';
           }
