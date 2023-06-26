@@ -41,8 +41,8 @@ class ModeloGestorProgramas{
 	}
 
 
-    static public function mdlBorrarGestorProgramas($tabla, $id){
-		$stmt = Conexion::conectar()->prepare("call anularInventario(:id)");
+    static public function mdlAnularGestorProgramas($id){
+		$stmt = Conexion::conectar()->prepare("call anularGestorProgram(:id)");
 		$stmt -> bindParam(":id", $id, PDO::PARAM_INT);
 
 		if($stmt -> execute()){
@@ -59,6 +59,15 @@ class ModeloGestorProgramas{
 	
 	static public function mdlBuscarProducto($buscar){
 		$stmt = Conexion::conectar()->prepare("call finderProduct('$buscar');");
+		$stmt->execute();
+		
+		return $stmt->fetchAll();
+		$stmt -> close();
+		$stmt = null;
+	}
+
+	static public function mdlBuscarPrograma($buscar){
+		$stmt = Conexion::conectar()->prepare("call finderProgram('$buscar');");
 		$stmt->execute();
 		
 		return $stmt->fetchAll();

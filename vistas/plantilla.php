@@ -77,11 +77,12 @@ session_start();
          $_GET["ruta"] == "programas" ||
          $_GET["ruta"] == "categorias" ||         
          $_GET["ruta"] == "inventario" ||                  
-         $_GET["ruta"] == "gestor-programas" ||            
+         $_GET["ruta"] == "gestorprograma" ||            
          $_GET["ruta"] == "detalle-programas" ||
          $_GET["ruta"] == "salir"){
 
         include "modulos/".$_GET["ruta"].".php";
+        echo '<script src="vistas/js/' . $_GET["ruta"] . '.js"></script>';
       }else{
         include "modulos/404.php";
       }
@@ -94,17 +95,18 @@ session_start();
   }else{
     include "modulos/login.php";
   }
+
   ?>
   
   <script src="vistas/js/plantilla.js"></script>
-  <script src="vistas/js/usuarios.js"></script>
+  <!-- <script src="vistas/js/usuarios.js"></script>
   <script src="vistas/js/role.js"></script>
   <script src="vistas/js/status.js"></script>
   <script src="vistas/js/categorias.js"></script>
   <script src="vistas/js/productos.js"></script>
   <script src="vistas/js/programas.js"></script>
   <script src="vistas/js/inventario.js"></script>
-  <script src="vistas/js/gestor-programas.js"></script>
+  <script src="vistas/js/gestorprograma.js"></script> -->
 
 </body>
 </html>

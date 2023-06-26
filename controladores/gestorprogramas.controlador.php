@@ -36,14 +36,19 @@ class ControladorGestorProductos
 
     static public function ctrAnularGestorProductos($id)
     {
-            $tabla = "tbl_inventario";
-            $respuesta = ModeloGestorProgramas::mdlBorrarGestorProgramas($tabla, $id);
+            
+            $respuesta = ModeloGestorProgramas::mdlAnularGestorProgramas($id);
             return $respuesta;
     }
-
+    //para buscar productos en base a lo que teclees 
     static public function ctrBuscarProducto($buscar)
     {
         return $respuesta = ModeloGestorProgramas::mdlBuscarProducto($buscar);
+    }
+    //para buscar los programas en base a lo que teclees  
+    static public function ctrBuscarPrograma($buscar)
+    {
+        return $respuesta = ModeloGestorProgramas::mdlBuscarPrograma($buscar);
     }
 
     static public function ctrMostrarDetalleProducto($idProgramaProducto)

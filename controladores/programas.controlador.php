@@ -10,131 +10,80 @@ class ControladorProgramas
         return $respuesta;
     }
 
-    static public function crtCrearPrograma()
+    static public function crtCrearPrograma($data)
     {
+        date_default_timezone_set('America/Mexico_City');
         if (isset($_POST["nuevoNombrePrograma"])) {
             if (
-                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoNombrePrograma"]) &&
-                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoDescripcionPrograma"]) &&
-                preg_match('/^[-+]?[0-9]+(\.[0-9]+)?$/', $_POST["nuevoPresupuestoPrograma"])
+                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $data[0]) &&
+                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ,. ]+$/', $data[1]) &&
+                preg_match('/^[-+]?[0-9]+(\.[0-9]+)?$/', $data[2]) &&
+                $data[2] > 0
             ) {
                 $tabla = "tbl_programa";
 
                 $datos = array(
-                    "nombre" => $_POST["nuevoNombrePrograma"],
-                    "descripcion" => $_POST["nuevoDescripcionPrograma"],
-                    "presupuesto" => $_POST["nuevoPresupuestoPrograma"],
-                    "fecha" => $_POST["nuevofechaPrograma"]
+                    "nombre" => $data[0],
+                    "descripcion" => $data[1],
+                    "presupuesto" => $data[2],
+                    "fecha" => date("Y-m-d"),
+                    "id_status" => 1
                 );
 
                 $respuesta = ModeloProgramas::mdlIngresarProgramas($tabla, $datos);
 
                 if ($respuesta == "ok") {
-                    echo '<script>
-					swal({
-						  type: "success",
-						  title: "El programa ha sido guardado correctamente",
-						  showConfirmButton: true,
-						  confirmButtonText: "Cerrar"
-						  }).then(function(result){
-									if (result.value) {}
-                                    window.location = "programas";
-								})
-
-					</script>';
+                    return "ok";
                 }
             } else {
-                echo '<script>
-                    swal({
-                          type: "error",
-                          title: "¡El programa no puede estar vacio y/o incluir caracteres especiales!",
-                          showConfirmButton: true,
-                          confirmButtonText: "Cerrar"
-                          }).then(function(result){
-                            if (result.value) {}
-                            window.location = "programas";        
-                        })
-                  </script>';
+                return "Error Controller";
             }
         }
     }
 
 
 
-    static public function ctrEditarPrograma()
+    static public function ctrEditarPrograma($data)
     {
 
-        if (isset($_POST["editarNombrePrograma"])) {
-
+     
             if (
-                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombrePrograma"]) &&
-                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarDescripcionPrograma"]) &&
-                preg_match('/^[-+]?[0-9]+(\.[0-9]+)?$/', $_POST["editarPresupuestoPrograma"])
+                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $data[0]) &&
+                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ,. ]+$/', $data[1]) &&
+                preg_match('/^[-+]?[0-9]+(\.[0-9]+)?$/', $data[2]) &&
+                $data[2] > 0
             ) {
                 $tabla = "tbl_programa";
 
                 $datos = array(
-                    "nombre" => $_POST["editarNombrePrograma"],
-                    "descripcion" => $_POST["editarDescripcionPrograma"],
-                    "presupuesto" => $_POST["editarPresupuestoPrograma"],
-                    "fecha" => $_POST["editarfechaPrograma"],
-                    "id_programa" => $_POST["idPrograma"]
+                    "nombre" => $data[0],
+                    "descripcion" => $data[1],
+                    "presupuesto" => $data[2],
+                    "id_programa" => $data[3]
                 );
                 $respuesta = ModeloProgramas::mdlEditarProgramas($tabla, $datos);
 
                 if ($respuesta == "ok") {
-                    echo '<script>
-
-					swal({
-						  type: "success",
-						  title: "El programa ha sido modificado correctamente",
-						  showConfirmButton: true,
-						  confirmButtonText: "Cerrar"
-						  }).then(function(result){
-									if (result.value){}
-                                    window.location = "programas";
-								})
-
-					</script>';
+                   return "ok";
                 }
             } else {
-                echo '<script>
-                swal({
-                      type: "error",
-                      title: "El programa no puede estar vacío y/o llevar caracteres especiales!",
-                      showConfirmButton: true,
-                      confirmButtonText: "Cerrar"
-                      }).then(function(result){
-                        if (result.value){}
-                        window.location = "programas";
-                    })
-              </script>';
+                return "error controller";
             }
-        }
+        
     }
 
-    static public function ctrBorrarPrograma()
+    static public function ctrBorrarPrograma($id)
     {
-        if (isset($_GET["idPrograma"])) {
-            $tabla = "tbl_programa";
-            $datos = $_GET["idPrograma"];
-
-            $respuesta = ModeloProgramas::mdlBorrarProgramas($tabla, $datos);
+        if (
+            preg_match('/^[0-9 ]+$/', $id)   
+                      
+        ) {
+            $respuesta = ModeloProgramas::mdlBorrarProgramas($id);
             if ($respuesta == "ok") {
-                echo '<script>
-
-            
-            swal({
-                  type: "success",
-                  title: "La programa ha sido borrada correctamente",
-                  showConfirmButton: true,
-                  confirmButtonText: "Cerrar"
-                  }).then(function(result){
-                            if (result.value) {}
-                            window.location = "programas";
-                        })
-            </script>';
+               return "ok";
             }
-        }
+        }else{
+            return "error";
+        }        
     }
 }

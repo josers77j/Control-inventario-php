@@ -1,4 +1,12 @@
 <div class="content-wrapper">
+
+  <div class="nav-tabs-custom">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#tab1" data-toggle="tab">Activos</a></li>
+      <li><a href="#tab2" data-toggle="tab">Inactivos</a></li>
+    </ul>
+  </div>
+
   <section class="content-header">
     <h1>
       Administrar Inventario
@@ -9,7 +17,10 @@
     </ol>
   </section>
 
-  <section class="content">
+  <div class="tab-content">
+    
+    <div class="tab-pane active" id="tab1">
+    <section class="content">
     <div class="box">
       <div class="box-header with-border">
         <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarInventario">
@@ -37,6 +48,40 @@
       </div>
     </div>
   </section>
+    </div>
+
+    <div class="tab-pane" id="tab2">
+    <section class="content">
+    <div class="box">
+      <div class="box-header with-border">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarInventario">
+          Agregar Stock
+        </button>
+      </div>
+      <div class="box-body">
+        <table class="table table-bordered table-striped dt-responsive" width="100%" id="tabla-inventarios-inactivos">
+          <thead>
+            <tr>
+              <th style="width:10px">#</th>
+              <th>Producto</th>
+              <th>Codigo de producto</th>
+              <th>Cantidad Ingresada</th>
+              <th>Fecha de Llegada del producto</th>
+              <th>Fecha de emision</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+    </div>
+  </div>
+ 
 </div>
 
 <div id="modalAgregarInventario" class="modal fade" role="dialog">
@@ -81,13 +126,6 @@
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
                 <input type="date" class="form-control input-lg" name="nuevoFechallegadaInventario" placeholder="Ingresar fecha de vencimiento" required>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
-                <input type="date" class="form-control input-lg" name="nuevoFechaemisionInventario" placeholder="Ingresar fecha de vencimiento" required>
               </div>
             </div>
 

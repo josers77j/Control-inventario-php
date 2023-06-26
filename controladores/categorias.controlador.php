@@ -13,7 +13,8 @@ class ControladorCategoria
     {
             if (
                 preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $data[0]) &&
-                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $data[1])
+                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ,. ]+$/', $data[1])
+
             ) {
                 $tabla = "tbl_categoria";
                 $datos = array("nombre" => $data[0], "descripcion" => $data[1]);
@@ -21,7 +22,7 @@ class ControladorCategoria
                 
                 return $respuesta;                
             }else{
-                $respuesta = "error";
+                $respuesta = "error p";
                 return $respuesta;
             }
     }
@@ -30,7 +31,7 @@ class ControladorCategoria
     {
             if (
                 preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $data[0]) &&
-                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $data[1]) &&
+                preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ,. ]+$/', $data[1]) &&
                 preg_match('/^[0-9 ]+$/', $data[2])
             ) {
                 $tabla = "tbl_categoria";

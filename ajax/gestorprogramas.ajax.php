@@ -1,6 +1,6 @@
 <?php
-require_once "../controladores/gestor-programas.controlador.php";
-require_once "../modelos/gestor-programas.modelo.php";
+require_once "../controladores/gestorprogramas.controlador.php";
+require_once "../modelos/gestorprogramas.modelo.php";
 
 class AjaxGestorProductos{
     
@@ -42,11 +42,12 @@ class AjaxGestorProductos{
         echo json_encode($respuesta);
     }
 
-    public function ajaxDetalleProducto(){
+    public function ajaxBuscarPrograma(){
         $buscar = $_GET['buscar'];
-        $respuesta = ControladorGestorProductos::ctrBuscarProducto($buscar);
+        $respuesta = ControladorGestorProductos::ctrBuscarPrograma($buscar);
         echo json_encode($respuesta);
     }
+
     public function ajaxMostrarDetalleProducto()
     {
         $idProgramaProducto = $_GET["idProgramaProducto"];
@@ -103,9 +104,13 @@ if (isset($_GET["metodo"])) {
             $gestorproducto = new AjaxGestorProductos();
             $gestorproducto->ajaxMostrarDetalleProducto();
             break;
-        case 'buscar':
+        case 'product':
             $gestorproducto = new AjaxGestorProductos();
             $gestorproducto->ajaxBuscarProducto();
+            break;
+        case 'program':
+            $gestorproducto = new AjaxGestorProductos();
+            $gestorproducto->ajaxBuscarPrograma();
             break;    
 
         case 'eliminar':

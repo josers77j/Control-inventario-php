@@ -1,6 +1,7 @@
 <?php
 class ControladorInventario
 {
+    
     static public function ctrMostrarInventario($item, $valor)
     {
         $tabla = "tbl_inventario";
@@ -11,18 +12,19 @@ class ControladorInventario
 
     static public function crtCrearInventario($data)
     {
+        date_default_timezone_set('America/Mexico_City');
             if (
                 preg_match('/^[0-9 ]+$/', $data[0]) &&
                 preg_match('/^[0-9 ]+$/', $data[1]) &&
+                $data[1] > 0 &&
                 $data[2] != null &&
-                $data[3] != null &&
                 preg_match('/^[0-9 ]+$/', $data[4])
             ) {
                 $tabla = "tbl_inventario";
                 $datos = array( "codigoproducto" => $data[0], 
                                 "cantidadinventario" => $data[1],
                                 "fechallegadaproducto" => $data[2],
-                                "fecharegistro" => $data[3],
+                                "fecharegistro" => date("Y-m-d"),
                                 "idstatus" => $data[4]);
                 $respuesta = ModeloInventario::mdlIngresarInventario($tabla, $datos);
                 

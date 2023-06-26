@@ -75,18 +75,20 @@ $(document).on('click', '.eliminar-categoria', function() {
         url: "ajax/categorias.ajax.php?metodo=eliminar&id=" + idCategoria,
         method: "GET",
         success: function(respuesta) {
-          swal({
-            type: "success",
-            title: "El usuario ha sido borrado correctamente",
-            showConfirmButton: true,
-            confirmButtonText: "Cerrar",
-            closeOnConfirm: false
-          }).then(function(result) {
-            if (result.value) {}
-          });
-          var tablaCategorias = $('#tabla-categorias');
-          tablaCategorias.DataTable().destroy();
-          cargarCategorias();
+          if (respuesta.includes("ok")) {
+            swal({
+              type: "success",
+              title: "Categoria Eliminada correctamente",
+              showConfirmButton: true,
+              confirmButtonText: "Cerrar",
+              closeOnConfirm: false
+            })
+            var tablaCategorias = $('#tabla-categorias');
+            tablaCategorias.DataTable().destroy();
+            cargarCategorias();
+          }else{
+            mostrarError();
+          }
         },
         error: function() {
           mostrarError();

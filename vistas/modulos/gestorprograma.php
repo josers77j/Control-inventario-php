@@ -1,4 +1,13 @@
 <div class="content-wrapper">
+
+  <div class="nav-tabs-custom">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#tab1" data-toggle="tab">Activos</a></li>
+      <li><a href="#tab2" data-toggle="tab">Inactivos</a></li>
+    </ul>
+  </div>
+
+
   <section class="content-header">
     <h1>
       Gestionar Programas
@@ -9,34 +18,71 @@
     </ol>
   </section>
 
-  <section class="content">
-    <div class="box">
-      <div class="box-header with-border">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarGestorInventario">
-          Nueva gestion de programa
-        </button>
-      </div>
-      <div class="box-body">
-        <table class="table table-bordered table-striped dt-responsive" width="100%" id="tabla-gestor-programas">
-          <thead>
-            <tr>
-              <th style="width:10px">#</th>
-              <th>Nombre del programa</th>
-              <th>Total de costo de productos</th>
-              <th>Total de productos agregados</th>
-              <th>Fecha de Creacion</th>
-              <th>Usuario encargado</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tab1">
+      <section class="content">
+        <div class="box">
+          <div class="box-header with-border">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarGestorPrograma">
+              Nueva gestion de programa
+            </button>
+          </div>
+          <div class="box-body">
+            <table class="table table-bordered table-striped dt-responsive" width="100%" id="tabla-gestorprogramas">
+              <thead>
+                <tr>
+                  <th style="width:10px">#</th>
+                  <th>Nombre del programa</th>
+                  <th>Total de costo de productos</th>
+                  <th>Total de productos agregados</th>
+                  <th>Fecha de Creacion</th>
+                  <th>Usuario encargado</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
 
-          </tbody>
-        </table>
-      </div>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
     </div>
-  </section>
+
+    <div class="tab-pane" id="tab2">
+      <section class="content">
+        <div class="box">
+          <div class="box-header with-border">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarGestorPrograma">
+              Nueva gestion de programa
+            </button>
+          </div>
+          <div class="box-body">
+            <table class="table table-bordered table-striped dt-responsive" width="100%" id="tabla-gestor-inactivo">
+              <thead>
+                <tr>
+                  <th style="width:10px">#</th>
+                  <th>Nombre del programa</th>
+                  <th>Total de costo de productos</th>
+                  <th>Total de productos agregados</th>
+                  <th>Fecha de Creacion</th>
+                  <th>Usuario encargado</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+
 </div>
 
 <div id="modalAgregarDetalleProducto" class="modal fade" role="dialog">
@@ -58,27 +104,29 @@
                     Agregar Producto
                   </button>
                 </div>
+
                 <div class="col-sm-8">
                   <div class="container">
                     <div class="row">
                       <div class="col-md-2">
                         <p>Presupuesto:</p>
-                        <span class="label label-primary " style="font-size:15px;">0.00 </span>
+                        <span class="label label-primary " 
+                        id="info3" style="font-size:15px;">0.00 </span>
                       </div>
                       <div class="col-md-2">
                         <p>Importe total:</p>
-                        <span class="label label-primary " style="font-size:15px;">0.00</span>
+                        <span class="label label-primary "
+                        id="info3" style="font-size:15px;">0.00</span>
                       </div>
                       <div class="col-md-2">
-                        <p>Presupuesto asignado:</p>
-                        <span class="label label-primary " style="font-size:15px;">0.00</span>
+                        <p>Productos en total:</p>
+                        <span class="label label-primary"
+                        id="info3" style="font-size:15px;">0</span>
                       </div>
                     </div>
                   </div>
-
-
-
                 </div>
+
               </div>
             </div>
 
@@ -108,13 +156,8 @@
                   <input type="number" class="form-control input-lg" name="nuevoCantidadInventario" id="nuevoCantidadInventario" placeholder="Cantidad" required>
                 </div>
               </div>
-
             </div>
-
-
           </form>
-
-
 
           <table class="table table-bordered table-striped dt-responsive" width="100%" id="tabla-detalle">
             <thead>
@@ -147,62 +190,46 @@
 
 
 
-<div id="modalAgregarGestorProgramas" class="modal fade" role="dialog">
+<div id="modalAgregarGestorPrograma" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
       <form id="FormNuevagestorinventario" method="POST" role="form">
         <div class="modal-header" style="background:#3c8dbc; color:white">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Agregar Inventario</h4>
+          <h4 class="modal-title">Nuevo Gestor de Programa</h4>
         </div>
 
+
         <div class="modal-body">
+
           <div class="box-body">
+            <div class="form-horizontal">
+              <div class="form-group">
+
+                <div class="col-md-6">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                    <input type="text" class="form-control input-lg" name="buscarPrograma" id="buscarPrograma" placeholder="Buscar programa">
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-archive" aria-hidden="true"></i></span>
+                    <select class="form-control input-lg" name="nuevoNombrePrograma" id="nuevoNombrePrograma">
+                    
+                    </select>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+  
 
             <div class="form-group">
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-users"></i></span>
-                <select class="form-control input-lg" name="nuevoProductoInventario" id="nuevoProductoInventario">
-                  <option selected value="">Selecciona un Producto</option>
-                  <?php
-                  $item = null;
-                  $valor = null;
-                  $orden = null;
-                  $status = ControladorProductos::ctrMostrarProductos($item, $valor, $orden);
-                  foreach ($status as $key => $value) {
-                    echo '<option id="' . $value["nombre"] . '" value="' . $value["codigo_producto"] . '">' . $value["nombre"] . '</option>';
-                  }
-                  ?>
-                </select>
-              </div>
-            </div>
-
-
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-th"></i></span>
-                <input type="number" class="form-control input-lg" name="nuevoCantidadInventario" id="nuevoCantidadInventario" placeholder="Cantidad de reStock" required>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
-                <input type="date" class="form-control input-lg" name="nuevoFechallegadaInventario" placeholder="Ingresar fecha de vencimiento" required>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
-                <input type="date" class="form-control input-lg" name="nuevoFechaemisionInventario" placeholder="Ingresar fecha de vencimiento" required>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-users"></i></span>
-                <select class="form-control input-lg" name="nuevoStatusInventario">
+                <select class="form-control input-lg" name="editarStatus">
                   <?php
                   $item = null;
                   $valor = null;

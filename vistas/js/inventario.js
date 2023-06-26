@@ -3,6 +3,7 @@
 $(document).ready(function() {
   if (window.location.pathname.includes("inventario")) {
     tablaInventario = $('#tabla-inventarios');
+    tablaInventarioInactivos = $('#tabla-inventarios-inactivos')
     cargarInventario();
   }
 });
@@ -143,7 +144,15 @@ function cargarInventario() {
     // Si el DataTable ya ha sido inicializado, destruirlo antes de crear uno nuevo
     tablaInventario.DataTable().destroy();
   }
-  configurarDataTableInventario('#tabla-inventarios'); // Configurar DataTable
+  
+  if (tablaInventarioInactivos && $.fn.DataTable.isDataTable('#tabla-inventarios-inactivos')) {
+    // Si el DataTable de inventarios inactivos ya ha sido inicializado, destruirlo antes de crear uno nuevo
+    tablaInventarioInactivos.DataTable().destroy();
+  }
+  
+  configurarDataTableInventario('#tabla-inventarios'); // Configurar DataTable para la tabla de inventarios activos
+  configurarDataTableInventario('#tabla-inventarios-inactivos'); // Configurar DataTable para la tabla de inventarios inactivos
+  
   $.ajax({
     url: "ajax/inventario.ajax.php?metodo=mostrar",
     method: "GET",
@@ -151,14 +160,17 @@ function cargarInventario() {
     success: function(respuesta) {
       
       var tablaInventario = $('#tabla-inventarios').DataTable();
+      var tablaInventarioInactivos = $('#tabla-inventarios-inactivos').DataTable();
       
       tablaInventario.clear().draw();
+      tablaInventarioInactivos.clear().draw();
       
-      var contador = 1;
+      var contadorA = 1;
+      var contadorI = 1;
       $.each(respuesta, function(index, inventario) {
         if (inventario.status == "Inactivo") {
           var rowData = [
-            contador,
+            contadorA,
             inventario.producto,
             inventario.codigo_producto,
             inventario.cantidad,
@@ -171,9 +183,11 @@ function cargarInventario() {
               '</button>' + 
             '</div>'
           ];
-        } else{
+          contadorA++;
+          tablaInventarioInactivos.rows.add([rowData]);
+        } else {
           var rowData = [
-            contador,
+            contadorI,
             inventario.producto,
             inventario.codigo_producto,
             inventario.cantidad,
@@ -189,20 +203,23 @@ function cargarInventario() {
               '</button>' +
             '</div>'
           ];
-        }
-       
         
-        tablaInventario.rows.add([rowData]);
-        contador++;
+        
+          contadorI++;  
+          tablaInventario.rows.add([rowData]);
+        }
+        
       });
 
       tablaInventario.draw();
+      tablaInventarioInactivos.draw();
     },
     error: function(respuesta) {
       mostrarError();
     },
   });
 }
+
 
 
 function mostrarError() {

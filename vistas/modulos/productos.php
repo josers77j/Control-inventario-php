@@ -226,7 +226,7 @@
               <div class="form-group">              
                 <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span> 
-                  <input type="datetime-local"  class="form-control input-lg" name="editarFechaRecepcionProducto" id="editarFechaRecepcionProducto" placeholder="Fecha de recepcion" required>
+                  <input type="date"  class="form-control input-lg" name="editarFechaRecepcionProducto" id="editarFechaRecepcionProducto" placeholder="Fecha de recepcion" required>
                 </div>
               </div>
 

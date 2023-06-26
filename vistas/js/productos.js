@@ -1,5 +1,11 @@
 var perfilOculto = $("#perfilOculto").val();
 
+$(".btnImprimirProductos").on("click", function(){ 
+ 
+	window.open("extensiones/tcpdf/pdf/productos.php", "_blank"); 
+	
+   })
+
 $('.tablaProductos').DataTable( {
     "ajax": "ajax/datatable-productos.ajax.php?perfilOculto="+perfilOculto,
     "deferRender": true,

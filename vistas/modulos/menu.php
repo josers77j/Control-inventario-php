@@ -34,7 +34,7 @@
 				</li>
 
 				<li>
-					<a href="gestor-programas">
+					<a href="gestorprograma">
 					<i class="fa fa-cubes" aria-hidden="true"></i>
 						<span>Gestionar Programas</span>
 					</a>
@@ -99,7 +99,7 @@
 
 
 					<li>
-						<a href="gestor-programas">
+						<a href="gestorprograma">
 						<i class="fa fa-cubes" aria-hidden="true"></i>
 							<span>Gestionar Programas</span>
 						</a>
