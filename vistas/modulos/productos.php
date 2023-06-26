@@ -13,6 +13,9 @@
         <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarProducto">   
           Agregar producto
         </button>
+        <button class="btn btn-primary btnImprimirProductos" style="float: right;">   
+            Descargar reporte
+          </button>
       </div>
 
       <div class="box-body">
