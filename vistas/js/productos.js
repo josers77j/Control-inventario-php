@@ -179,3 +179,9 @@ $(".tablaProductos tbody").on("click", "button.btnEliminarProducto", function(){
 
 })
 	
+$(".btnImprimirProductos").on("click", function(){
+
+	window.open("extensiones/tcpdf/pdf/productos.php", "_blank");
+
+	console.log("click");
+})
