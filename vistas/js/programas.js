@@ -232,7 +232,7 @@ $(document).ready(function() {
                 '<i class="fa fa-pencil"></i>' +
                 '</button>' + 
                 '<button class="btn btn-danger eliminar-programa" data-id="' + programa.id_programa + '">' +
-                '<i class="fa fa-ban" aria-hidden="true"></i>' +
+                '<i class="fa fa-times"></i>' +
                 '</button>' +
               '</div>'
             ];

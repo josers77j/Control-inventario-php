@@ -77,6 +77,7 @@ $html = '
                 <td border="0.35">'.$value["categoria"].'</td>
                 <td border="0.35" style="text-align: center;">'.$value["numero_contrato"].'</td>
                 <td border="0.35" style="text-align: center;">'.$value["estado"].'</td>
+                
 
         </tr>';
     } //Cierra foreach 

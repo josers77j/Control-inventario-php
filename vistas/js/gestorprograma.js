@@ -12,6 +12,7 @@ $(document).ready(function () {
         });
 
         finderProgram("");
+        FillingProgram("");
         $("#buscarPrograma").keyup(function () {
             finderProgram($(this).val());
         });
@@ -90,6 +91,8 @@ function obtenerDetalleProgramas(idProgramaProducto) {
     });
 }
 
+  
+  
 
 function cargarGestorPrograma() {
     if (tablaGestorProgramas && $.fn.DataTable.isDataTable('#tabla-gestorprogramas')) {
@@ -145,17 +148,17 @@ function cargarGestorPrograma() {
                         gestorPrograma.fechacreacion,
                         gestorPrograma.usuario,
                         gestorPrograma.status,
-                        '<div class="btn-group">' +
+                        '<div class="dropdown"><button class="btn btn-default dropdown-toggle fillingInfo" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-th-large" aria-hidden="true"></i><span class="caret"></span></button><ul class="dropdown-menu" aria-labelledby="dropdownMenu1"><div class="btn-group">' +
                         '<button data-toggle="modal" data-target="#modalAgregarDetalleProducto" class="btn btn-primary detalle-programas" data-id="' + gestorPrograma.id_programa_productos + '">' +
                         '<i class="fa fa-puzzle-piece" aria-hidden="true"></i>' +
+                        '</button>' +                      
+                        '<button data-toggle="modal" data-target="#modalEditarGestorPrograma" class="btn btn-warning editar-gestorPrograma" data-id="' + gestorPrograma.id_programa_productos + '">' +
+                        '<i class="fa fa-pencil"></i>' +
                         '</button>' +
-                        '<button data-toggle="modal" data-target="#modalInfoGestorProgramas" class="btn btn-info editar-gestorprogramas" data-id="' + gestorPrograma.id_programa_productos + '">' +
-                        '<i class="fa fa-info-circle" aria-hidden="true"></i>' +
+                        '<button class="btn btn-success eliminar-gestorprogramas" data-id="' + gestorPrograma.id_programa_productos + '">' +
+                        '<i class="fa fa-check-square-o" aria-hidden="true"></i>' +
                         '</button>' +
-                        '<button class="btn btn-danger eliminar-gestorprogramas" data-id="' + gestorPrograma.id_programa_productos + '">' +
-                        '<i class="fa fa-times"></i>' +
-                        '</button>' +
-                        '</div>'
+                        '</div></ul></div>'
                     ];
                     contadorB++;
                     tablaGestor.rows.add([rowData]);
@@ -217,6 +220,7 @@ function finderProgram(buscar) {
                 selectOptions += '<option value="' + programa.id_programa + '">' + programa.nombre + '</option>';
             });
             $("#nuevoNombrePrograma").html(selectOptions);
+         
         },
         error: function (respuesta) {
             mostrarError();
@@ -224,6 +228,28 @@ function finderProgram(buscar) {
     });
 
 }
+
+function FillingProgram(buscar) {
+    $.ajax({
+        url: 'ajax/gestorprogramas.ajax.php?metodo=program&buscar=' + buscar,
+        type: "GET",
+        dataType: "json",
+        success: function (respuesta) {
+            var selectOptions = '<option value="">Seleccionar Programa</option>';
+            $.each(respuesta, function (index, programa) {
+                selectOptions += '<option value="' + programa.id_programa + '">' + programa.nombre + '</option>';
+            });
+           
+            $("#editarNombrePrograma").html(selectOptions);
+        },
+        error: function (respuesta) {
+            mostrarError();
+        }
+    });
+
+}
+
+
 
 $("#agregarDetalleProducto").click(function (event) {
     event.preventDefault(); // Prevenir el envío del formulario por defecto
@@ -304,14 +330,14 @@ $(document).on('click', '.eliminar-gestorprogramas', function () {
     var idGestorPrograma = $(this).data("id");
 
     swal({
-        title: "¿Está seguro de anular este registro de gestor de programas?",
+        title: "Desea finalizar el programa?",
         text: "¡Si no esta seguro, puede cancelar esta accion!",
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         cancelButtonText: 'cancelar',
-        confirmButtonText: '¡Sí, anular!'
+        confirmButtonText: '¡Sí, Finalizar!'
     }).then(function (result) {
         if (result.value) {
             $.ajax({
@@ -343,63 +369,127 @@ $(document).on('click', '.eliminar-gestorprogramas', function () {
     });
 });
 
+
+$("#FormNuevagestorinventario").submit(function (event) {
+    event.preventDefault();
+    var datos = $("#FormNuevagestorinventario").serialize();
+    datos += "&metodo=nuevo";
+    $.ajax({
+        url: "ajax/gestorprogramas.ajax.php",
+        type: "POST",
+        data: datos,
+        success: function (respuesta) {
+            if (respuesta.includes("ok")) {
+                swal({
+                    type: "success",
+                    title: "Nuevo gestor de programa creado correctamente",
+                    showConfirmButton: true,
+                    confirmButtonText: "Cerrar",
+                    closeOnConfirm: false
+                })
+                $("#FormNuevagestorinventario")[0].reset();
+                $(".close").click();
+
+                cargarGestorPrograma();
+            } else {
+                mostrarError();
+            }
+        },
+        error: function () {
+            mostrarError();
+        },
+    });
+});
+
 //traemos los campos que necesitemos mostrar en el formulario de editar
-// $(document).on('click', '.editar-gestor-programas', function () {
-//     $("#FormEditarinventario")[0].reset();
-//     var idInventario = $(this).data("id");
+$(document).on('click', '.editar-gestorPrograma', function() {
+    $("#FormEditarGestorProgramas")[0].reset();
+    var idProgramaProducto = $(this).data("id");
+  
+    $.ajax({
+      url: "ajax/gestorprogramas.ajax.php?metodo=obtener&id=" + idProgramaProducto ,
+      method: "GET",
+      dataType: "json",
+      success: function(respuesta) {
+        $("#editarNombrePrograma").val(respuesta.id_programa);
+        $("#editarCostoGestor").val(respuesta.total);
+        $("#editarCantidadGestor").val(respuesta.cantidad);
+  
+        $("#FormEditarGestorProgramas").attr("data-id", idProgramaProducto);
+      },
+      error: function() {
+        mostrarError(respuesta);
+      },
+    });
+  });
 
-//     $.ajax({
-//         url: "ajax/gestor-programas.ajax.php?metodo=obtener&id=" + idInventario,
-//         method: "GET",
-//         dataType: "json",
-//         success: function (respuesta) {
-//             $("#editarProductoInventario").val(respuesta.codigo_producto);
-//             $("#editarCantidadInventario").val(respuesta.cantidad);
-//             $("#editarFechallegadaInventario").val(respuesta.fecha_llegada_producto);
-//             $("#editarFechaemisionInventario").val(respuesta.fecha_registro);
-//             $("#editarStatusInventario").val(respuesta.id_status);
+$("#FormEditarGestorProgramas").submit(function (event) {
+    event.preventDefault();
+    var idProgramaProducto = $("#FormEditarGestorProgramas").attr("data-id");
+    var datos = $("#FormEditarGestorProgramas").serialize();
+    datos += "&metodo=editar&id="+idProgramaProducto;
+    $.ajax({
+        url: "ajax/gestorprogramas.ajax.php",
+        type: "POST",
+        data: datos,
+        success: function (respuesta) {
+            if (respuesta.includes("ok")) {
+                swal({
+                    type: "success",
+                    title: "Gestor de programa modificado correctamente",
+                    showConfirmButton: true,
+                    confirmButtonText: "Cerrar",
+                    closeOnConfirm: false
+                })
+                $("#FormEditarGestorProgramas")[0].reset();
+                $(".close").click();
 
-//             $("#FormEditarinventario").attr("data-id", idInventario);
-//         },
-//         error: function () {
-//             mostrarError();
-//         },
-//     });
-// });
+                cargarGestorPrograma();
+            } else {
+                mostrarError();
+            }
+        },
+        error: function () {
+            mostrarError();
+        },
+    });
+});
 
-//obtenemos el id del registro a eliminar y si el administrador desea eliminar dicho registro
+$(document).on('click', '.detalle-programas', function () {
+    var id = $(this).data('id');
+ 
+    $.ajax({
+        url: "ajax/gestorprogramas.ajax.php?metodo=presupuesto&id=" + id ,
+        method: "GET",
+        dataType: "json",
+        success: function(respuesta) {               
+            $("#info3").text("$ "+respuesta[0].presupuesto);
+        },
+        error: function(respuesta) {
+          mostrarError(respuesta);
+        },
+      });
+});
 
-
-// $("#FormNuevagestorinventario").submit(function (event) {
-//     event.preventDefault();
-//     var datos = $("#FormNuevagestorinventario").serialize();
-//     datos += "&metodo=nuevo";
-//     $.ajax({
-//         url: "ajax/gestor-programas.ajax.php",
-//         type: "POST",
-//         data: datos,
-//         success: function (respuesta) {
-//             if (respuesta.includes("ok")) {
-
-//                 swal({
-//                     type: "success",
-//                     title: "Inventario añadido correctamente",
-//                     showConfirmButton: true,
-//                     confirmButtonText: "Cerrar",
-//                     closeOnConfirm: false
-//                 }).then(function (result) {
-//                     if (result.value) { }
-//                 });
-//                 $("#FormNuevagestorinventario")[0].reset();
-//                 $(".close").click();
-
-//                 cargarGestorPrograma();
-//             } else {
-//                 mostrarError();
-//             }
-//         },
-//         error: function () {
-//             mostrarError();
-//         },
-//     });
-// });
+$('#nuevoProductoInventario').change(function() {
+    // Obtener el valor seleccionado
+    var buscar = $(this).val();
+     // Verificar si el valor seleccionado está vacío
+     if (buscar === '') {
+        $("#info2").text("$ 0.00"); // Asignar valor predeterminado de 0
+    }else{
+        $.ajax({
+            url: 'ajax/gestorprogramas.ajax.php?metodo=product&buscar=' + buscar,
+            type: "GET",
+            dataType: "json",
+            success: function (respuesta) {
+                $("#info2").text("$ " + respuesta[0].precio_unitario);
+            },
+            error: function (respuesta) {
+                mostrarError(respuesta);
+            }
+        });
+    }
+    
+    
+});

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 26-06-2023 a las 17:01:23
+-- Tiempo de generación: 02-07-2023 a las 19:44:02
 -- Versión del servidor: 8.0.31
 -- Versión de PHP: 8.0.26
 
@@ -98,14 +98,22 @@ END$$
 
 DROP PROCEDURE IF EXISTS `finderProduct`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `finderProduct` (IN `buscar` VARCHAR(255))   BEGIN
-  SELECT p.nombre, p.codigo_producto FROM tbl_productos AS p
-  WHERE  p.id_status = 1 AND P.cantidad > 0 AND p.nombre LIKE CONCAT('%', buscar, '%') OR p.codigo_producto LIKE CONCAT('%', buscar, '%') ;
+  SELECT p.nombre, p.codigo_producto, p.precio_unitario
+  FROM tbl_productos AS p
+  WHERE p.id_status = 1 AND p.cantidad > 0 AND (p.nombre LIKE CONCAT('%', buscar, '%') OR p.codigo_producto LIKE CONCAT('%', buscar, '%'));
 END$$
 
 DROP PROCEDURE IF EXISTS `finderProgram`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `finderProgram` (IN `buscar` VARCHAR(60))   BEGIN
   SELECT p.nombre, p.id_programa FROM tbl_programa AS p
-  WHERE  p.id_status = 1  AND p.nombre LIKE CONCAT('%', buscar, '%') OR p.id_programa LIKE CONCAT('%', buscar, '%') ;
+  WHERE  p.id_status = 1  AND (p.nombre LIKE CONCAT('%', buscar, '%') OR p.id_programa LIKE CONCAT('%', buscar, '%') );
+END$$
+
+DROP PROCEDURE IF EXISTS `getBudget`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getBudget` (IN `id` INT)   BEGIN
+SELECT p.presupuesto FROM tbl_programa_productos pp 
+INNER JOIN tbl_programa p on pp.id_programa = p.id_programa
+WHERE pp.id_programa_productos = id;
 END$$
 
 DROP PROCEDURE IF EXISTS `getDetailProduct`$$
@@ -113,6 +121,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getDetailProduct` (IN `id` INT)   B
 SELECT pp.id_detalle_programa_productos, pp.cantidad, pp.precio_unitario, pp.importe, p.nombre as producto FROM tbl_detalle_programa_productos as pp
 INNER JOIN tbl_productos as p on pp.codigo_producto = p.codigo_producto
 where pp.id_programa_productos = id;
+END$$
+
+DROP PROCEDURE IF EXISTS `getEditProgramProduct`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getEditProgramProduct` (IN `valor` INT)   BEGIN
+SELECT pp.id_programa, pp.total, pp.cantidad FROM tbl_programa_productos as pp WHERE id_programa_productos = valor;
 END$$
 
 DROP PROCEDURE IF EXISTS `getInventory`$$
@@ -151,6 +164,13 @@ Select dpp.cantidad, dpp.precio_unitario, dpp.importe, pp.fecha, pp.total ,pp.ca
 inner join tbl_programa_productos as pp on dpp.id_programa_productos = pp.id_programa_productos
 inner join tbl_programa as p on pp.id_programa = p.id_programa
 WHERE dpp.id_detalle_programa_productos = id;
+END$$
+
+DROP PROCEDURE IF EXISTS `insertGestorProgram`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertGestorProgram` (IN `id_usuario` INT, IN `id_programa` INT, IN `fecha` DATE, IN `total` DECIMAL(10,2), IN `cantidad` INT, IN `id_status` INT)   BEGIN 
+INSERT into tbl_programa_productos(id_usuario,id_programa, fecha, total, cantidad, id_status)
+VALUES(id_usuario,id_programa,fecha,total,cantidad,id_status);
+
 END$$
 
 DROP PROCEDURE IF EXISTS `InventorytoProductStock`$$
@@ -221,6 +241,17 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `managerDetailProduct` (IN `codigopr
     END IF;
 END$$
 
+DROP PROCEDURE IF EXISTS `updateProgramProduct`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateProgramProduct` (IN `idPrograma` INT, IN `total` DECIMAL(10,2), IN `cantidad` INT, IN `idProgramaProducto` INT)   BEGIN
+  
+        UPDATE tbl_programa_productos AS pp
+        SET pp.id_programa = idPrograma,
+            pp.total = total,
+            pp.cantidad = cantidad
+            WHERE pp.id_programa_productos = idProgramaProducto;
+
+END$$
+
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -282,16 +313,18 @@ CREATE TABLE IF NOT EXISTS `tbl_detalle_programa_productos` (
   PRIMARY KEY (`id_detalle_programa_productos`),
   KEY `codigo_producto` (`codigo_producto`),
   KEY `id_programa_productos` (`id_programa_productos`)
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tbl_detalle_programa_productos`
 --
 
 INSERT INTO `tbl_detalle_programa_productos` (`id_detalle_programa_productos`, `id_programa_productos`, `cantidad`, `precio_unitario`, `importe`, `codigo_producto`) VALUES
-(71, 3, 50, '10.00', '500.00', 1006),
 (79, 2, 5, '2.99', '14.95', 1007),
-(80, 2, 12, '10.00', '120.00', 1006);
+(80, 2, 12, '10.00', '120.00', 1006),
+(91, 4, 10, '10.00', '100.00', 1005),
+(92, 8, 10, '10.00', '100.00', 1006),
+(93, 3, 5, '4.00', '20.00', 1002);
 
 -- --------------------------------------------------------
 
@@ -310,7 +343,7 @@ CREATE TABLE IF NOT EXISTS `tbl_inventario` (
   PRIMARY KEY (`id_inventario`),
   KEY `codigo_producto` (`codigo_producto`),
   KEY `id_status` (`id_status`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tbl_inventario`
@@ -324,7 +357,13 @@ INSERT INTO `tbl_inventario` (`id_inventario`, `codigo_producto`, `cantidad`, `f
 (5, 1006, 2, '2023-06-23', '2023-06-23', 2),
 (6, 1006, 3, '2023-06-23', '2023-06-23', 2),
 (7, 1005, 1, '2023-06-23', '2023-06-23', 1),
-(8, 1005, 1, '2023-06-23', '2023-06-23', 1);
+(8, 1005, 1, '2023-06-23', '2023-06-23', 1),
+(9, 1007, 35, '2023-06-29', '2023-06-29', 2),
+(10, 1005, 35, '2023-06-30', '2023-06-29', 1),
+(11, 1006, 25, '2023-06-30', '2023-06-29', 1),
+(12, 1002, 1, '2023-06-30', '2023-06-30', 1),
+(13, 1005, 10, '2023-07-01', '2023-07-01', 1),
+(14, 1002, 10, '2023-07-01', '2023-07-01', 1);
 
 -- --------------------------------------------------------
 
@@ -353,9 +392,9 @@ CREATE TABLE IF NOT EXISTS `tbl_productos` (
 --
 
 INSERT INTO `tbl_productos` (`codigo_producto`, `nombre`, `precio_unitario`, `cantidad`, `numero_contrato`, `numero_oferta_compra`, `fecha_recepcion`, `id_categoria`, `id_status`) VALUES
-(1002, 'regleta de papel bond', '4.00', 9, '0552255', '588589', '2023-06-14', 29, 1),
-(1005, 'papel', '10.00', 0, '55', '26', '2023-01-01', 113, 1),
-(1006, 'lapiceros', '10.00', 0, '25', '20', '2023-06-13', 28, 1),
+(1002, 'regleta de papel bond', '4.00', 15, '0552255', '588589', '2023-06-14', 29, 1),
+(1005, 'papel', '10.00', 35, '55', '26', '2023-01-01', 113, 1),
+(1006, 'lapiceros', '10.00', 65, '25', '20', '2023-06-13', 28, 1),
 (1007, 'Computadora', '2.99', 0, '2', '2', '2023-06-25', 113, 1);
 
 -- --------------------------------------------------------
@@ -382,7 +421,7 @@ CREATE TABLE IF NOT EXISTS `tbl_programa` (
 
 INSERT INTO `tbl_programa` (`id_programa`, `nombre`, `descripcion`, `presupuesto`, `fecha`, `id_status`) VALUES
 (29, 'SQL server 1', 'Programa sobre base de datos basico', '500.00', '2023-06-16', 1),
-(32, 'Excel Basico', 'Excel basico para estudiantes.', '600.00', '2023-06-25', 1),
+(32, 'Excel Basico', 'Excel basico para estudiantes.', '600.00', '2023-06-25', 2),
 (33, 'HTML5 y CSS3 ', 'Fundamentos de HTML y CSS basicos.', '350.00', '2023-06-25', 2);
 
 -- --------------------------------------------------------
@@ -396,7 +435,7 @@ CREATE TABLE IF NOT EXISTS `tbl_programa_productos` (
   `id_programa_productos` int NOT NULL AUTO_INCREMENT,
   `id_usuario` int DEFAULT NULL,
   `id_programa` int DEFAULT NULL,
-  `fecha` datetime DEFAULT NULL,
+  `fecha` date DEFAULT NULL,
   `total` decimal(10,2) DEFAULT NULL,
   `cantidad` int DEFAULT NULL,
   `id_status` int NOT NULL,
@@ -404,15 +443,20 @@ CREATE TABLE IF NOT EXISTS `tbl_programa_productos` (
   KEY `id_programa` (`id_programa`),
   KEY `id_usuario` (`id_usuario`),
   KEY `id_status` (`id_status`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tbl_programa_productos`
 --
 
 INSERT INTO `tbl_programa_productos` (`id_programa_productos`, `id_usuario`, `id_programa`, `fecha`, `total`, `cantidad`, `id_status`) VALUES
-(2, 4, 29, '2023-06-16 12:44:26', '134.95', 17, 2),
-(3, 4, 29, '2023-06-15 16:31:54', '500.00', 50, 1);
+(2, 4, 29, '2023-06-16', '134.95', 17, 2),
+(3, 4, 32, '2023-06-15', '20.00', 5, 1),
+(4, 4, 32, '2023-06-26', '100.00', 10, 2),
+(5, 4, 29, '2023-06-29', '0.00', 0, 1),
+(6, 4, 29, '2023-06-30', '0.00', 0, 1),
+(7, 4, 29, '2023-06-30', '0.00', 0, 1),
+(8, 4, 29, '2023-07-02', '100.00', 10, 2);
 
 -- --------------------------------------------------------
 
@@ -485,8 +529,7 @@ CREATE TABLE IF NOT EXISTS `tbl_usuarios` (
 
 INSERT INTO `tbl_usuarios` (`id_usuario`, `token`, `usuario`, `nombres`, `correo`, `telefono`, `contrasenia`, `id_rol`, `id_status`) VALUES
 (4, NULL, 'jorguelopez', 'jorgue lopez', 'jorgue.lopez@gmail.com', 72544132, '$2a$07$asxx54ahjppf45sd87a5auXBm1Vr2M1NV5t/zNQtGHGpS5fFirrbG', 1, 1),
-(7, NULL, 'adf', 'Ruben', 'josers772@outlook.es', 72544132, '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 2, 1),
-(10, NULL, 'RubenTrejo', 'Jose Ruben Trejo ', 'josers772@outlook.es', 72154071, '$2a$07$asxx54ahjppf45sd87a5augtYQ5l0YJxtJ.sls/VjJvJD4Oq/Jqk2', 2, 1);
+(10, NULL, 'RubenTrejo', 'Jose Ruben Trejo ', 'josers772@outlook.es', 72154071, '$2a$07$asxx54ahjppf45sd87a5auXBm1Vr2M1NV5t/zNQtGHGpS5fFirrbG', 2, 1);
 
 --
 -- Restricciones para tablas volcadas

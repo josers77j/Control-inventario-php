@@ -110,18 +110,11 @@
                     <div class="row">
                       <div class="col-md-2">
                         <p>Presupuesto:</p>
-                        <span class="label label-primary " 
-                        id="info3" style="font-size:15px;">0.00 </span>
+                        <span class="label label-primary " id="info3" style="font-size:15px;">$ 0.00 </span>
                       </div>
                       <div class="col-md-2">
-                        <p>Importe total:</p>
-                        <span class="label label-primary "
-                        id="info3" style="font-size:15px;">0.00</span>
-                      </div>
-                      <div class="col-md-2">
-                        <p>Productos en total:</p>
-                        <span class="label label-primary"
-                        id="info3" style="font-size:15px;">0</span>
+                        <p>Costo unitario:</p>
+                        <span class="label label-primary " id="info2" style="font-size:15px;">$ 0.00</span>
                       </div>
                     </div>
                   </div>
@@ -193,7 +186,7 @@
 <div id="modalAgregarGestorPrograma" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form id="FormNuevagestorinventario" method="POST" role="form">
+      <form id="FormNuevagestorinventario" role="form">
         <div class="modal-header" style="background:#3c8dbc; color:white">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Nuevo Gestor de Programa</h4>
@@ -217,30 +210,18 @@
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-archive" aria-hidden="true"></i></span>
                     <select class="form-control input-lg" name="nuevoNombrePrograma" id="nuevoNombrePrograma">
-                    
+
                     </select>
+
                   </div>
                 </div>
 
+                <input type="hidden" name="hiddenusnid" value="<?php echo $_SESSION["id_usuario"]; ?>">
               </div>
             </div>
-  
 
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-users"></i></span>
-                <select class="form-control input-lg" name="editarStatus">
-                  <?php
-                  $item = null;
-                  $valor = null;
-                  $status = ControladorStatus::ctrMostrarStatus($item, $valor);
-                  foreach ($status as $key => $value) {
-                    echo '<option id="' . $value["nombre"] . '" value="' . $value["id_status"] . '">' . $value["nombre"] . '</option>';
-                  }
-                  ?>
-                </select>
-              </div>
-            </div>
+
+
 
           </div>
         </div>
@@ -268,13 +249,62 @@
           <div class="box-body">
 
 
-
           </div>
         </div>
 
         <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
 
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="modalEditarGestorPrograma" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <form id="FormEditarGestorProgramas" role="form" method="post">
+
+        <div class="modal-header" style="background:#3c8dbc; color:white">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Editar Gestor de programa</h4>
+        </div>
+
+        <div class="modal-body">
+          <div class="box-body">
+
+
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-archive" aria-hidden="true"></i></span>
+                <select class="form-control input-lg" name="editarNombrePrograma" id="editarNombrePrograma">
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-th"></i></span>
+                <input type="number" class="form-control input-lg" name="editarCantidadGestor" id="editarCantidadGestor" placeholder="Edita la cantidad,.. ejem: 0" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-th"></i></span>
+                <input type="number" class="form-control input-lg" name="editarCostoGestor" id="editarCostoGestor" placeholder="Edita el Costo... ejem: 0.00" required>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
+          <button type="submit" id="editar-gestorprograma" class="btn btn-primary editar-gestorprograma">Guardar Cambios</button>
         </div>
 
       </form>

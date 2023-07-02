@@ -21,6 +21,7 @@
              echo '<div class="box box-success">
              <div class="box-header">
              <h1>Bienvenid@ ' .$_SESSION["nombres"].' (o´ω`o)ﾉ</h1>
+             
              </div>
              </div>';
           }

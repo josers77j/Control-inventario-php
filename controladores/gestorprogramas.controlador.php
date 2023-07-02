@@ -1,10 +1,9 @@
 <?php
 class ControladorGestorProductos
 {
-    static public function ctrMostrarGestorProductos($item, $valor)
+    static public function ctrMostrarGestorProductos($valor)
     {
-        $tabla = "tbl_programa_productos";
-        $respuesta = ModeloGestorProgramas::mdlMostrarGestorProgramas($tabla, $item, $valor);
+        $respuesta = ModeloGestorProgramas::mdlMostrarGestorProgramas($valor);
 
         return $respuesta;
     }
@@ -13,17 +12,14 @@ class ControladorGestorProductos
     {
             if (
                 preg_match('/^[0-9 ]+$/', $data[0]) &&
-                preg_match('/^[0-9 ]+$/', $data[1]) &&
-                $data[2] != null &&
-                $data[3] != null &&
-                preg_match('/^[0-9 ]+$/', $data[4])
+                preg_match('/^[0-9 ]+$/', $data[1])
             ) {
-                $tabla = "tbl_inventario";
-                $datos = array( "codigoproducto" => $data[0], 
-                                "cantidadinventario" => $data[1],
-                                "fechallegadaproducto" => $data[2],
-                                "fecharegistro" => $data[3],
-                                "idstatus" => $data[4]);
+                $datos = array( "id_usuario" => $data[1],
+                                "id_programa" => $data[0],
+                                "fecha" => date("Y-m-d"),
+                                "total" => 0,
+                                "cantidad" => 0,
+                                "id_status" => 1);
                 $respuesta = ModeloGestorProgramas::mdlIngresarGestorProgramas($datos);
                 
                 return $respuesta;                
@@ -33,7 +29,27 @@ class ControladorGestorProductos
             }
     }
 
+    static public function crtEditarGestorProductos($data)
+    {
+            if (
+                preg_match('/^[0-9 ]+$/', $data[0]) &&
+                preg_match('/^[0-9 ]+$/', $data[1]) &&
+                preg_match('/^[-+]?[0-9]+(\.[0-9]+)?$/', $data[2]) &&
+                preg_match('/^[0-9 ]+$/', $data[3])
+            ) {
+                $datos = array( "id_programa" => $data[0],
+                                "cantidad" => $data[1],
+                                "total" => $data[2],
+                                "idProgramaProducto" => $data[3]);
 
+                $respuesta = ModeloGestorProgramas::mdlEditarGestorProgramas($datos);
+                
+                return $respuesta;                
+            }else{
+                $respuesta = "error";
+                return $respuesta;
+            }
+    }
     static public function ctrAnularGestorProductos($id)
     {
             
@@ -49,6 +65,11 @@ class ControladorGestorProductos
     static public function ctrBuscarPrograma($buscar)
     {
         return $respuesta = ModeloGestorProgramas::mdlBuscarPrograma($buscar);
+    }
+
+    static public function ctrObtenerPresupuesto($id)
+    {
+        return $respuesta = ModeloGestorProgramas::mdlObtenerPresupuesto($id);
     }
 
     static public function ctrMostrarDetalleProducto($idProgramaProducto)

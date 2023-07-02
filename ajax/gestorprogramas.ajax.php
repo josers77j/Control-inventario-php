@@ -6,10 +6,9 @@ class AjaxGestorProductos{
     
 
     public function ajaxObtenerGestorProductos(){
-        $item = "id_programa_productos";
         $valor = $_GET["id"];
 
-        $respuesta = ControladorGestorProductos::ctrMostrarGestorProductos($item, $valor);
+        $respuesta = ControladorGestorProductos::ctrMostrarGestorProductos( $valor);
         echo json_encode($respuesta);
     }
 
@@ -27,14 +26,12 @@ class AjaxGestorProductos{
     }
 
     public function ajaxNuevoGestorProductos(){
-        $data = array(  $_POST["nuevoProductoGestorProductos"],
-                        $_POST["nuevoCantidadGestorProductos"],
-                        $_POST["nuevoFechallegadaGestorProductos"],
-                        $_POST["nuevoFechaemisionGestorProductos"],
-                        $_POST["nuevoStatusGestorProductos"]);
+        $data = array(  $_POST["nuevoNombrePrograma"],
+                        $_POST["hiddenusnid"]);
         $respuesta = ControladorGestorProductos::crtCrearGestorProductos($data);
         echo json_encode($respuesta);
     }
+
 
     public function ajaxBuscarProducto(){
         $buscar = $_GET['buscar'];
@@ -66,6 +63,25 @@ class AjaxGestorProductos{
         echo json_encode($respuesta);
     }
 
+    public function ajaxEditarGestorProgramas()
+    {
+        $data = array(
+             $_POST["editarNombrePrograma"],
+             $_POST["editarCantidadGestor"],
+             $_POST["editarCostoGestor"],
+             $_POST["id"]
+        );
+        $respuesta = ControladorGestorProductos::crtEditarGestorProductos($data);
+        echo json_encode($respuesta);
+    }
+
+    public function ajaxObtenerPresupuestoProductos()
+    {
+        $id = $_GET["id"];
+        $respuesta = ControladorGestorProductos::ctrObtenerPresupuesto($id);
+        echo json_encode($respuesta);
+    }
+
     public function ajaxEliminarProducto(){
         $id = $_GET["id"];
         $respuesta = ControladorGestorProductos::ctrEliminarDetalleProductos($id);
@@ -79,10 +95,13 @@ if (isset($_POST["metodo"])) {
             $gestorproducto = new AjaxGestorProductos();
             $gestorproducto->ajaxNuevoGestorProductos();
         break;
-
         case 'agregar':
             $gestorproducto = new AjaxGestorProductos();
             $gestorproducto->ajaxAgregarGestorProductos();
+        break;
+        case 'editar':
+            $gestorproducto = new AjaxGestorProductos();
+            $gestorproducto->ajaxEditarGestorProgramas();
         break;          
     } 
 }
@@ -95,6 +114,10 @@ if (isset($_GET["metodo"])) {
         case 'obtener':
                 $gestorproducto = new AjaxGestorProductos();
                 $gestorproducto->ajaxObtenerGestorProductos();
+            break;
+            case 'presupuesto':
+                $gestorproducto = new AjaxGestorProductos();
+                $gestorproducto->ajaxObtenerPresupuestoProductos();
             break;
         case 'anular':
                 $gestorproducto = new AjaxGestorProductos();
