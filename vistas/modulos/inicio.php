@@ -27,7 +27,50 @@
         }
         ?>
 
+<section class="content">
+    <div class="row">
+      <div class="col-lg-3">
+        <a href="productos" style="text-decoration: none;">
+          <div class="dashboard-card dashboard-card-red">
+            <div class="dashboard-card-content">
+              <h3>Productos</h3>   
+            </div>
+          </div>
+        </a>
+      </div>
 
+      <div class="col-lg-3">
+        <a href="categorias" style="text-decoration: none;">
+          <div class="dashboard-card dashboard-card-green">
+            <div class="dashboard-card-content">
+              <h3>Categorías</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-lg-3">
+        <a href="usuarios" style="text-decoration: none;">
+          <div class="dashboard-card dashboard-card-yellow">
+            <div class="dashboard-card-content">
+              <h3>Usuarios</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-lg-3">
+        <a href="programas" style="text-decoration: none;">
+          <div class="dashboard-card dashboard-card-blue">
+            <div class="dashboard-card-content">
+              <h3>Programas</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+    
+  </section>
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">Reportes</h3>
@@ -92,9 +135,80 @@
           </div>
 
         </div>
-
+        
       </div>
     </div>
   </section>
 
 </div>
+
+
+<style>
+  .dashboard-card {
+    height: 200px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .dashboard-card:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateY(10px);
+    opacity: 0.8;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+
+  .dashboard-card:hover:before {
+    transform: translateY(5px);
+    opacity: 1;
+  }
+
+  .dashboard-card-content {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .dashboard-card-content h3 {
+    margin: 0;
+    font-size: 24px;
+  }
+
+  .dashboard-card-red:before {
+    background: linear-gradient(to bottom, #e74c3c, #c0392b);
+  }
+
+  .dashboard-card-green:before {
+    background: linear-gradient(to bottom, #2ecc71, #27ae60);
+  }
+
+  .dashboard-card-yellow:before {
+    background: linear-gradient(to bottom, #f1c40f, #f39c12);
+  }
+
+  .dashboard-card-blue:before {
+    background: linear-gradient(to bottom, #3498db, #2980b9);
+  }
+
+  .dashboard-card-purple:before {
+    background: linear-gradient(to bottom, #9b59b6, #8e44ad);
+  }
+</style>
+
+
+
+
