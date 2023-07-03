@@ -56,6 +56,11 @@ $(document).on('click', '.detalle-programas', function () {
     obtenerDetalleProgramas(idProgramaProducto);
 });
 
+$(document).on('click', '.detalle-programas-info', function () {
+    var idProgramaProducto = $(this).data("id");
+    obtenerDetalleProgramasInfo(idProgramaProducto);
+});
+
 //nos dirigimos hacia detalle programas, para añadir productos al programa 
 
 // Definir la función AJAX en un método aparte
@@ -68,7 +73,6 @@ function obtenerDetalleProgramas(idProgramaProducto) {
             $("#FormAgregarDetalleProducto").attr("data-id", idProgramaProducto);
             // Limpiar contenido actual de la tabla
             $('#tabla-detalle tbody').empty();
-
             // Recorrer los datos recibidos y agregar filas a la tabla
             $.each(respuesta, function (index, programa) {
                 var fila = '<tr>' +
@@ -91,6 +95,31 @@ function obtenerDetalleProgramas(idProgramaProducto) {
     });
 }
 
+function obtenerDetalleProgramasInfo(idProgramaProducto) {
+    $.ajax({
+        url: 'ajax/gestorprogramas.ajax.php?metodo=detalle&idProgramaProducto=' + idProgramaProducto,
+        type: "GET",
+        dataType: "json",
+        success: function (respuesta) {
+            // Limpiar contenido actual de la tabla
+            $('#tabla-info tbody').empty();
+            // Recorrer los datos recibidos y agregar filas a la tabla
+            $.each(respuesta, function (index, programa) {
+                var fila = '<tr>' +
+                    '<td>' + (index + 1) + '</td>' +
+                    '<td>' + programa.producto + '</td>' +
+                    '<td>' + programa.cantidad + '</td>' +
+                    '<td>' + programa.precio_unitario + '</td>' +
+                    '<td>' + programa.importe + '</td>';                   
+
+                $('#tabla-info tbody').append(fila);
+            });
+        },
+        error: function (respuesta) {
+            mostrarError();
+        }
+    });
+}
   
   
 
@@ -132,7 +161,7 @@ function cargarGestorPrograma() {
                         gestorPrograma.usuario,
                         gestorPrograma.status,
                         '<div class="btn-group">' +
-                        '<button data-toggle="modal" data-target="#modalInfoGestorProgramas" class="btn btn-info editar-gestor-programas" data-id="' + gestorPrograma.id_programa_productos + '">' +
+                        '<button data-toggle="modal" data-target="#modalInfoGestorProgramas" class="btn btn-info detalle-programas-info" data-id="' + gestorPrograma.id_programa_productos + '">' +
                         '<i class="fa fa-info-circle" aria-hidden="true"></i>' +
                         '</button>' +
                         '</div>'

@@ -252,7 +252,7 @@
         <div class="modal-body">
           <div class="box-body">
 
-          <table class="table table-bordered table-striped dt-responsive" width="100%" id="tabla-info-detalle">
+          <table class="table table-bordered table-striped dt-responsive" width="100%" id="tabla-info">
             <thead>
               <tr>
                 <th style="width:10px">#</th>
