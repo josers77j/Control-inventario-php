@@ -132,7 +132,7 @@ function cargarGestorPrograma() {
                         gestorPrograma.usuario,
                         gestorPrograma.status,
                         '<div class="btn-group">' +
-                        '<button data-toggle="modal" data-target="#modalEditarGestorInventario" class="btn btn-info editar-gestor-programas" data-id="' + gestorPrograma.id_programa_productos + '">' +
+                        '<button data-toggle="modal" data-target="#modalInfoGestorProgramas" class="btn btn-info editar-gestor-programas" data-id="' + gestorPrograma.id_programa_productos + '">' +
                         '<i class="fa fa-info-circle" aria-hidden="true"></i>' +
                         '</button>' +
                         '</div>'
@@ -148,7 +148,7 @@ function cargarGestorPrograma() {
                         gestorPrograma.fechacreacion,
                         gestorPrograma.usuario,
                         gestorPrograma.status,
-                        '<div class="dropdown"><button class="btn btn-default dropdown-toggle fillingInfo" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-th-large" aria-hidden="true"></i><span class="caret"></span></button><ul class="dropdown-menu" aria-labelledby="dropdownMenu1"><div class="btn-group">' +
+                        '<div class="dropdown dropleft"><button class="btn btn-default dropdown-toggle fillingInfo" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-th-large" aria-hidden="true"></i><span class="caret"></span></button><ul class="dropdown-menu" aria-labelledby="dropdownMenu1"><div class="btn-group">' +
                         '<button data-toggle="modal" data-target="#modalAgregarDetalleProducto" class="btn btn-primary detalle-programas" data-id="' + gestorPrograma.id_programa_productos + '">' +
                         '<i class="fa fa-puzzle-piece" aria-hidden="true"></i>' +
                         '</button>' +                      
@@ -273,7 +273,11 @@ $("#agregarDetalleProducto").click(function (event) {
                 })
                 $('#FormAgregarDetalleProducto')[0].reset();
                 obtenerDetalleProgramas(idProgramaProducto);
+                $("#info2").text("$ 0.00");
+                $("#info1").text("0");
+                finderProduct("");
                 cargarGestorPrograma();
+                
             } else {
                 mostrarError();
             }
@@ -315,6 +319,7 @@ $(document).on('click', '.borrar-detalleproducto', function () {
                     });
                     var tablaGestorProgramas = $('#tabla-gestorprogramas');
                     tablaGestorProgramas.DataTable().destroy();
+                    finderProduct("");
                     cargarGestorPrograma();
                     obtenerDetalleProgramas(idProgramaProducto);
                 },
@@ -477,13 +482,15 @@ $('#nuevoProductoInventario').change(function() {
      // Verificar si el valor seleccionado está vacío
      if (buscar === '') {
         $("#info2").text("$ 0.00"); // Asignar valor predeterminado de 0
+        $("#info1").text("0");
     }else{
         $.ajax({
             url: 'ajax/gestorprogramas.ajax.php?metodo=product&buscar=' + buscar,
             type: "GET",
             dataType: "json",
             success: function (respuesta) {
-                $("#info2").text("$ " + respuesta[0].precio_unitario);
+                $("#info2").text("$ " + respuesta[0].precio_unitario);              
+                $("#info1").text(respuesta[0].cantidad);
             },
             error: function (respuesta) {
                 mostrarError(respuesta);
