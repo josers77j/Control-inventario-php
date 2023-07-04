@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    cargarInicio();
     $('#date-range').daterangepicker({
         opens: 'left',
         ranges: {
@@ -58,4 +59,28 @@ $("#FormReporte").submit(function(event) {
   });
   
   
-  
+  function cargarInicio(){
+    $.ajax({
+        url: 'ajax/inicio.ajax.php?metodo=mostrar',
+        type: "GET",
+        dataType: "json",
+        success: function (respuesta) {
+            // Limpiar contenido actual de la tabla
+            $('#tabla-info tbody').empty();
+            // Recorrer los datos recibidos y agregar filas a la tabla
+            $.each(respuesta, function (index, programa) {
+                var fila = '<tr>' +
+                    '<td>' + (index + 1) + '</td>' +
+                    '<td>' + programa.producto + '</td>' +
+                    '<td>' + programa.cantidad + '</td>' +
+                    '<td>' + programa.precio_unitario + '</td>' +
+                    '<td>' + programa.importe + '</td>';                   
+
+                $('#tabla-info tbody').append(fila);
+            });
+        },
+        error: function (respuesta) {
+            mostrarError();
+        }
+    });
+  }

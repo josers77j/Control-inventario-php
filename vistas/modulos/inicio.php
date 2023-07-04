@@ -27,50 +27,51 @@
         }
         ?>
 
-<section class="content">
-    <div class="row">
-      <div class="col-lg-3">
-        <a href="productos" style="text-decoration: none;">
-          <div class="dashboard-card dashboard-card-red">
-            <div class="dashboard-card-content">
-              <h3>Productos</h3>   
+        <section class="content">
+          <div class="row">
+            <div class="col-lg-3">
+              <a href="productos" style="text-decoration: none;">
+                <div class="dashboard-card dashboard-card-red">
+                  <div class="dashboard-card-content">
+                    <h3>Productos</h3>
+                  </div>
+                </div>
+              </a>
             </div>
-          </div>
-        </a>
-      </div>
 
-      <div class="col-lg-3">
-        <a href="categorias" style="text-decoration: none;">
-          <div class="dashboard-card dashboard-card-green">
-            <div class="dashboard-card-content">
-              <h3>Categorías</h3>
+            <div class="col-lg-3">
+              <a href="categorias" style="text-decoration: none;">
+                <div class="dashboard-card dashboard-card-green">
+                  <div class="dashboard-card-content">
+                    <h3>Categorías</h3>
+                  </div>
+                </div>
+              </a>
             </div>
-          </div>
-        </a>
-      </div>
 
-      <div class="col-lg-3">
-        <a href="usuarios" style="text-decoration: none;">
-          <div class="dashboard-card dashboard-card-yellow">
-            <div class="dashboard-card-content">
-              <h3>Usuarios</h3>
+            <div class="col-lg-3">
+              <a href="usuarios" style="text-decoration: none;">
+                <div class="dashboard-card dashboard-card-yellow">
+                  <div class="dashboard-card-content">
+                    <h3>Usuarios</h3>
+                  </div>
+                </div>
+              </a>
             </div>
-          </div>
-        </a>
-      </div>
 
-      <div class="col-lg-3">
-        <a href="programas" style="text-decoration: none;">
-          <div class="dashboard-card dashboard-card-blue">
-            <div class="dashboard-card-content">
-              <h3>Programas</h3>
+            <div class="col-lg-3">
+              <a href="programas" style="text-decoration: none;">
+                <div class="dashboard-card dashboard-card-blue">
+                  <div class="dashboard-card-content">
+                    <h3>Programas</h3>
+                  </div>
+                </div>
+              </a>
             </div>
           </div>
-        </a>
-      </div>
-    </div>
-    
-  </section>
+
+        </section>
+
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">Reportes</h3>
@@ -135,7 +136,7 @@
           </div>
 
         </div>
-        
+
       </div>
     </div>
   </section>
@@ -208,7 +209,3 @@
     background: linear-gradient(to bottom, #9b59b6, #8e44ad);
   }
 </style>
-
-
-
-
