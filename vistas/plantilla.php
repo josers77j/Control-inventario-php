@@ -99,14 +99,7 @@ session_start();
   ?>
   
   <script src="vistas/js/plantilla.js"></script>
-  <!-- <script src="vistas/js/usuarios.js"></script>
-  <script src="vistas/js/role.js"></script>
-  <script src="vistas/js/status.js"></script>
-  <script src="vistas/js/categorias.js"></script>
-  <script src="vistas/js/productos.js"></script>
-  <script src="vistas/js/programas.js"></script>
-  <script src="vistas/js/inventario.js"></script>
-  <script src="vistas/js/gestorprograma.js"></script> -->
+
 
 </body>
 </html>

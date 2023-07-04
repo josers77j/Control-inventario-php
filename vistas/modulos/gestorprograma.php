@@ -116,6 +116,10 @@
                         <p>Costo unitario:</p>
                         <span class="label label-primary " id="info2" style="font-size:15px;">$ 0.00</span>
                       </div>
+                      <div class="col-md-2">
+                        <p>Cantidad en stock:</p>
+                        <span class="label label-primary " id="info1" style="font-size:15px;">0</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -248,6 +252,20 @@
         <div class="modal-body">
           <div class="box-body">
 
+          <table class="table table-bordered table-striped dt-responsive" width="100%" id="tabla-info">
+            <thead>
+              <tr>
+                <th style="width:10px">#</th>
+                <th>Nombre del producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Importe</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+          </table>
 
           </div>
         </div>

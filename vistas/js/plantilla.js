@@ -44,3 +44,6 @@ if(window.matchMedia("(max-width:767px)").matches){
 }else{
 	$("body").addClass('sidebar-collapse');
 }
+
+
+  
