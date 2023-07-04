@@ -33,7 +33,9 @@
         <a href="productos" style="text-decoration: none;">
           <div class="dashboard-card dashboard-card-red">
             <div class="dashboard-card-content">
-              <h3>Productos</h3>   
+              <h2 class = "posicion-superior-izquierda"><b>5</b></h2>
+              <h3 class ="posicion-abajo-izquierda">Productos</h3>  
+              <span class="card-icon"><i class="fa fa-archive" aria-hidden="true"></i></span> 
             </div>
           </div>
         </a>
@@ -43,7 +45,9 @@
         <a href="categorias" style="text-decoration: none;">
           <div class="dashboard-card dashboard-card-green">
             <div class="dashboard-card-content">
-              <h3>Categorías</h3>
+            <h2 class = "posicion-superior-izquierda"><b>5</b></h2>
+              <h3 class ="posicion-abajo-izquierda">Categorías</h3>
+              <span class="card-icon"><i class="fa fa-th-large" aria-hidden="true"></i></span>
             </div>
           </div>
         </a>
@@ -53,7 +57,9 @@
         <a href="usuarios" style="text-decoration: none;">
           <div class="dashboard-card dashboard-card-yellow">
             <div class="dashboard-card-content">
-              <h3>Usuarios</h3>
+            <h2 class = "posicion-superior-izquierda"><b>5</b></h2>
+              <h3 class ="posicion-abajo-izquierda">Usuarios</h3>
+              <span class="card-icon"><i class="fa fa-users" aria-hidden="true"></i></span>
             </div>
           </div>
         </a>
@@ -63,7 +69,9 @@
         <a href="programas" style="text-decoration: none;">
           <div class="dashboard-card dashboard-card-blue">
             <div class="dashboard-card-content">
-              <h3>Programas</h3>
+            <h2 class = "posicion-superior-izquierda"><b>5</b></h2>
+              <h3 class ="posicion-abajo-izquierda">Programas</h3>
+              <span class="card-icon"><i class="fa fa-tasks" aria-hidden="true"></i></span>
             </div>
           </div>
         </a>
@@ -144,8 +152,9 @@
 
 
 <style>
+
   .dashboard-card {
-    height: 200px;
+    height: 170px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     overflow: hidden;
@@ -161,13 +170,13 @@
     width: 100%;
     height: 100%;
     transform: translateY(10px);
-    opacity: 0.8;
+    opacity: 1;
     transition: transform 0.3s, opacity 0.3s;
   }
 
   .dashboard-card:hover:before {
     transform: translateY(5px);
-    opacity: 1;
+    opacity: 0.9;
   }
 
   .dashboard-card-content {
@@ -186,6 +195,13 @@
   .dashboard-card-content h3 {
     margin: 0;
     font-size: 24px;
+    padding-bottom: 10px;
+  }
+
+  .dashboard-card-content h2 {
+    margin: 0;
+
+
   }
 
   .dashboard-card-red:before {
@@ -207,7 +223,35 @@
   .dashboard-card-purple:before {
     background: linear-gradient(to bottom, #9b59b6, #8e44ad);
   }
+
+  /* Iconos */
+  .card-icon {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    opacity: 0.5;
+  }
+
+
+  .card-icon i {
+    font-size: 90px;
+    opacity: 0.3;
+    margin-top: 50px;
+    color: black;
+
+  }
+
+  .posicion-abajo-izquierda {
+  align-self: flex-start;
+}
+
+.posicion-superior-izquierda {
+  align-self: flex-start;
+  margin-bottom: auto;
+}
 </style>
+
 
 
 
