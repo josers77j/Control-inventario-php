@@ -26,6 +26,9 @@
         <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarInventario">
           Agregar Stock
         </button>
+        <button class="btn btn-primary btnImprimirInventario" style="float: right;">   
+            Descargar reporte
+        </button>
       </div>
       <div class="box-body">
         <table class="table table-bordered table-striped dt-responsive" width="100%" id="tabla-inventarios">
@@ -56,6 +59,9 @@
       <div class="box-header with-border">
         <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarInventario">
           Agregar Stock
+        </button>
+        <button class="btn btn-primary btnImprimirInventarioInactivo" style="float: right;">   
+            Descargar reporte
         </button>
       </div>
       <div class="box-body">
