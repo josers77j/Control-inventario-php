@@ -92,7 +92,7 @@
                     <label>Selecciona el tipo de reporte</label>
                     <select size="4" class="form-control" name="tipoReporte" id="tipoReporte">
                       <option value="1">Inventario actual</option>
-                      <option value="2">Historial de entradas</option>
+                      <option value="2" selected>Historial de entradas</option>
                       <option value="3">Historial de salidas</option>
                       <option value="4">Productos en baja existencia</option>
                     </select>
