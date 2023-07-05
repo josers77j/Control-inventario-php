@@ -267,3 +267,14 @@ $(document).ready(function() {
     });
   }
   
+  $(".btnImprimirProgramas").on("click", function(){
+
+    window.open("extensiones/tcpdf/pdf/programas.php", "_blank");
+  
+  })
+
+  $(".btnImprimirProgramasInactivos").on("click", function(){
+
+    window.open("extensiones/tcpdf/pdf/programas_inactivo.php", "_blank");
+  
+  })

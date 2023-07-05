@@ -177,16 +177,17 @@ function cargarGestorPrograma() {
                         gestorPrograma.fechacreacion,
                         gestorPrograma.usuario,
                         gestorPrograma.status,
-                        '<div class="dropdown dropleft"><button class="btn btn-default dropdown-toggle fillingInfo" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-th-large" aria-hidden="true"></i><span class="caret"></span></button><ul class="dropdown-menu" aria-labelledby="dropdownMenu1"><div class="btn-group">' +
+                        '<div class="dropdown"><button class="btn btn-default dropdown-toggle fillingInfo" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-th-large" aria-hidden="true"></i><span class="caret"></span></button><ul class="dropdown-menu" aria-labelledby="dropdownMenu1"><div class="btn-group" style="margin-left: -27px;">' +
                         '<button data-toggle="modal" data-target="#modalAgregarDetalleProducto" class="btn btn-primary detalle-programas" data-id="' + gestorPrograma.id_programa_productos + '">' +
                         '<i class="fa fa-puzzle-piece" aria-hidden="true"></i>' +
-                        '</button>' +                      
+                        '</button>' +          
                         '<button data-toggle="modal" data-target="#modalEditarGestorPrograma" class="btn btn-warning editar-gestorPrograma" data-id="' + gestorPrograma.id_programa_productos + '">' +
                         '<i class="fa fa-pencil"></i>' +
                         '</button>' +
                         '<button class="btn btn-success eliminar-gestorprogramas" data-id="' + gestorPrograma.id_programa_productos + '">' +
                         '<i class="fa fa-check-square-o" aria-hidden="true"></i>' +
                         '</button>' +
+                        
                         '</div></ul></div>'
                     ];
                     contadorB++;
@@ -529,3 +530,8 @@ $('#nuevoProductoInventario').change(function() {
     
     
 });
+
+$(document).on('click', '.btnImprimirGestionarProgramas', function(){
+    var idProgramaProducto = $(this).data("id");
+    window.open("extensiones/tcpdf/pdf/gestionar_programa.php?idProgramaProducto="+idProgramaProducto, "_blank");
+})

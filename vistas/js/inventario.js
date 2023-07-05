@@ -233,3 +233,16 @@ function mostrarError() {
     if (result.value) {}
   });
 }
+
+	
+$(".btnImprimirInventario").on("click", function(){
+
+	window.open("extensiones/tcpdf/pdf/inventario.php", "_blank");
+
+})
+
+$(".btnImprimirInventarioInactivo").on("click", function(){
+
+	window.open("extensiones/tcpdf/pdf/inventario-inactivo.php", "_blank");
+
+})

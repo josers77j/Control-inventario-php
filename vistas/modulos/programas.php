@@ -25,6 +25,9 @@
             <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarProgramas">
               Agregar Programa
             </button>
+            <button class="btn btn-primary btnImprimirProgramas" style="float: right;">   
+              Descargar reporte
+            </button>
           </div>
           <div class="box-body">
             <table class="table table-bordered table-striped dt-responsive" width="100%" id="tabla-programas">
@@ -55,6 +58,9 @@
           <div class="box-header with-border">
             <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarInventario">
               Agregar Programa
+            </button>
+            <button class="btn btn-primary btnImprimirProgramasInactivos" style="float: right;">   
+              Descargar reporte
             </button>
           </div>
           <div class="box-body">
