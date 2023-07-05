@@ -5,9 +5,7 @@ require_once "../modelos/inicio.modelo.php";
 class AjaxInicio{
     
     public function ajaxMostrarCategoria(){
-        $item = null;
-        $valor = null;
-        $respuesta = ControladorCategoria::ctrMostrarCategoria($item,$valor);   
+        $respuesta = ControladorInicio::ctrMostrarInicio();   
         echo json_encode($respuesta);
     }
 }

@@ -33,7 +33,9 @@
               <a href="productos" style="text-decoration: none;">
                 <div class="dashboard-card dashboard-card-red">
                   <div class="dashboard-card-content">
-                    <h3>Productos</h3>
+                    <h2 class="posicion-superior-izquierda text-bold" id="data1"></h2>
+                    <h3 class="posicion-abajo-izquierda">Productos</h3>
+                    <span class="card-icon"><i class="fa fa-archive" aria-hidden="true"></i></span>
                   </div>
                 </div>
               </a>
@@ -43,7 +45,9 @@
               <a href="categorias" style="text-decoration: none;">
                 <div class="dashboard-card dashboard-card-green">
                   <div class="dashboard-card-content">
-                    <h3>Categorías</h3>
+                    <h2 class="posicion-superior-izquierda text-bold" id="data2"></h2>
+                    <h3 class="posicion-abajo-izquierda">Categorías</h3>
+                    <span class="card-icon"><i class="fa fa-th-large" aria-hidden="true"></i></span>
                   </div>
                 </div>
               </a>
@@ -53,7 +57,9 @@
               <a href="usuarios" style="text-decoration: none;">
                 <div class="dashboard-card dashboard-card-yellow">
                   <div class="dashboard-card-content">
-                    <h3>Usuarios</h3>
+                    <h2 class="posicion-superior-izquierda text-bold" id="data3"></h2>
+                    <h3 class="posicion-abajo-izquierda">Usuarios</h3>
+                    <span class="card-icon"><i class="fa fa-users" aria-hidden="true"></i></span>
                   </div>
                 </div>
               </a>
@@ -63,7 +69,9 @@
               <a href="programas" style="text-decoration: none;">
                 <div class="dashboard-card dashboard-card-blue">
                   <div class="dashboard-card-content">
-                    <h3>Programas</h3>
+                    <h2 class="posicion-superior-izquierda text-bold" id="data4"></h2>
+                    <h3 class="posicion-abajo-izquierda">Programas</h3>
+                    <span class="card-icon"><i class="fa fa-tasks" aria-hidden="true"></i></span>
                   </div>
                 </div>
               </a>
@@ -71,20 +79,18 @@
           </div>
 
         </section>
-
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">Reportes</h3>
           </div>
           <div class="panel-body">
             <form id="FormReporte">
-
               <div class="row">
                 <div class="col-sm-6">
                   <!-- Select multiple-->
                   <div class="form-group">
                     <label>Selecciona el tipo de reporte</label>
-                    <select multiple class="form-control" name="tipo-reporte">
+                    <select size="4" class="form-control" name="tipoReporte" id="tipoReporte">
                       <option value="1">Inventario actual</option>
                       <option value="2">Historial de entradas</option>
                       <option value="3">Historial de salidas</option>
@@ -111,19 +117,28 @@
                       </label>
                     </div>
                   </div>
-
                 </div>
                 <div class="col-sm-3">
                   <div class="form-group">
                     <label for="date-range">Rango de fecha:</label>
                     <div class="input-group">
-                      <input type="text" class="form-control" id="date-range" name="rango-fecha" readonly>
+                      <input type="text" class="form-control" id="dateRange" name="dateRange">
                       <span class="input-group-addon">
                         <i class="glyphicon glyphicon-calendar"></i>
                       </span>
                     </div>
                   </div>
+
+                  <div class="form-group">
+                    <label for="fecha-switch">Habilitar/Deshabilitar fecha:</label>
+                    <label class="switch">
+                      <input type="checkbox" id="fechaSwitch">
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+
                 </div>
+
                 <div class="col-sm-12">
                   <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Generar reporte</button>
@@ -146,7 +161,7 @@
 
 <style>
   .dashboard-card {
-    height: 200px;
+    height: 170px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     overflow: hidden;
@@ -162,13 +177,13 @@
     width: 100%;
     height: 100%;
     transform: translateY(10px);
-    opacity: 0.8;
+    opacity: 1;
     transition: transform 0.3s, opacity 0.3s;
   }
 
   .dashboard-card:hover:before {
     transform: translateY(5px);
-    opacity: 1;
+    opacity: 0.9;
   }
 
   .dashboard-card-content {
@@ -187,6 +202,13 @@
   .dashboard-card-content h3 {
     margin: 0;
     font-size: 24px;
+    padding-bottom: 10px;
+  }
+
+  .dashboard-card-content h2 {
+    margin: 0;
+
+
   }
 
   .dashboard-card-red:before {
@@ -207,5 +229,32 @@
 
   .dashboard-card-purple:before {
     background: linear-gradient(to bottom, #9b59b6, #8e44ad);
+  }
+
+  /* Iconos */
+  .card-icon {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    opacity: 0.5;
+  }
+
+
+  .card-icon i {
+    font-size: 90px;
+    opacity: 0.3;
+    margin-top: 50px;
+    color: black;
+
+  }
+
+  .posicion-abajo-izquierda {
+    align-self: flex-start;
+  }
+
+  .posicion-superior-izquierda {
+    align-self: flex-start;
+    margin-bottom: auto;
   }
 </style>
