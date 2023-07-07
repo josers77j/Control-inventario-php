@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 05-07-2023 a las 18:35:22
+-- Tiempo de generación: 07-07-2023 a las 19:40:46
 -- Versión del servidor: 8.0.31
 -- Versión de PHP: 8.0.26
 
@@ -36,7 +36,9 @@ DROP PROCEDURE IF EXISTS `anularInventario`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `anularInventario` (IN `identificador` INT)   BEGIN
     DECLARE cantidad_inventario INT;
     DECLARE cantidad_restar INT;
-
+    DECLARE stockActual int;
+    DECLARE codigoproducto int;
+	SET codigoproducto = (SELECT i.codigo_producto FROM tbl_inventario AS i WHERE i.id_inventario = identificador);
     -- Obtener la cantidad de productos a restar del inventario
     SELECT i.cantidad INTO cantidad_restar
     FROM tbl_inventario AS i
@@ -71,6 +73,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `anularInventario` (IN `identificado
     SET p.cantidad = p.cantidad - cantidad_restar
     WHERE p.codigo_producto = (SELECT i.codigo_producto FROM tbl_inventario AS i WHERE i.id_inventario = identificador);
 
+       SET stockActual = (SELECT cantidad FROM tbl_productos WHERE codigo_producto = codigoproducto);
+
+           IF stockActual < 20 AND stockActual >= 10 THEN
+                CALL setAlert(codigoproducto, 'Niveles bajos de producto', 1, 2);
+            ELSEIF stockActual < 10 AND stockActual >= 0 THEN
+                CALL setAlert(codigoproducto, 'Niveles escasos de producto', 1, 1);
+            ELSEIF stockActual >= 20 THEN
+                CALL setAlert(codigoproducto, 'Niveles normales de producto', 1, 3);
+            END IF;
     -- Confirmar la transacción
     COMMIT;
 END$$
@@ -82,11 +93,23 @@ SET p.id_status = 2
 WHERE p.id_programa = id;
 END$$
 
+DROP PROCEDURE IF EXISTS `deactivateNotification`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deactivateNotification` (IN `id` INT)   BEGIN
+UPDATE tbl_alertas as a
+SET a.id_status = 2 
+WHERE id_alerta = id;
+END$$
+
 DROP PROCEDURE IF EXISTS `deleteDetailProduct`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteDetailProduct` (IN `id` INT)   BEGIN 
-    UPDATE tbl_productos
+DECLARE stockActual int;
+Declare codigoProducto int;
+
+set codigoProducto = ( SELECT codigo_producto FROM tbl_detalle_programa_productos WHERE id_detalle_programa_productos = id);
+
+UPDATE tbl_productos
     SET cantidad = cantidad + (SELECT cantidad FROM tbl_detalle_programa_productos WHERE id_detalle_programa_productos = id)
-    WHERE codigo_producto = (SELECT codigo_producto FROM tbl_detalle_programa_productos WHERE id_detalle_programa_productos = id);
+    WHERE codigo_producto = codigoProducto;
 
     UPDATE tbl_programa_productos
     SET cantidad = cantidad - (SELECT cantidad FROM tbl_detalle_programa_productos WHERE id_detalle_programa_productos = id),
@@ -94,6 +117,22 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteDetailProduct` (IN `id` INT) 
     WHERE id_programa_productos = (SELECT id_programa_productos FROM tbl_detalle_programa_productos WHERE id_detalle_programa_productos = id);
 
     DELETE FROM tbl_detalle_programa_productos WHERE id_detalle_programa_productos = id;
+    
+     SET stockActual = (SELECT cantidad FROM tbl_productos WHERE codigo_producto = codigoProducto);
+
+           IF stockActual < 20 AND stockActual >= 10 THEN
+                CALL setAlert(codigoProducto, 'Niveles bajos de producto', 1, 2);
+            ELSEIF stockActual < 10 AND stockActual >= 0 THEN
+                CALL setAlert(codigoProducto, 'Niveles escasos de producto', 1, 1);
+            ELSEIF stockActual >= 20 THEN
+                CALL setAlert(codigoProducto, 'Niveles normales de producto', 1, 3);
+            END IF;
+END$$
+
+DROP PROCEDURE IF EXISTS `desactivateNotifications`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `desactivateNotifications` ()   BEGIN
+UPDATE tbl_alertas as a
+SET a.id_status = 2;
 END$$
 
 DROP PROCEDURE IF EXISTS `finderProduct`$$
@@ -107,6 +146,13 @@ DROP PROCEDURE IF EXISTS `finderProgram`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `finderProgram` (IN `buscar` VARCHAR(60))   BEGIN
   SELECT p.nombre, p.id_programa FROM tbl_programa AS p
   WHERE  p.id_status = 1  AND (p.nombre LIKE CONCAT('%', buscar, '%') OR p.id_programa LIKE CONCAT('%', buscar, '%') );
+END$$
+
+DROP PROCEDURE IF EXISTS `getAlert`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAlert` (IN `idusuario` INT)   BEGIN
+SELECT a.id_alerta,a.codigo_productos,p.nombre,a.Mensaje,a.relevancia, p.cantidad FROM tbl_alertas as a 
+INNER JOIN tbl_productos as p on a.codigo_productos = p.codigo_producto
+WHERE a.id_usuario = idusuario AND a.id_status = 1;
 END$$
 
 DROP PROCEDURE IF EXISTS `getBudget`$$
@@ -233,6 +279,7 @@ END$$
 
 DROP PROCEDURE IF EXISTS `InventorytoProductStock`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `InventorytoProductStock` (IN `codigoproducto` INT, IN `cantidadinventario` INT, IN `fechallegadaproducto` DATE, IN `fecharegistro` DATE, IN `idstatus` INT)   BEGIN
+declare stockActual int;
     -- Insertar datos en la tabla tbl_inventario
     INSERT INTO tbl_inventario (codigo_producto , cantidad, fecha_llegada_producto, fecha_registro, id_status )
     VALUES (codigoproducto, cantidadinventario, fechallegadaproducto, fecharegistro, idstatus);
@@ -241,12 +288,23 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `InventorytoProductStock` (IN `codig
     UPDATE tbl_productos
     SET cantidad = cantidad + cantidadinventario
     WHERE codigo_producto = codigoproducto;
+    
+        SET stockActual = (SELECT cantidad FROM tbl_productos WHERE codigo_producto = codigoproducto);
+
+           IF stockActual < 20 AND stockActual >= 10 THEN
+                CALL setAlert(codigoproducto, 'Niveles bajos de producto', 1, 2);
+            ELSEIF stockActual < 10 AND stockActual >= 0 THEN
+                CALL setAlert(codigoproducto, 'Niveles escasos de producto', 1, 1);
+            ELSEIF stockActual >= 20 THEN
+                CALL setAlert(codigoproducto, 'Niveles normales de producto', 2, 3);
+            END IF;
+    
 END$$
 
 DROP PROCEDURE IF EXISTS `managerDetailProduct`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `managerDetailProduct` (IN `codigoproducto` INT, IN `stock` INT, IN `idProgramaProductos` INT)   BEGIN
     DECLARE nuevoImporte DECIMAL(10, 2);
-    
+        DECLARE stockActual INT;
  SET nuevoImporte = (
         SELECT (p.precio_unitario*stock)+(SELECT pp.total FROM tbl_programa_productos as pp WHERE pp.id_programa_productos = idProgramaProductos) as importe FROM tbl_productos as p WHERE codigo_producto = codigoproducto
     );
@@ -291,12 +349,65 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `managerDetailProduct` (IN `codigopr
                     SELECT (p.precio_unitario*stock) as importe FROM tbl_productos as p WHERE codigo_producto = codigoproducto
                 )
             WHERE id_programa_productos = idProgramaProductos;
+
+           SET stockActual = (SELECT cantidad FROM tbl_productos WHERE codigo_producto = codigoproducto);
+
+           IF stockActual < 20 AND stockActual >= 10 THEN
+                CALL setAlert(codigoproducto, 'Niveles bajos de producto', 1, 2);
+            ELSEIF stockActual < 10 AND stockActual >= 0 THEN
+                CALL setAlert(codigoproducto, 'Niveles escasos de producto', 1, 1);
+            ELSEIF stockActual >= 20 THEN
+                CALL setAlert(codigoproducto, 'Niveles normales de producto', 1, 3);
+            END IF;
         ELSE
             SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El importe total excede el presupuesto del programa.';
         END IF;
     ELSE
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'La cantidad excede las existencias.';
     END IF;
+END$$
+
+DROP PROCEDURE IF EXISTS `setAlert`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `setAlert` (IN `Acodigoproducto` INT, IN `Amensaje` TEXT, IN `Astatus` INT, IN `Arelevancia` INT)   BEGIN 
+    DECLARE idUsuario INT;
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE existeProducto INT DEFAULT 0;
+
+    -- Cursor para obtener los id_usuario existentes en tbl_usuarios
+    DECLARE cursorUsuarios CURSOR FOR SELECT id_usuario FROM tbl_usuarios;
+
+    -- Manejador para no encontrado
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    -- Verificar si el código de producto existe en la tabla "alertas"
+    SELECT COUNT(*) INTO existeProducto FROM tbl_alertas WHERE codigo_productos = Acodigoproducto;
+
+    -- Abrir el cursor
+    OPEN cursorUsuarios;
+
+    -- Recorrer los id_usuario existentes
+    usuario_loop: LOOP
+        FETCH cursorUsuarios INTO idUsuario;
+        IF done THEN
+            LEAVE usuario_loop;
+        END IF;
+
+        IF existeProducto > 0 THEN
+            -- Realizar el UPDATE en tbl_alertas con el id_usuario actual
+                       UPDATE tbl_alertas
+            SET Mensaje = Amensaje,
+                id_status = Astatus,
+                relevancia = Arelevancia
+            WHERE codigo_productos = Acodigoproducto;
+        ELSE
+            -- Realizar el INSERT en tbl_alertas con el id_usuario actual
+            INSERT INTO tbl_alertas (codigo_productos, Mensaje, id_usuario, id_status, relevancia)
+            VALUES (Acodigoproducto, Amensaje, idUsuario, Astatus, Arelevancia);
+        END IF;
+    END LOOP;
+
+    -- Cerrar el cursor
+    CLOSE cursorUsuarios;
 END$$
 
 DROP PROCEDURE IF EXISTS `updateProgramProduct`$$
@@ -308,6 +419,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `updateProgramProduct` (IN `idProgra
             pp.cantidad = cantidad
             WHERE pp.id_programa_productos = idProgramaProducto;
 
+END$$
+
+DROP PROCEDURE IF EXISTS `z`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `z` (IN `idusuario` INT)   BEGIN
+SELECT a.codigo_productos,p.nombre,a.Mensaje,a.relevancia FROM tbl_alertas as a 
+INNER JOIN tbl_productos as p on a.codigo_productos = p.codigo_producto
+WHERE a.id_usuario = idusuario;
 END$$
 
 DELIMITER ;
@@ -329,7 +447,23 @@ CREATE TABLE IF NOT EXISTS `tbl_alertas` (
   PRIMARY KEY (`id_alerta`),
   KEY `id_status` (`id_status`),
   KEY `id_usuario` (`id_usuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
+
+--
+-- Volcado de datos para la tabla `tbl_alertas`
+--
+
+INSERT INTO `tbl_alertas` (`id_alerta`, `codigo_productos`, `Mensaje`, `id_usuario`, `id_status`, `relevancia`) VALUES
+(1, 1007, 'Niveles normales de producto', 4, 2, 3),
+(2, 1007, 'Niveles normales de producto', 10, 2, 3),
+(3, 1006, 'Niveles normales de producto', 4, 2, 3),
+(4, 1006, 'Niveles normales de producto', 10, 2, 3),
+(5, 1005, 'Niveles bajos de producto', 4, 2, 2),
+(6, 1005, 'Niveles bajos de producto', 10, 2, 2),
+(7, 1002, 'Niveles escasos de producto', 4, 2, 1),
+(8, 1002, 'Niveles escasos de producto', 10, 2, 1),
+(9, 1010, 'Niveles normales de producto', 4, 2, 3),
+(10, 1010, 'Niveles normales de producto', 10, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -343,7 +477,7 @@ CREATE TABLE IF NOT EXISTS `tbl_categoria` (
   `nombre` varchar(50) DEFAULT NULL,
   `descripcion` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
   PRIMARY KEY (`id_categoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=133 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tbl_categoria`
@@ -372,7 +506,7 @@ CREATE TABLE IF NOT EXISTS `tbl_detalle_programa_productos` (
   PRIMARY KEY (`id_detalle_programa_productos`),
   KEY `codigo_producto` (`codigo_producto`),
   KEY `id_programa_productos` (`id_programa_productos`)
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=131 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tbl_detalle_programa_productos`
@@ -383,7 +517,12 @@ INSERT INTO `tbl_detalle_programa_productos` (`id_detalle_programa_productos`, `
 (80, 2, 12, '10.00', '120.00', 1006),
 (91, 4, 10, '10.00', '100.00', 1005),
 (92, 8, 10, '10.00', '100.00', 1006),
-(100, 5, 10, '10.00', '100.00', 1006);
+(124, 5, 18, '10.00', '180.00', 1006),
+(125, 5, 17, '2.99', '50.83', 1007),
+(126, 5, 4, '10.00', '40.00', 1005),
+(127, 5, 14, '4.00', '56.00', 1002),
+(128, 11, 1, '10.00', '10.00', 1005),
+(129, 13, 30, '4.00', '120.00', 1002);
 
 -- --------------------------------------------------------
 
@@ -402,7 +541,7 @@ CREATE TABLE IF NOT EXISTS `tbl_inventario` (
   PRIMARY KEY (`id_inventario`),
   KEY `codigo_producto` (`codigo_producto`),
   KEY `id_status` (`id_status`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tbl_inventario`
@@ -422,7 +561,39 @@ INSERT INTO `tbl_inventario` (`id_inventario`, `codigo_producto`, `cantidad`, `f
 (11, 1006, 25, '2023-06-30', '2023-06-29', 1),
 (12, 1002, 1, '2023-06-30', '2023-06-30', 1),
 (13, 1005, 10, '2023-07-01', '2023-07-01', 1),
-(14, 1002, 10, '2023-07-01', '2023-07-01', 1);
+(14, 1002, 10, '2023-07-01', '2023-07-01', 1),
+(15, 1007, 15, '2023-07-06', '2023-07-06', 2),
+(16, 1007, 5, '2023-07-06', '2023-07-06', 2),
+(17, 1007, 5, '2023-07-06', '2023-07-06', 2),
+(18, 1007, 3, '2023-07-06', '2023-07-06', 2),
+(19, 1007, 25, '2023-07-06', '2023-07-06', 2),
+(20, 1007, 20, '2023-07-06', '2023-07-06', 2),
+(21, 1007, 25, '2023-07-06', '2023-07-06', 1),
+(22, 1002, 20, '2023-07-06', '2023-07-06', 1),
+(23, 1007, 5, '2023-07-06', '2023-07-06', 1),
+(24, 1007, 3, '2023-07-07', '2023-07-06', 1),
+(25, 1007, 3, '2023-07-05', '2023-07-06', 1),
+(26, 1007, 100, '2023-07-06', '2023-07-06', 1),
+(27, 1007, 100, '2023-07-06', '2023-07-06', 2),
+(28, 1007, 122, '2023-07-06', '2023-07-06', 2),
+(29, 1007, 10, '2023-07-06', '2023-07-06', 1),
+(30, 1007, 12, '2023-07-06', '2023-07-06', 1),
+(31, 1002, 12, '2023-07-06', '2023-07-06', 1),
+(32, 1007, 12, '2023-07-06', '2023-07-06', 1),
+(33, 1007, 23, '2023-07-06', '2023-07-06', 1),
+(34, 1007, 12, '2023-07-06', '2023-07-06', 1),
+(35, 1006, 3, '2023-07-06', '2023-07-06', 1),
+(36, 1005, 5, '2023-07-06', '2023-07-06', 1),
+(37, 1005, 5, '2023-07-06', '2023-07-06', 1),
+(38, 1006, 3, '2023-07-01', '2023-07-06', 1),
+(39, 1006, 5, '2023-07-06', '2023-07-06', 1),
+(40, 1007, 10, '2023-07-06', '2023-07-06', 1),
+(41, 1007, 7, '2023-07-08', '2023-07-06', 1),
+(42, 1007, 12, '2023-07-06', '2023-07-06', 1),
+(43, 1007, 12, '2023-06-29', '2023-07-06', 1),
+(44, 1007, 123, '2023-07-07', '2023-07-07', 1),
+(45, 1007, 12, '2023-07-07', '2023-07-07', 1),
+(46, 1010, 2, '2023-07-07', '2023-07-07', 1);
 
 -- --------------------------------------------------------
 
@@ -444,17 +615,20 @@ CREATE TABLE IF NOT EXISTS `tbl_productos` (
   PRIMARY KEY (`codigo_producto`),
   KEY `id_categoria` (`id_categoria`),
   KEY `id_status` (`id_status`)
-) ENGINE=InnoDB AUTO_INCREMENT=1008 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=1011 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tbl_productos`
 --
 
 INSERT INTO `tbl_productos` (`codigo_producto`, `nombre`, `precio_unitario`, `cantidad`, `numero_contrato`, `numero_oferta_compra`, `fecha_recepcion`, `id_categoria`, `id_status`) VALUES
-(1002, 'regleta de papel bond', '4.00', 20, '0552255', '588589', '2023-06-14', 29, 1),
-(1005, 'papel', '10.00', 35, '55', '26', '2023-01-01', 113, 1),
-(1006, 'lapiceros', '10.00', 55, '25', '20', '2023-06-13', 28, 1),
-(1007, 'Computadora', '2.99', 9, '2', '2', '2023-06-25', 113, 1);
+(1002, 'regleta de papel bond', '4.00', 8, '0552255', '588589', '2023-06-14', 29, 1),
+(1005, 'papel', '10.00', 16, '55', '26', '2023-01-01', 113, 1),
+(1006, 'lapiceros', '10.00', 24, '25', '20', '2023-06-13', 28, 1),
+(1007, 'Computadora', '2.99', 369, '2', '2', '2023-06-25', 113, 1),
+(1008, 'lapiz', '0.50', 300, '2564516', '164551', '2023-07-06', 121, 1),
+(1009, 'lapiz', '0.50', 200, '26146', '615616', '2023-07-06', 121, 1),
+(1010, 'lapiz', '3.00', 202, '2351631', '51651551', '2023-07-06', 121, 1);
 
 -- --------------------------------------------------------
 
@@ -472,7 +646,7 @@ CREATE TABLE IF NOT EXISTS `tbl_programa` (
   `id_status` int NOT NULL,
   PRIMARY KEY (`id_programa`),
   KEY `id_status` (`id_status`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tbl_programa`
@@ -484,7 +658,17 @@ INSERT INTO `tbl_programa` (`id_programa`, `nombre`, `descripcion`, `presupuesto
 (33, 'HTML5 y CSS3 ', 'Fundamentos de HTML y CSS basicos.', '350.00', '2023-06-25', 2),
 (34, 'asdasdasdasd', 'sadas', '233.00', '2023-07-02', 2),
 (35, 'programita', 'programita', '12.00', '2023-07-02', 1),
-(36, 'access', 'pa base de datos', '800.00', '2023-07-03', 1);
+(36, 'access', 'pa base de datos', '800.00', '2023-07-03', 1),
+(37, 'asdasdasdasd', 'e', '332.00', '2023-07-06', 2),
+(38, 'asdasdasdasd', 'eedsa', '324.00', '2023-07-06', 2),
+(39, 'asdasdasdasd', 'sad', '213.00', '2023-07-06', 2),
+(40, 'ease', 'sad', '2.00', '2023-07-06', 2),
+(41, 'sadsa', 'sada', '2323.00', '2023-07-06', 2),
+(42, 'asda', 'asda', '21.00', '2023-07-06', 2),
+(43, 'asd', 'asd', '2.00', '2023-07-06', 2),
+(44, 'access microsoft', 'sadas', '13.00', '2023-07-07', 2),
+(45, 'asd', 'asdas', '213.00', '2023-07-07', 2),
+(46, 'asd', 'asdsa', '23.00', '2023-07-07', 2);
 
 -- --------------------------------------------------------
 
@@ -505,7 +689,7 @@ CREATE TABLE IF NOT EXISTS `tbl_programa_productos` (
   KEY `id_programa` (`id_programa`),
   KEY `id_usuario` (`id_usuario`),
   KEY `id_status` (`id_status`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tbl_programa_productos`
@@ -513,12 +697,26 @@ CREATE TABLE IF NOT EXISTS `tbl_programa_productos` (
 
 INSERT INTO `tbl_programa_productos` (`id_programa_productos`, `id_usuario`, `id_programa`, `fecha`, `total`, `cantidad`, `id_status`) VALUES
 (2, 4, 29, '2023-06-16', '134.95', 17, 2),
-(3, 4, 32, '2023-06-15', '0.00', 0, 1),
+(3, 4, 32, '2023-06-15', '0.00', 0, 2),
 (4, 4, 32, '2023-06-26', '100.00', 10, 2),
-(5, 4, 29, '2023-06-29', '100.00', 10, 1),
-(6, 4, 29, '2023-06-30', '0.00', 0, 1),
-(7, 4, 29, '2023-06-30', '0.00', 0, 1),
-(8, 4, 29, '2023-07-02', '100.00', 10, 2);
+(5, 4, 29, '2023-06-29', '326.83', 53, 2),
+(6, 4, 29, '2023-06-30', '0.00', 0, 2),
+(7, 4, 29, '2023-06-30', '0.00', 0, 2),
+(8, 4, 29, '2023-07-02', '100.00', 10, 2),
+(9, 4, 36, '2023-07-07', '0.00', 0, 2),
+(10, 4, 36, '2023-07-07', '0.00', 0, 2),
+(11, 4, 36, '2023-07-07', '10.00', 1, 2),
+(12, 4, 35, '2023-07-07', '0.00', 0, 2),
+(13, 4, 29, '2023-07-07', '120.00', 30, 2),
+(14, 4, 29, '2023-07-07', '0.00', 0, 1),
+(15, 4, 35, '2023-07-07', '0.00', 0, 1),
+(16, 4, 36, '2023-07-07', '0.00', 0, 1),
+(17, 4, 29, '2023-07-07', '0.00', 0, 1),
+(18, 4, 35, '2023-07-07', '0.00', 0, 1),
+(19, 4, 29, '2023-07-07', '0.00', 0, 1),
+(20, 4, 29, '2023-07-07', '0.00', 0, 1),
+(21, 4, 36, '2023-07-07', '0.00', 0, 1),
+(22, 4, 36, '2023-07-07', '0.00', 0, 1);
 
 -- --------------------------------------------------------
 

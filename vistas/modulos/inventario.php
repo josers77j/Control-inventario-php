@@ -1,6 +1,6 @@
 <div class="content-wrapper">
 
-  <div class="nav-tabs-custom">
+  <div class="nav-tabs">
     <ul class="nav nav-tabs">
       <li class="active"><a href="#tab1" data-toggle="tab">Activos</a></li>
       <li><a href="#tab2" data-toggle="tab">Inactivos</a></li>
@@ -154,7 +154,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
+          <button type="button" class="btn btn-default pull-left btn-close" data-dismiss="modal">Salir</button>
           <button type="submit" id="nueva-categoria" class="btn btn-primary nueva-categoria">Guardar Categoria</button>
         </div>
       </form>

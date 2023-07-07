@@ -1,6 +1,6 @@
 <div class="content-wrapper">
 
-  <div class="nav-tabs-custom">
+  <div class="nav-tabs">
     <ul class="nav nav-tabs">
       <li class="active"><a href="#tab1" data-toggle="tab">Activos</a></li>
       <li><a href="#tab2" data-toggle="tab">Inactivos</a></li>

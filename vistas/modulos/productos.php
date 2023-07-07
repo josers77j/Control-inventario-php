@@ -122,23 +122,6 @@
               </div>
             </div>
 
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                <select class="form-control input-lg" name="nuevaIdStatusProducto" id="nuevaIdStatusProducto">
-                    <option value="">Selecionar status</option>
-                    <?php
-                    $item = null;
-                    $valor = null;
-                    $status = ControladorStatus::ctrMostrarStatus($item, $valor);
-                    foreach ($status as $key => $value) {
-                        echo '<option value="'.$value["id_status"].'">'.$value["nombre"].'</option>';
-                    }
-                    ?>
-                </select>
-              </div>
-            </div>
-
           </div>
         </div>
 
@@ -208,7 +191,7 @@
               <div class="form-group">              
                 <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-check"></i></span> 
-                  <input type="number" class="form-control input-lg" name="editarCantidadProducto" id="editarCantidadProducto" min="0" placeholder="Stock" required>
+                  <input type="number" class="form-control input-lg"  id="editarCantidadProducto" min="0" placeholder="Stock" readonly>
                 </div>
               </div>
 
@@ -233,24 +216,7 @@
                 </div>
               </div>
 
-              <div class="form-group">
-                <div class="input-group">
-                  <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                  <select class="form-control input-lg" name="editarIdStatusProducto" id="editarIdStatusProducto">
-                      <option value="">Selecionar status</option>
-                      <?php
-                      $item = null;
-                      $valor = null;
-                      $status = ControladorStatus::ctrMostrarStatus($item, $valor);
-                      echo "status: '.$status.'";
-
-                      foreach ($status as $key => $value) {
-                          echo '<option id="'.$value["nombre"].'" value="'.$value["id_status"].'" >'.$value["nombre"].'</option>';
-                      }
-                      ?>
-                  </select>
-                </div>
-              </div>
+            
           </div>
         </div>
 

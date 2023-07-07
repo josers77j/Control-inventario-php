@@ -84,7 +84,6 @@ $(document).ready(function() {
             if (result.value) {}
           });
           $("#FormNuevaprograma")[0].reset();
-          $(".close").click();
   
           cargarPrograma();
         } else {
@@ -159,7 +158,7 @@ $(document).ready(function() {
             if (result.value) {}
           });
           $("#FormNuevaprograma")[0].reset();
-          $(".close").click();
+          
   
           cargarPrograma();
         } else {
