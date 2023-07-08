@@ -9,7 +9,7 @@ if($_SESSION["role"] == "Usuario"){
 ?>
 <div class="content-wrapper">
   <section class="content-header">
-    <h1>Administrar usuarios</h1>
+    <h1><b>Administrar usuarios</b></h1>
 
     <ol class="breadcrumb"> 
       <li><a href="inicio"><i class="fa fa-dashboard"></i> Inicio</a></li> 
@@ -20,8 +20,8 @@ if($_SESSION["role"] == "Usuario"){
   <section class="content">
     <div class="box">
       <div class="box-header with-border">
-        <button class="btn btn-primary" data-toggle="modal" data-target="#modalAgregarUsuario">  
-          Agregar usuario
+        <button class="btn btn-success" data-toggle="modal" data-target="#modalAgregarUsuario">  
+          <b>Agregar usuario</b>
         </button>
       </div>
       <div class="box-body">
@@ -92,86 +92,106 @@ if($_SESSION["role"] == "Usuario"){
 </div>
 							
 <div id="modalAgregarUsuario" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="border-radius: 10px;">
       <form role="form" method="post" enctype="multipart/form-data">
         
-        <div class="modal-header" style="background:#3c8dbc; color:white">
+        <div class="modal-header" style="background: linear-gradient(to right, #1c92d2, #3cb0fd); color: white; border-radius: 10px 10px 0 0;">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Agregar usuario</h4>
+          <h4 class="modal-title"><b>Agregar usuario</b></h4>
         </div>
 
         <div class="modal-body">
           <div class="box-body">            
             
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" class="form-control input-lg" name="nuevoNombre" placeholder="Ingresar nombre" required>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="nuevoNombre">Nombre:</label>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                    <input type="text" class="form-control input-lg" name="nuevoNombre" placeholder="Ingresar nombre" required>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group"> 
+                  <label for="nuevoUsuario">Usuario:</label>
+                  <div class="input-group"> 
+                    <span class="input-group-addon"><i class="fa fa-key"></i></span> 
+                    <input type="text" class="form-control input-lg" name="nuevoUsuario" placeholder="Ingresar usuario" id="nuevoUsuario" required>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div class="form-group"> 
-              <div class="input-group"> 
-                <span class="input-group-addon"><i class="fa fa-key"></i></span> 
-                <input type="text" class="form-control input-lg" name="nuevoUsuario" placeholder="Ingresar usuario" id="nuevoUsuario" required>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="nuevoCorreo">Correo:</label>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-envelope"></i></span> 
+                    <input type="email" class="form-control input-lg" name="nuevoCorreo" placeholder="Ingresar correo" required>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="nuevoTelefono">Teléfono:</label>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-phone"></i></span> 
+                    <input type="number" class="form-control input-lg" name="nuevoTelefono" placeholder="Ingresar teléfono" required>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="email" class="form-control input-lg" name="nuevoCorreo" placeholder="Ingresar correo" required>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="nuevoPassword">Contraseña:</label>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-lock"></i></span> 
+                    <input type="password" class="form-control input-lg" name="nuevoPassword" placeholder="Ingresar contraseña" required>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <label for="nuevoRol">Role:</label>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                    <select class="form-control input-lg" name="nuevoRol" id="nuevoRol">
+                      <option value="">Seleccionar Role</option>
+                      <option value="2" selected="selected">Usuario</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
-
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="number" class="form-control input-lg" name="nuevoTelefono" placeholder="Ingresar telefono" required>
+                <div class="form-group">
+                  <label for="nuevoStatus">Status:</label>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                    <select class="form-control input-lg" name="nuevoStatus" id="nuevoStatus">
+                      <option value="">Seleccionar status</option>
+                      <?php
+                      $item = null;
+                      $valor = null;
+                      $status = ControladorStatus::ctrMostrarStatus($item, $valor);
+                      foreach ($status as $key => $value) {
+                          echo '<option value="'.$value["id_status"].'">'.$value["nombre"].'</option>';
+                      }
+                      ?>
+                    </select>            
               </div>
             </div>
-
-             <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-lock"></i></span> 
-                <input type="password" class="form-control input-lg" name="nuevoPassword" placeholder="Ingresar contraseña" required>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                <select class="form-control input-lg" name="nuevoRol" id="nuevoRol">
-                    <option value="">Selecionar Role</option>
-                    <option value="2" selected="selected">Usuario</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                <select class="form-control input-lg" name="nuevoStatus" id="nuevoStatus">
-                    <option value="">Selecionar status</option>
-                    <?php
-                    $item = null;
-                    $valor = null;
-                    $status = ControladorStatus::ctrMostrarStatus($item, $valor);
-                    foreach ($status as $key => $value) {
-                        echo '<option value="'.$value["id_status"].'">'.$value["nombre"].'</option>';
-                    }
-                    ?>
-                </select>
-              </div>
-            </div>
-
           </div>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
-          <button type="submit" class="btn btn-primary">Guardar usuario</button>
+          <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Salir</button>
+          <button type="submit" class="btn btn-primary" style="background: linear-gradient(to right, #0BB218, #13D222); border: none;"><b>Guardar usuario</b></button>
         </div>
         
         <?php
@@ -184,73 +204,98 @@ if($_SESSION["role"] == "Usuario"){
 </div>
 
 <div id="modalEditarUsuario" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-    <div class="modal-content">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="border-radius: 10px;">
       <form role="form" method="post" enctype="multipart/form-data">
 
-        <div class="modal-header" style="background:#3c8dbc; color:white">
+        <div class="modal-header" style="background: linear-gradient(to right, #1c92d2, #3cb0fd); color: white; border-radius: 10px 10px 0 0;">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Editar usuario</h4>
+          <h4 class="modal-title"><b>Editar usuario</b></h4>
         </div>
 
         <div class="modal-body">
           <div class="box-body">            
+            <div class = "row">
+              <div class = "col-sm-6">
+                <div class="form-group">
+                  <label for="editarNombre">Nombre:</label>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user"></i></span> 
+                    <input type="text" class="form-control input-lg" id="editarNombre" name="editarNombre" value="" required>
+                  </div>
+                </div>
+              </div>
+
+              <div class = "col-sm-6">          
+                <div class="form-group"> 
+                  <label for="editarUsuario">Usuario:</label>
+                  <div class="input-group"> 
+                    <span class="input-group-addon"><i class="fa fa-key"></i></span> 
+                    <input type="text" class="form-control input-lg" id="editarUsuario" name="editarUsuario" value="" readonly>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class = "row">
+              <div class = "col-sm-6"> 
+                <div class="form-group">
+                  <label for="editarCorreo">Correo:</label>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-envelope"></i></span> 
+                    <input type="email" class="form-control input-lg" name="editarCorreo" id="editarCorreo"  placeholder="Ingresar correo" required>
+                  </div>
+                </div>
+              </div>
+
+              <div class = "col-sm-6">
+                <div class="form-group">
+                  <label for="editarTelefono">Teléfono:</label>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-phone"></i></span> 
+                    <input type="number" class="form-control input-lg" name="editarTelefono" id="editarTelefono" placeholder="Ingresar teléfono" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class = "row">
+              <div class = "col-sm-6">
+                <div class="form-group">
+                  <label for="editarPassword">Contraseña:</label>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-lock"></i></span> 
+                    <input type="password" class="form-control input-lg" name="editarPassword" placeholder="Escriba la nueva contraseña">
+                    <input type="hidden" id="passwordActual" name="passwordActual">
+                  </div>
+                </div>
+              </div>
+
+              <div class = "col-sm-6">
+                <div class="form-group">
+                  <label for="editarRol">Rol:</label>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-users"></i></span> 
+                    <input type="text" disabled="disabled" class="form-control input-lg" name="editarRol" id="editarRol">
+                  </div>
+                </div>
+              </div>
+            </div>
+
             
             <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="text" class="form-control input-lg" id="editarNombre" name="editarNombre" value="" required>
-              </div>
-            </div>
-
-            <div class="form-group"> 
-              <div class="input-group"> 
-                <span class="input-group-addon"><i class="fa fa-key"></i></span> 
-                <input type="text" class="form-control input-lg" id="editarUsuario" name="editarUsuario" value="" readonly>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="email" class="form-control input-lg" name="editarCorreo" id="editarCorreo"  placeholder="Ingresar correo" required>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-user"></i></span> 
-                <input type="number" class="form-control input-lg" name="editarTelefono" id="editarTelefono" placeholder="Ingresar telefono" required>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-lock"></i></span> 
-                <input type="password" class="form-control input-lg" name="editarPassword" placeholder="Escriba la nueva contraseña">
-                <input type="hidden" id="passwordActual" name="passwordActual">
-              </div>
-            </div>
-
-            <div class="form-group">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                <input type="text"  disabled="disabled" class="form-control input-lg" name="editarRol" id="editarRol">
-              </div>
-            </div>
-
-            <div class="form-group">
+              <label for="editarStatus">Status:</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-users"></i></span> 
                 <select class="form-control input-lg" name="editarStatus">
-                    <?php
-                    $item = null;
-                    $valor = null;
-                    $status = ControladorStatus::ctrMostrarStatus($item, $valor);
-                    foreach ($status as $key => $value) {
-                        echo '<option id="'.$value["nombre"].'" value="'.$value["id_status"].'">'.$value["nombre"].'</option>';
-                    }
-                    ?>
+                  <?php
+                  $item = null;
+                  $valor = null;
+                  $status = ControladorStatus::ctrMostrarStatus($item, $valor);
+                  foreach ($status as $key => $value) {
+                      echo '<option id="'.$value["nombre"].'" value="'.$value["id_status"].'">'.$value["nombre"].'</option>';
+                  }
+                  ?>
                 </select>
               </div>
             </div>
@@ -259,11 +304,11 @@ if($_SESSION["role"] == "Usuario"){
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
-          <button type="submit" class="btn btn-primary">Modificar usuario</button>
+          <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Salir</button>
+          <button type="submit" class="btn btn-warning"><b>Modificar usuario</b></button>
         </div>
 
-     <?php
+        <?php
           $editarUsuario = new ControladorUsuarios();
           $editarUsuario -> ctrEditarUsuario();
         ?> 
@@ -271,6 +316,8 @@ if($_SESSION["role"] == "Usuario"){
     </div>
   </div>
 </div>
+
+
 
 <?php
   $borrarUsuario = new ControladorUsuarios();
