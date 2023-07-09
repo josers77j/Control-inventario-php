@@ -115,11 +115,11 @@
                               <input type="radio" name="estado-registros" value="inactivo" checked> Registros con estado inactivo
                             </label>
                           </div>
-                          <div class="radio">
+                          <!-- <div class="radio">
                             <label>
                               <input type="radio" name="estado-registros" value="ambos" checked> Registros con ambos tipos de estado
                             </label>
-                          </div>
+                          </div> -->
                         </div>
                       </div>
                       <div class="col-sm-6">
