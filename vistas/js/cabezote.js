@@ -150,6 +150,7 @@ $(document).on('click', '.removerNotificacion', function (event) {
 
 $(document).on('click', '.removerNotificaciones', function (event) {
   event.preventDefault();
+  var id = document.getElementById('token').getAttribute('data-id');
   swal({
       title: "Esta seguro de vaciar las notificaciones?",
       type: "warning",
@@ -161,7 +162,7 @@ $(document).on('click', '.removerNotificaciones', function (event) {
     }).then(function (result) {
       if (result.value) {
         $.ajax({
-          url: 'ajax/notificaciones.ajax.php?metodo=desactivartodo',
+          url: 'ajax/notificaciones.ajax.php?metodo=desactivartodo&id=' + id,
           type: "GET",
           dataType: "json",
           success: function (respuesta) {

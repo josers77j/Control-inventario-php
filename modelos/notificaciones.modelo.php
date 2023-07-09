@@ -23,10 +23,10 @@ class ModeloNotificaciones
         $stmt = null;
     }
 
-    static public function mdlDesactivarTodoNotificaciones()
+    static public function mdlDesactivarTodoNotificaciones($id)
     {
 
-        $stmt = Conexion::conectar()->prepare("call desactivateNotifications()");
+        $stmt = Conexion::conectar()->prepare("call desactivateNotifications($id)");
         
         return $stmt->execute();
         $stmt->close();

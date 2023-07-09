@@ -17,7 +17,8 @@ class AjaxInicio{
     }
 
     public function ajaxDesactivarTodoNotificaciones(){
-        $respuesta = ControladorNotificaciones::ctrDesactivarTodoNotificaciones();   
+        $id = $_GET["id"];
+        $respuesta = ControladorNotificaciones::ctrDesactivarTodoNotificaciones($id);   
         echo json_encode($respuesta);
     }
 }
