@@ -322,8 +322,15 @@
 
         <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
-          <button type="submit" id="editar-gestorprograma" class="btn btn-primary editar-gestorprograma">Guardar Cambios</button>
+          <?php
+        			if ($_SESSION["role"] == "Administrador") {
+                echo '
+                <button type="submit" id="editar-gestorprograma" class="btn btn-primary editar-gestorprograma">Guardar Cambios</button>            		
+                ';
+              }
+        ?>
         </div>
+        
 
       </form>
     </div>
