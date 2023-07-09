@@ -18,6 +18,7 @@ require_once "modelos/programas.modelo.php";
 require_once "modelos/categorias.modelo.php";
 require_once "modelos/inventario.modelo.php";
 require_once "modelos/gestorprogramas.modelo.php";
+require_once "modelos/reportes.modelo.php";
 
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();

@@ -80,16 +80,12 @@ function dateSelected(){
   var fechaInput = document.getElementById('dateRange');
   var switchElement = document.getElementById('fechaSwitch');
 
-  if (selectElement.value === "1" || selectElement.value === "4") {
+  if (switchElement.checked) {
     fechaInput.disabled = true;
   } else {
     fechaInput.disabled = false;
-    if (switchElement.checked) {
-      fechaInput.disabled = true;
-    } else {
-      fechaInput.disabled = false;
-    }
   }
+
 }
 
 function dateSwitch() {
@@ -98,14 +94,10 @@ function dateSwitch() {
   var switchElement = document.getElementById('fechaSwitch');
   // Código para ejecutar cuando cambie el estado del switch
   console.log("Switch cambiado");
-  if (selectElement.value === "1" || selectElement.value === "4") {
+  if (switchElement.checked) {
     fechaInput.disabled = true;
   } else {
-    if (switchElement.checked) {
-      fechaInput.disabled = true;
-    } else {
-      fechaInput.disabled = false;
-    }
+    fechaInput.disabled = false;
   }
 
 }
@@ -135,6 +127,8 @@ $("#FormReporte").submit(function(event) {
 
   // Agregar las fechas convertidas a la variable data
 
+  var selectElement = document.getElementById('tipoReporte');
+
   //###################################################
   //La variable data es la que sera enviada
   //puedes usar ajax para enviar la info al modulo de pdf
@@ -142,13 +136,50 @@ $("#FormReporte").submit(function(event) {
   //################################################### 
   var data = datos + "&fechainicio=" + fechaInicioFormatted + "&fechafin=" + fechaFinFormatted;
 
-  console.log("Data a enviar: " + data);
+
+  if(selectElement?.value === "1"){
+    
+    window.open("extensiones/tcpdf/pdf/reporte-inventario.php?" + data, "_blank");
+
+  }if(selectElement?.value === "2"){
+
+    window.open("extensiones/tcpdf/pdf/reporte-entradas.php?" + data, "_blank");
+
+  }if(selectElement?.value === "3"){
+
+    window.open("extensiones/tcpdf/pdf/reporte-salidas.php?" + data, "_blank");
+
+  }if(selectElement?.value === "4"){
+
+    window.open("extensiones/tcpdf/pdf/reporte-productos.php?" + data, "_blank");
+
+  }
 
   }else{
 //####################################################################################
 //en caso de no enviar fecha, entonces manda la info con la variable datos directamente
-//####################################################################################
-    datos
+//###################################################################################
+
+    var selectElement = document.getElementById('tipoReporte');
+
+    if(selectElement?.value === "1"){
+
+      window.open("extensiones/tcpdf/pdf/reporte-inventario.php?" + datos + "&fechainicio=0000-00-00&fechafin=0000-00-00", "_blank");
+  
+    }if(selectElement?.value === "2"){
+  
+      window.open("extensiones/tcpdf/pdf/reporte-entradas.php?" + datos + "&fechainicio=0000-00-00&fechafin=0000-00-00", "_blank");
+  
+    }if(selectElement?.value === "3"){
+  
+      window.open("extensiones/tcpdf/pdf/reporte-salidas.php?" + datos + "&fechainicio=0000-00-00&fechafin=0000-00-00", "_blank");
+  
+    }if(selectElement?.value === "4"){
+  
+      window.open("extensiones/tcpdf/pdf/reporte-productos.php?" + datos + "&fechainicio=0000-00-00&fechafin=0000-00-00", "_blank");
+  
+    }
+
   }
 
   // Aquí puedes realizar el envío de la variable data
