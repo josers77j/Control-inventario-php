@@ -120,7 +120,6 @@ $("#FormNuevacategoria").submit(function(event) {
           if (result.value) {}
         });
         $("#FormNuevacategoria")[0].reset();
-        $(".close").click();
         cargarCategorias();
       } else {
         mostrarError();
@@ -156,7 +155,6 @@ $(document).on('click', '.actualizar-categoria', function(event) {
           if (result.value) {}
         });
         $("#FormNuevacategoria")[0].reset();
-        $(".close").click();
         cargarCategorias();
       } else {
         mostrarError();

@@ -110,7 +110,7 @@ function obtenerDetalleProgramasInfo(idProgramaProducto) {
                     '<td>' + programa.producto + '</td>' +
                     '<td>' + programa.cantidad + '</td>' +
                     '<td>' + programa.precio_unitario + '</td>' +
-                    '<td>' + programa.importe + '</td>';                   
+                    '<td>' + programa.importe + '</td>';
 
                 $('#tabla-info tbody').append(fila);
             });
@@ -120,8 +120,8 @@ function obtenerDetalleProgramasInfo(idProgramaProducto) {
         }
     });
 }
-  
-  
+
+
 
 function cargarGestorPrograma() {
     if (tablaGestorProgramas && $.fn.DataTable.isDataTable('#tabla-gestorprogramas')) {
@@ -177,16 +177,17 @@ function cargarGestorPrograma() {
                         gestorPrograma.fechacreacion,
                         gestorPrograma.usuario,
                         gestorPrograma.status,
-                        '<div class="dropdown dropleft"><button class="btn btn-default dropdown-toggle fillingInfo" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-th-large" aria-hidden="true"></i><span class="caret"></span></button><ul class="dropdown-menu" aria-labelledby="dropdownMenu1"><div class="btn-group">' +
+                        '<div class="dropdown"><button class="btn btn-default dropdown-toggle fillingInfo" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-th-large" aria-hidden="true"></i><span class="caret"></span></button><ul class="dropdown-menu" aria-labelledby="dropdownMenu1"><div class="btn-group" style="margin-left: -27px;">' +
                         '<button data-toggle="modal" data-target="#modalAgregarDetalleProducto" class="btn btn-primary detalle-programas" data-id="' + gestorPrograma.id_programa_productos + '">' +
                         '<i class="fa fa-puzzle-piece" aria-hidden="true"></i>' +
-                        '</button>' +                      
+                        '</button>' +
                         '<button data-toggle="modal" data-target="#modalEditarGestorPrograma" class="btn btn-warning editar-gestorPrograma" data-id="' + gestorPrograma.id_programa_productos + '">' +
                         '<i class="fa fa-pencil"></i>' +
                         '</button>' +
                         '<button class="btn btn-success eliminar-gestorprogramas" data-id="' + gestorPrograma.id_programa_productos + '">' +
                         '<i class="fa fa-check-square-o" aria-hidden="true"></i>' +
                         '</button>' +
+
                         '</div></ul></div>'
                     ];
                     contadorB++;
@@ -249,7 +250,7 @@ function finderProgram(buscar) {
                 selectOptions += '<option value="' + programa.id_programa + '">' + programa.nombre + '</option>';
             });
             $("#nuevoNombrePrograma").html(selectOptions);
-         
+
         },
         error: function (respuesta) {
             mostrarError();
@@ -268,7 +269,7 @@ function FillingProgram(buscar) {
             $.each(respuesta, function (index, programa) {
                 selectOptions += '<option value="' + programa.id_programa + '">' + programa.nombre + '</option>';
             });
-           
+
             $("#editarNombrePrograma").html(selectOptions);
         },
         error: function (respuesta) {
@@ -305,8 +306,13 @@ $("#agregarDetalleProducto").click(function (event) {
                 $("#info2").text("$ 0.00");
                 $("#info1").text("0");
                 finderProduct("");
+                var ulElement = document.getElementById("Listanotificaciones");
+                ulElement.innerHTML = "";
+                var ulModal = document.getElementById("ListamodalNotificaciones");
+                ulModal.innerHTML = "";
+                cargarNotificaciones(document.getElementById('token').getAttribute('data-id'));
                 cargarGestorPrograma();
-                
+
             } else {
                 mostrarError();
             }
@@ -349,6 +355,11 @@ $(document).on('click', '.borrar-detalleproducto', function () {
                     var tablaGestorProgramas = $('#tabla-gestorprogramas');
                     tablaGestorProgramas.DataTable().destroy();
                     finderProduct("");
+                    var ulElement = document.getElementById("Listanotificaciones");
+                    ulElement.innerHTML = "";
+                    var ulModal = document.getElementById("ListamodalNotificaciones");
+                    ulModal.innerHTML = "";
+                    cargarNotificaciones(document.getElementById('token').getAttribute('data-id'));
                     cargarGestorPrograma();
                     obtenerDetalleProgramas(idProgramaProducto);
                 },
@@ -422,8 +433,6 @@ $("#FormNuevagestorinventario").submit(function (event) {
                     closeOnConfirm: false
                 })
                 $("#FormNuevagestorinventario")[0].reset();
-                $(".close").click();
-
                 cargarGestorPrograma();
             } else {
                 mostrarError();
@@ -436,32 +445,32 @@ $("#FormNuevagestorinventario").submit(function (event) {
 });
 
 //traemos los campos que necesitemos mostrar en el formulario de editar
-$(document).on('click', '.editar-gestorPrograma', function() {
+$(document).on('click', '.editar-gestorPrograma', function () {
     $("#FormEditarGestorProgramas")[0].reset();
     var idProgramaProducto = $(this).data("id");
-  
+
     $.ajax({
-      url: "ajax/gestorprogramas.ajax.php?metodo=obtener&id=" + idProgramaProducto ,
-      method: "GET",
-      dataType: "json",
-      success: function(respuesta) {
-        $("#editarNombrePrograma").val(respuesta.id_programa);
-        $("#editarCostoGestor").val(respuesta.total);
-        $("#editarCantidadGestor").val(respuesta.cantidad);
-  
-        $("#FormEditarGestorProgramas").attr("data-id", idProgramaProducto);
-      },
-      error: function() {
-        mostrarError(respuesta);
-      },
+        url: "ajax/gestorprogramas.ajax.php?metodo=obtener&id=" + idProgramaProducto,
+        method: "GET",
+        dataType: "json",
+        success: function (respuesta) {
+            $("#editarNombrePrograma").val(respuesta.id_programa);
+            $("#editarCostoGestor").val(respuesta.total);
+            $("#editarCantidadGestor").val(respuesta.cantidad);
+
+            $("#FormEditarGestorProgramas").attr("data-id", idProgramaProducto);
+        },
+        error: function () {
+            mostrarError(respuesta);
+        },
     });
-  });
+});
 
 $("#FormEditarGestorProgramas").submit(function (event) {
     event.preventDefault();
     var idProgramaProducto = $("#FormEditarGestorProgramas").attr("data-id");
     var datos = $("#FormEditarGestorProgramas").serialize();
-    datos += "&metodo=editar&id="+idProgramaProducto;
+    datos += "&metodo=editar&id=" + idProgramaProducto;
     $.ajax({
         url: "ajax/gestorprogramas.ajax.php",
         type: "POST",
@@ -476,7 +485,7 @@ $("#FormEditarGestorProgramas").submit(function (event) {
                     closeOnConfirm: false
                 })
                 $("#FormEditarGestorProgramas")[0].reset();
-                $(".close").click();
+
 
                 cargarGestorPrograma();
             } else {
@@ -491,34 +500,34 @@ $("#FormEditarGestorProgramas").submit(function (event) {
 
 $(document).on('click', '.detalle-programas', function () {
     var id = $(this).data('id');
- 
+
     $.ajax({
-        url: "ajax/gestorprogramas.ajax.php?metodo=presupuesto&id=" + id ,
+        url: "ajax/gestorprogramas.ajax.php?metodo=presupuesto&id=" + id,
         method: "GET",
         dataType: "json",
-        success: function(respuesta) {               
-            $("#info3").text("$ "+respuesta[0].presupuesto);
+        success: function (respuesta) {
+            $("#info3").text("$ " + respuesta[0].presupuesto);
         },
-        error: function(respuesta) {
-          mostrarError(respuesta);
+        error: function (respuesta) {
+            mostrarError(respuesta);
         },
-      });
+    });
 });
 
-$('#nuevoProductoInventario').change(function() {
+$('#nuevoProductoInventario').change(function () {
     // Obtener el valor seleccionado
     var buscar = $(this).val();
-     // Verificar si el valor seleccionado está vacío
-     if (buscar === '') {
+    // Verificar si el valor seleccionado está vacío
+    if (buscar === '') {
         $("#info2").text("$ 0.00"); // Asignar valor predeterminado de 0
         $("#info1").text("0");
-    }else{
+    } else {
         $.ajax({
             url: 'ajax/gestorprogramas.ajax.php?metodo=product&buscar=' + buscar,
             type: "GET",
             dataType: "json",
             success: function (respuesta) {
-                $("#info2").text("$ " + respuesta[0].precio_unitario);              
+                $("#info2").text("$ " + respuesta[0].precio_unitario);
                 $("#info1").text(respuesta[0].cantidad);
             },
             error: function (respuesta) {
@@ -526,6 +535,11 @@ $('#nuevoProductoInventario').change(function() {
             }
         });
     }
-    
-    
+
+
 });
+
+$(document).on('click', '.btnImprimirGestionarProgramas', function () {
+    var idProgramaProducto = $(this).data("id");
+    window.open("extensiones/tcpdf/pdf/gestionar_programa.php?idProgramaProducto=" + idProgramaProducto, "_blank");
+})

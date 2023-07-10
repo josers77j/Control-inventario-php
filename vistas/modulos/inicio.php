@@ -27,60 +27,60 @@
         }
         ?>
 
-<section class="content">
+        <section class="content">
+          <div class="row">
+            <div class="col-lg-3">
+              <a href="productos" style="text-decoration: none;">
+                <div class="dashboard-card dashboard-card-red">
+                  <div class="dashboard-card-content">
+                    <h2 class="posicion-superior-izquierda text-bold" id="data1"></h2>
+                    <h3 class="posicion-abajo-izquierda">Productos</h3>
+                    <span class="card-icon"><i class="fa fa-archive" aria-hidden="true"></i></span>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-lg-3">
+              <a href="categorias" style="text-decoration: none;">
+                <div class="dashboard-card dashboard-card-green">
+                  <div class="dashboard-card-content">
+                    <h2 class="posicion-superior-izquierda text-bold" id="data2"></h2>
+                    <h3 class="posicion-abajo-izquierda">Categorías</h3>
+                    <span class="card-icon"><i class="fa fa-th-large" aria-hidden="true"></i></span>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-lg-3">
+              <a href="usuarios" style="text-decoration: none;">
+                <div class="dashboard-card dashboard-card-yellow">
+                  <div class="dashboard-card-content">
+                    <h2 class="posicion-superior-izquierda text-bold" id="data3"></h2>
+                    <h3 class="posicion-abajo-izquierda">Usuarios</h3>
+                    <span class="card-icon"><i class="fa fa-users" aria-hidden="true"></i></span>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-lg-3">
+              <a href="programas" style="text-decoration: none;">
+                <div class="dashboard-card dashboard-card-blue">
+                  <div class="dashboard-card-content">
+                    <h2 class="posicion-superior-izquierda text-bold" id="data4"></h2>
+                    <h3 class="posicion-abajo-izquierda">Programas</h3>
+                    <span class="card-icon"><i class="fa fa-tasks" aria-hidden="true"></i></span>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+        </section>
+
     <div class="row">
-      <div class="col-lg-3">
-        <a href="productos" style="text-decoration: none;">
-          <div class="dashboard-card dashboard-card-red">
-            <div class="dashboard-card-content">
-              <h2 class = "posicion-superior-izquierda"><b>5</b></h2>
-              <h3 class ="posicion-abajo-izquierda">Productos</h3>  
-              <span class="card-icon"><i class="fa fa-archive" aria-hidden="true"></i></span> 
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <div class="col-lg-3">
-        <a href="categorias" style="text-decoration: none;">
-          <div class="dashboard-card dashboard-card-green">
-            <div class="dashboard-card-content">
-            <h2 class = "posicion-superior-izquierda"><b>5</b></h2>
-              <h3 class ="posicion-abajo-izquierda">Categorías</h3>
-              <span class="card-icon"><i class="fa fa-th-large" aria-hidden="true"></i></span>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <div class="col-lg-3">
-        <a href="usuarios" style="text-decoration: none;">
-          <div class="dashboard-card dashboard-card-yellow">
-            <div class="dashboard-card-content">
-            <h2 class = "posicion-superior-izquierda"><b>5</b></h2>
-              <h3 class ="posicion-abajo-izquierda">Usuarios</h3>
-              <span class="card-icon"><i class="fa fa-users" aria-hidden="true"></i></span>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <div class="col-lg-3">
-        <a href="programas" style="text-decoration: none;">
-          <div class="dashboard-card dashboard-card-blue">
-            <div class="dashboard-card-content">
-            <h2 class = "posicion-superior-izquierda"><b>5</b></h2>
-              <h3 class ="posicion-abajo-izquierda">Programas</h3>
-              <span class="card-icon"><i class="fa fa-tasks" aria-hidden="true"></i></span>
-            </div>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
-
-<div class="row">
-
       <div class="col-sm-9">
       <div class="panel panel-default">
           <div class="panel-heading">
@@ -359,6 +359,3 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 </script>
-
-
-

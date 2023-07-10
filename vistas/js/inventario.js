@@ -1,6 +1,6 @@
 
 //cargamos los datos, comprobando que la ruta actual sea inventario
-$(document).ready(function() {
+$(document).ready(function () {
   if (window.location.pathname.includes("inventario")) {
     tablaInventario = $('#tabla-inventarios');
     tablaInventarioInactivos = $('#tabla-inventarios-inactivos')
@@ -39,33 +39,33 @@ function configurarDataTableInventario(selector) {
 
 
 //traemos los campos que necesitemos mostrar en el formulario de editar
-$(document).on('click', '.editar-inventario', function() {
+$(document).on('click', '.editar-inventario', function () {
   $("#FormEditarinventario")[0].reset();
   var idInventario = $(this).data("id");
-  
+
   $.ajax({
-    url: "ajax/inventario.ajax.php?metodo=obtener&id=" + idInventario ,
+    url: "ajax/inventario.ajax.php?metodo=obtener&id=" + idInventario,
     method: "GET",
     dataType: "json",
-    success: function(respuesta) {
+    success: function (respuesta) {
       $("#editarProductoInventario").val(respuesta.codigo_producto);
       $("#editarCantidadInventario").val(respuesta.cantidad);
       $("#editarFechallegadaInventario").val(respuesta.fecha_llegada_producto);
       $("#editarFechaemisionInventario").val(respuesta.fecha_registro);
       $("#editarStatusInventario").val(respuesta.id_status);
-  
+
       $("#FormEditarinventario").attr("data-id", idInventario);
     },
-    error: function() {
+    error: function () {
       mostrarError();
     },
   });
 });
 
 //obtenemos el id del registro a eliminar y si el administrador desea eliminar dicho registro
-$(document).on('click', '.eliminar-inventario', function() {
+$(document).on('click', '.eliminar-inventario', function () {
   var idInventario = $(this).data("id");
-  
+
   swal({
     title: "¿Está seguro de anular este registro de inventario?",
     text: "¡La cantidad de producto volvera a como era antes de este registro, asegurese de esta accion, no hay vuelta atras!",
@@ -74,27 +74,33 @@ $(document).on('click', '.eliminar-inventario', function() {
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
     cancelButtonText: 'cancelar',
-    confirmButtonText: '¡Sí, anular!'       
-  }).then(function(result) {
+    confirmButtonText: '¡Sí, anular!'
+  }).then(function (result) {
     if (result.value) {
       $.ajax({
         url: "ajax/inventario.ajax.php?metodo=anular&id=" + idInventario,
         method: "GET",
-        success: function(respuesta) {
+        success: function (respuesta) {
           swal({
             type: "success",
             title: "Registro anulado Correctamente",
             showConfirmButton: true,
             confirmButtonText: "Cerrar",
             closeOnConfirm: false
-          }).then(function(result) {
-            if (result.value) {}
+          }).then(function (result) {
+            if (result.value) { }
           });
+          var ulElement = document.getElementById("Listanotificaciones");
+          ulElement.innerHTML = "";
+          var ulModal = document.getElementById("ListamodalNotificaciones");
+            ulModal.innerHTML = "";
+          cargarNotificaciones(document.getElementById('token').getAttribute('data-id'));
           var tablaInventario = $('#tabla-inventarios');
           tablaInventario.DataTable().destroy();
+
           cargarInventario();
         },
-        error: function() {
+        error: function () {
           mostrarError();
         },
       });
@@ -102,7 +108,7 @@ $(document).on('click', '.eliminar-inventario', function() {
   });
 });
 
-$("#FormNuevainventario").submit(function(event) {
+$("#FormNuevainventario").submit(function (event) {
   event.preventDefault();
   var datos = $("#FormNuevainventario").serialize();
   datos += "&metodo=nuevo";
@@ -110,27 +116,30 @@ $("#FormNuevainventario").submit(function(event) {
     url: "ajax/inventario.ajax.php",
     type: "POST",
     data: datos,
-    success: function(respuesta) {
+    success: function (respuesta) {
       if (respuesta.includes("ok")) {
-      
+
         swal({
           type: "success",
           title: "Inventario añadido correctamente",
           showConfirmButton: true,
           confirmButtonText: "Cerrar",
           closeOnConfirm: false
-        }).then(function(result) {
-          if (result.value) {}
+        }).then(function (result) {
+          if (result.value) { }
         });
         $("#FormNuevainventario")[0].reset();
-        $(".close").click();
-        
+        var ulElement = document.getElementById("Listanotificaciones");
+        ulElement.innerHTML = "";
+        var ulModal = document.getElementById("ListamodalNotificaciones");
+        ulModal.innerHTML = "";
+        cargarNotificaciones(document.getElementById('token').getAttribute('data-id'));
         cargarInventario();
       } else {
         mostrarError();
       }
     },
-    error: function() {
+    error: function () {
       mostrarError();
     },
   });
@@ -144,30 +153,30 @@ function cargarInventario() {
     // Si el DataTable ya ha sido inicializado, destruirlo antes de crear uno nuevo
     tablaInventario.DataTable().destroy();
   }
-  
+
   if (tablaInventarioInactivos && $.fn.DataTable.isDataTable('#tabla-inventarios-inactivos')) {
     // Si el DataTable de inventarios inactivos ya ha sido inicializado, destruirlo antes de crear uno nuevo
     tablaInventarioInactivos.DataTable().destroy();
   }
-  
+
   configurarDataTableInventario('#tabla-inventarios'); // Configurar DataTable para la tabla de inventarios activos
   configurarDataTableInventario('#tabla-inventarios-inactivos'); // Configurar DataTable para la tabla de inventarios inactivos
-  
+
   $.ajax({
     url: "ajax/inventario.ajax.php?metodo=mostrar",
     method: "GET",
     dataType: "json",
-    success: function(respuesta) {
-      
+    success: function (respuesta) {
+
       var tablaInventario = $('#tabla-inventarios').DataTable();
       var tablaInventarioInactivos = $('#tabla-inventarios-inactivos').DataTable();
-      
+
       tablaInventario.clear().draw();
       tablaInventarioInactivos.clear().draw();
-      
+
       var contadorA = 1;
       var contadorI = 1;
-      $.each(respuesta, function(index, inventario) {
+      $.each(respuesta, function (index, inventario) {
         if (inventario.status == "Inactivo") {
           var rowData = [
             contadorA,
@@ -178,9 +187,9 @@ function cargarInventario() {
             inventario.fecha_registro,
             inventario.status,
             '<div class="btn-group">' +
-              '<button data-toggle="modal" data-target="#modalEditarInventario" class="btn btn-info editar-inventario" data-id="' + inventario.id_inventario + '">' +
-              '<i class="fa fa-info-circle" aria-hidden="true"></i>' +
-              '</button>' + 
+            '<button data-toggle="modal" data-target="#modalEditarInventario" class="btn btn-info editar-inventario" data-id="' + inventario.id_inventario + '">' +
+            '<i class="fa fa-info-circle" aria-hidden="true"></i>' +
+            '</button>' +
             '</div>'
           ];
           contadorA++;
@@ -194,27 +203,27 @@ function cargarInventario() {
             inventario.fecha_llegada_producto,
             inventario.fecha_registro,
             inventario.status,
-            '<div class="btn-group">' + 
-              '<button data-toggle="modal" data-target="#modalEditarInventario" class="btn btn-info editar-inventario" data-id="' + inventario.id_inventario + '">' +
-              '<i class="fa fa-info-circle" aria-hidden="true"></i>' +
-              '</button>' + 
-              '<button class="btn btn-danger eliminar-inventario" data-id="' + inventario.id_inventario + '">' +
-              '<i class="fa fa-times"></i>' +
-              '</button>' +
+            '<div class="btn-group">' +
+            '<button data-toggle="modal" data-target="#modalEditarInventario" class="btn btn-info editar-inventario" data-id="' + inventario.id_inventario + '">' +
+            '<i class="fa fa-info-circle" aria-hidden="true"></i>' +
+            '</button>' +
+            '<button class="btn btn-danger eliminar-inventario" data-id="' + inventario.id_inventario + '">' +
+            '<i class="fa fa-times"></i>' +
+            '</button>' +
             '</div>'
           ];
-        
-        
-          contadorI++;  
+
+
+          contadorI++;
           tablaInventario.rows.add([rowData]);
         }
-        
+
       });
 
       tablaInventario.draw();
       tablaInventarioInactivos.draw();
     },
-    error: function(respuesta) {
+    error: function (respuesta) {
       mostrarError();
     },
   });
@@ -229,7 +238,20 @@ function mostrarError() {
     showConfirmButton: true,
     confirmButtonText: "Cerrar",
     closeOnConfirm: false
-  }).then(function(result) {
-    if (result.value) {}
+  }).then(function (result) {
+    if (result.value) { }
   });
 }
+
+
+$(".btnImprimirInventario").on("click", function () {
+
+  window.open("extensiones/tcpdf/pdf/inventario.php", "_blank");
+
+})
+
+$(".btnImprimirInventarioInactivo").on("click", function () {
+
+  window.open("extensiones/tcpdf/pdf/inventario-inactivo.php", "_blank");
+
+})

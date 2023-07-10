@@ -28,6 +28,9 @@
         <button class="btn btn-success" data-toggle="modal" data-target="#modalAgregarInventario">
           <b>Agregar Stock</b>
         </button>
+        <button class="btn btn-primary btnImprimirInventario" style="float: right;">   
+            Descargar reporte
+        </button>
       </div>
       <div class="box-body">
         <table class="table table-bordered table-striped dt-responsive" width="100%" id="tabla-inventarios">
@@ -58,6 +61,9 @@
       <div class="box-header with-border">
         <button class="btn btn-success" data-toggle="modal" data-target="#modalAgregarInventario">
           <b>Agregar Stock</b>
+        </button>
+        <button class="btn btn-primary btnImprimirInventarioInactivo" style="float: right;">   
+            Descargar reporte
         </button>
       </div>
       <div class="box-body">
@@ -100,6 +106,7 @@
             <div class = "row">
               <div class = "col-sm-6">
                 <div class="form-group">
+                <label for="nuevoProductoInventario">Producto:</label>
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-users"></i></span>
                     <select class="form-control input-lg" name="nuevoProductoInventario" id="nuevoProductoInventario">
@@ -119,6 +126,7 @@
               </div>        
               <div class = "col-sm-6">        
                 <div class="form-group">
+                <label for="nuevoCantidadInventario">Cantidad:</label>
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-th"></i></span>
                     <input type="number" class="form-control input-lg" name="nuevoCantidadInventario" id="nuevoCantidadInventario" placeholder="Cantidad de reStock" required>
@@ -130,6 +138,7 @@
             <div class = "row"> 
               <div class = "col-sm-6"> 
                   <div class="form-group">
+                  <label for="nuevoFechallegadaInventario">Fecha de llegada:</label>
                     <div class="input-group">
                       <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
                       <input type="date" class="form-control input-lg" name="nuevoFechallegadaInventario" placeholder="Ingresar fecha de vencimiento" required>
@@ -139,6 +148,7 @@
 
                 <div class = "col-sm-6"> 
                   <div class="form-group">
+                  <label for="nuevoStatusInventario">Status:</label>
                     <div class="input-group">
                       <span class="input-group-addon"><i class="fa fa-users"></i></span>
                       <select class="form-control input-lg" name="nuevoStatusInventario">

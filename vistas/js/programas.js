@@ -84,7 +84,6 @@ $(document).ready(function() {
             if (result.value) {}
           });
           $("#FormNuevaprograma")[0].reset();
-          $(".close").click();
   
           cargarPrograma();
         } else {
@@ -159,7 +158,7 @@ $(document).ready(function() {
             if (result.value) {}
           });
           $("#FormNuevaprograma")[0].reset();
-          $(".close").click();
+          
   
           cargarPrograma();
         } else {
@@ -267,3 +266,14 @@ $(document).ready(function() {
     });
   }
   
+  $(".btnImprimirProgramas").on("click", function(){
+
+    window.open("extensiones/tcpdf/pdf/programas.php", "_blank");
+  
+  })
+
+  $(".btnImprimirProgramasInactivos").on("click", function(){
+
+    window.open("extensiones/tcpdf/pdf/programas_inactivo.php", "_blank");
+  
+  })
