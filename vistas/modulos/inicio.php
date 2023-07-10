@@ -80,77 +80,118 @@
 
         </section>
 
-    <div class="row">
-      <div class="col-sm-9">
-      <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Reportes</h3>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Reportes</h3>
+              </div>
+              <div class="panel-body">
+                <form id="FormReporte">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <!-- Select multiple-->
+                      <div class="form-group">
+                        <label>Selecciona el tipo de reporte</label>
+                        <select size="4" class="form-control" name="tipoReporte" id="tipoReporte">
+                          <option value="1">Inventario actual</option>
+                          <option value="2" selected>Historial de entradas</option>
+                          <option value="3">Historial de salidas</option>
+                          <option value="4">Productos en baja existencia</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label>Seleccione uno</label>
+                          <div class="radio">
+                            <label>
+                              <input type="radio" name="estado-registros" value="activo"> Registros con estado activo
+                            </label>
+                          </div>
+                          <div class="radio">
+                            <label>
+                              <input type="radio" name="estado-registros" value="inactivo" checked> Registros con estado inactivo
+                            </label>
+                          </div>
+                          <div class="radio">
+                            <label>
+                              <input type="radio" name="estado-registros" value="ambos" checked> Registros con ambos tipos de estado
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group">
+                          <label for="date-range">Rango de fecha:</label>
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="dateRange" name="dateRange">
+                            <span class="input-group-addon">
+                              <i class="glyphicon glyphicon-calendar"></i>
+                            </span>
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label for="fecha-switch">Habilitar/Deshabilitar fecha:</label>
+                          <label class="switch">
+                            <input type="checkbox" id="fechaSwitch">
+                            <span class="slider"></span>
+                          </label>
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                      <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Generar reporte</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
+
+              </div>
+
+            </div>
           </div>
-          <div class="panel-body">
-            <form id="FormReporte">
-              <div class="row">
-                <div class="col-sm-5">
-                  <!-- Select multiple-->
-                  <div class="form-group">
-                    <label>Selecciona el tipo de reporte</label>
-                    <select size="4" class="form-control" name="tipoReporte" id="tipoReporte">
-                      <option value="1">Inventario actual</option>
-                      <option value="2" selected>Historial de entradas</option>
-                      <option value="3">Historial de salidas</option>
-                      <option value="4">Productos en baja existencia</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-sm-4">
-                  <div class="form-group">
-                    <label>Seleccione uno</label>
-                    <div class="radio">
-                      <label>
-                        <input type="radio" name="estado-registros" value="activo"> Registros con estado activo
-                      </label>
-                    </div>
-                    <div class="radio">
-                      <label>
-                        <input type="radio" name="estado-registros" value="inactivo" checked> Registros con estado inactivo
-                      </label>
-                    </div>
-                    <div class="radio">
-                      <label>
-                        <input type="radio" name="estado-registros" value="ambos" checked> Registros con ambos tipos de estado
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-3">
-                  <div class="form-group">
-                    <label for="date-range">Rango de fecha:</label>
-                    <div class="input-group">
-                      <input type="text" class="form-control" id="dateRange" name="dateRange">
-                      <span class="input-group-addon">
-                        <i class="glyphicon glyphicon-calendar"></i>
-                      </span>
-                    </div>
-                  </div>
 
-                  <div class="form-group">
-                    <label for="fecha-switch">Habilitar/Deshabilitar fecha:</label>
-                    <label class="switch">
-                      <input type="checkbox" id="fechaSwitch">
-                      <span class="slider"></span>
-                    </label>
+          <div class="col-sm-6">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="product-box">
+                  <div class="box-header-list">
+                    <h4><b>Productos agotados</b></h4>
+                    <span class="box-toggle"><i class="fa fa-align-justify"></i></span>
                   </div>
-
-                </div>
-
-                <div class="col-sm-12">
-                  <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Generar reporte</button>
-                  </div>
+                  <ul class="box-content">
+                    <li>Producto 1</li>
+                    <li>Producto 2</li>
+                    <li>Producto 3</li>
+                    <li>Producto 4</li>
+                  </ul>
                 </div>
               </div>
-            </form>
 
+              <div class="col-sm-6">
+                <div class="product-box">
+                  <div class="box-header-list" id="float">
+                    <h4><b>Otra caja</b></h4>
+                    <span class="box-toggle"><i class="fa fa-align-justify"></i></span>
+                  </div>
+                  <ul class="box-content">
+                    <li>Producto A</li>
+                    <li>Producto B</li>
+                    <li>Producto C</li>
+                    <li>Producto D</li>
+                  </ul>
+                </div>
+              </div>
+  
 
+            </div>
           </div>
 
         </div>
@@ -188,62 +229,74 @@
         
 </div>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const boxToggles = document.querySelectorAll(".box-header-list");
+    const boxContents = document.querySelectorAll(".box-content");
+
+    for (let i = 0; i < boxToggles.length; i++) {
+      boxToggles[i].addEventListener("click", function() {
+        boxContents[i].classList.toggle("box-open");
+      });
+    }
+  });
+</script>
 
 <style>
-.product-box {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  width: 320px;
-  overflow: hidden;
-  margin-bottom: 20px;
-  
-  
-}
+  .product-box {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 410px;
+    overflow: hidden;
+    margin-bottom: 20px;
 
-#float{
-  background: linear-gradient(to bottom, #f1c40f, #f39c12);
-  position: relative;
-}
 
-.box-header-list {
-  background: linear-gradient(to bottom, #e74c3c, #c0392b);
-  color: white;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-}
+  }
 
-.box-header-list h4 {
-  margin: 0;
-}
+  #float {
+    background: linear-gradient(to bottom, #f1c40f, #f39c12);
+    position: relative;
+  }
 
-.box-toggle {
-  font-size: 16px;
-}
+  .box-header-list {
+    background: linear-gradient(to bottom, #e74c3c, #c0392b);
+    color: white;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+  }
 
-.box-content {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-}
+  .box-header-list h4 {
+    margin: 0;
+  }
 
-.box-content li {
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
-}
+  .box-toggle {
+    font-size: 16px;
+  }
 
-.box-content li:last-child {
-  border-bottom: none;
-}
+  .box-content {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
 
-.box-open {
-  max-height: 200px;
-}
+  .box-content li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+
+  .box-content li:last-child {
+    border-bottom: none;
+  }
+
+  .box-open {
+    max-height: 200px;
+  }
 
 
 
@@ -345,17 +398,3 @@
   margin-bottom: auto;
 }
 </style>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  const boxToggles = document.querySelectorAll(".box-toggle");
-  const boxContents = document.querySelectorAll(".box-content");
-
-  for (let i = 0; i < boxToggles.length; i++) {
-    boxToggles[i].addEventListener("click", function() {
-      boxContents[i].classList.toggle("box-open");
-    });
-  }
-});
-
-</script>

@@ -2,6 +2,7 @@ $(document).ready(function () {
   cargarInicio();
   $('#dateRange').daterangepicker({
     opens: 'left',
+    drops: 'up',
     ranges: {
       'Hoy': [moment(), moment()],
       'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],

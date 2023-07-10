@@ -10,8 +10,8 @@ class ControladorNotificaciones
     {
         return $respuesta = ModeloNotificaciones::mdlDesactivarNotificaciones($id);
     }
-    static public function ctrDesactivarTodoNotificaciones()
+    static public function ctrDesactivarTodoNotificaciones($id)
     {
-        return $respuesta = ModeloNotificaciones::mdlDesactivarTodoNotificaciones();
+        return $respuesta = ModeloNotificaciones::mdlDesactivarTodoNotificaciones($id);
     }
 }
