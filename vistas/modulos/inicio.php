@@ -189,44 +189,12 @@
                   </ul>
                 </div>
               </div>
-  
-
-            </div>
-          </div>
 
         </div>
       </div>
-      <div class="col-sm-3">
-  <div class="product-box">
-  <div class="box-header-list">
-    <h4><b>Productos agotados</b></h4>
-    <span class="box-toggle"><i class="fa fa-align-justify"></i></span>
   </div>
-  <ul class="box-content">
-    <li>Producto 1</li>
-    <li>Producto 2</li>
-    <li>Producto 3</li>
-    <li>Producto 4</li>
-  </ul>
-</div>
-
-<div class="product-box">
-  <div class="box-header-list" id = "float">
-    <h4><b>Otra caja</b></h4>
-    <span class="box-toggle"><i class="fa fa-align-justify"></i></span>
-  </div>
-  <ul class="box-content">
-    <li>Producto A</li>
-    <li>Producto B</li>
-    <li>Producto C</li>
-    <li>Producto D</li>
-  </ul>
-</div>
-  </div>
-     </div>
-     
-  </section>
-        
+     </div>  
+  </section>     
 </div>
 
 <script>

@@ -326,7 +326,8 @@
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Salir</button>   
+          <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Salir</button>
+   
           <?php
         			if ($_SESSION["role"] == "Administrador") {
                 echo '
