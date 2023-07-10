@@ -7,12 +7,10 @@ class ModeloReportes{
     static public function mdlMostrarHistorialEntrada($fechaInicio, $fechaFin, $Istatus){
         
 		if($Istatus != null){
-			$stmt = Conexion::conectar()->prepare("call getReporteHistorialEntrada(:fechaInicio, :fechaFin, :Istatus)");
-            $stmt -> bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
-			$stmt -> bindParam(":fechaFin", $fechaFin, PDO::PARAM_STR);
-            $stmt -> bindParam(":Istatus", $Istatus, PDO::PARAM_INT);
+			$stmt = Conexion::conectar()->prepare("call getReporteHistorialEntrada($fechaInicio, $fechaFin, $Istatus)");
+
 			$stmt -> execute();
-			return $stmt -> fetch();
+			return $stmt -> fetchAll();
 		}else{
 			$stmt = Conexion::conectar()->prepare("call getReporteHistorialEntrada()");
 			$stmt -> execute();
@@ -27,14 +25,12 @@ class ModeloReportes{
     static public function mdlMostrarHistorialSalida($fechaInicio, $fechaFin, $Istatus){
         
 		if($Istatus != null){
-			$stmt = Conexion::conectar()->prepare("call getReporteHistorialEntrada(:fechaInicio, :fechaFin, :Istatus)");
-            $stmt -> bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
-			$stmt -> bindParam(":fechaFin", $fechaFin, PDO::PARAM_STR);
-            $stmt -> bindParam(":Istatus", $Istatus, PDO::PARAM_INT);
+			$stmt = Conexion::conectar()->prepare("call getReporteHistorialSalida($fechaInicio, $fechaFin, $Istatus)");
+
 			$stmt -> execute();
-			return $stmt -> fetch();
+			return $stmt -> fetchAll();
 		}else{
-			$stmt = Conexion::conectar()->prepare("call getReporteHistorialEntrada()");
+			$stmt = Conexion::conectar()->prepare("call getReporteHistorialSalida()");
 			$stmt -> execute();
 			return $stmt -> fetchAll();
 		}
@@ -47,11 +43,9 @@ class ModeloReportes{
     static public function mdlMostrarInventarioActual($status){
         
 		if($status != null){
-			$stmt = Conexion::conectar()->prepare("call getReporteInventarioActual(:status)");
-			$stmt -> bindParam(":status", $status, PDO::PARAM_INT);
-
+			$stmt = Conexion::conectar()->prepare("call getReporteInventarioActual($status)");
 			$stmt -> execute();
-			return $stmt -> fetch();
+			return $stmt -> fetchAll();
 		}else{
 			$stmt = Conexion::conectar()->prepare("call getReporteInventarioActual()");
 			$stmt -> execute();
@@ -66,11 +60,10 @@ class ModeloReportes{
     static public function mdlMostrarProductoBajoStock($status){
         
 		if($status != null){
-			$stmt = Conexion::conectar()->prepare("call getReporteProductosBajoStock(:status)");
-			$stmt -> bindParam(":status", $status, PDO::PARAM_INT);
+			$stmt = Conexion::conectar()->prepare("call getReporteProductosBajoStock($status)");
 
 			$stmt -> execute();
-			return $stmt -> fetch();
+			return $stmt -> fetchAll();
 		}else{
 			$stmt = Conexion::conectar()->prepare("call getReporteProductosBajoStock()");
 			$stmt -> execute();

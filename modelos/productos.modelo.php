@@ -118,4 +118,23 @@ class ModeloProductos{
 
 	}
 
+	static public function mdlMostrarProductoBajoStock($status){
+        
+		if($status != null){
+			$stmt = Conexion::conectar()->prepare("call getReporteProductosBajoStock(:status)");
+			$stmt -> bindParam(":status", $status, PDO::PARAM_INT);
+
+			$stmt -> execute();
+			return $stmt -> fetch();
+		}else{
+			$stmt = Conexion::conectar()->prepare("call getReporteProductosBajoStock()");
+			$stmt -> execute();
+			return $stmt -> fetchAll();
+		}
+
+		$stmt -> close();
+		$stmt = null;
+
+	}
+
 }

@@ -50,7 +50,6 @@ $pdf->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 'colo
 $Istatus = null;
 $fechaInicio = null;
 $fechaFin = null;
-$respuesta = null;
 
 $Istatus = $_GET["estado-registros"];
 $fechaInicio = $_GET["fechainicio"];
@@ -61,10 +60,11 @@ $fechaFin = $_GET["fechafin"];
 } */
 
 if($Istatus == "activo"){
-    $respuesta = ModeloReportes::mdlMostrarHistorialEntrada("", "", "1");
+    $respuesta = ModeloReportes::mdlMostrarProductoBajoStock(1);
 }if($Istatus == "inactivo"){
-    $respuesta = ModeloReportes::mdlMostrarHistorialEntrada("", "", "2");
+    $respuesta = ModeloReportes::mdlMostrarProductoBajoStock(2);
 }
+
 
 // Set some content to print
 $html = '
@@ -74,23 +74,25 @@ $html = '
         <td style="width: 150rem">Nombre</td>
         <td style="width: 50rem">Precio</td>
 		<td style="width: 40rem">Cant</td>
-        <td>Categoria</td>
+        <td>No. Oferta</td>
         <td>No. Contrato</td>
-        <td>Estado</td>
+        <td>Llegada</td>
     </tr>';
-/* 
-    foreach($respuestaProductos as $key => $value) {
 
-        $html .= '<tr>
-                <td border="0.35" style="text-align: center;">'.$value["codigo_producto"].'</td>
-                <td border="0.35">'.$value["nombre"].'</td>
-                <td border="0.35" style="text-align: center;">$'.$value["precio_unitario"].'</td>
-                <td border="0.35" style="text-align: center;">'.$value["cantidad"].'</td>
-                <td border="0.35">'.$value["categoria"].'</td>
-                <td border="0.35" style="text-align: center;">'.$value["numero_contrato"].'</td>
-                <td border="0.35" style="text-align: center;">'.$value["estado"].'</td>
-        </tr>';
-    } //Cierra foreach  */
+    foreach($respuesta as $key => $value) {
+            $html .= '<tr>
+                    <td border="0.35" style="text-align: center;">'.$value["codigo_producto"].'</td>
+                    <td border="0.35">'.$value["nombre"].'</td>
+                    <td border="0.35" style="text-align: center;">$'.$value["precio_unitario"].'</td>
+                    <td border="0.35" style="text-align: center;">'.$value["cantidad"].'</td>
+                    <td border="0.35">'.$value["numero_oferta_compra"].'</td>
+                    <td border="0.35" style="text-align: center;">'.$value["numero_contrato"].'</td>
+                    <td border="0.35" style="text-align: center;">'.$value["fecha_recepcion"].'</td>
+            </tr>';
+    } //Cierra foreach  
+
+
+
 
     $html .= '</table>';
 
