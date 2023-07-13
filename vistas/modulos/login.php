@@ -1,24 +1,26 @@
 <div id="back"></div>
 <div class="login-box">
+  <div class="login-box-body" style="border-radius: 10px;" >
   <div class="login-logo">
-    <img src="" class="img-responsive" style="padding:30px 100px 0px 100px">
+    <img src="../img/inicio/logo-insaforp.jpg" class="img-responsive" style="padding:30px 100px 0px 100px">
   </div>
-  <div class="login-box-body">
-    <p class="login-box-msg">Ingresar al sistema</p>
+    <h3 class="login-box-msg">Ingresar al sistema</h3>
     <form method="post">
       <div class="form-group has-feedback">
+      <label for="ingUsuario">usuario:</label>
         <input type="text" class="form-control" placeholder="Usuario" name="ingUsuario" required>
         <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
 
       <div class="form-group has-feedback">
+      <label for="ingPassword">Contraseña:</label>
         <input type="password" class="form-control" placeholder="Contraseña" name="ingPassword" required>
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
 
       <div class="row">
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Ingresar</button>
+          <button type="submit" class="btn btn-info btn-block"><b>Ingresar</b></button>
         </div>
       </div>
 

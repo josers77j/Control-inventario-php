@@ -107,19 +107,19 @@
                           <label>Seleccione uno</label>
                           <div class="radio">
                             <label>
-                              <input type="radio" name="estado-registros" value="1"> Registros con estado activo
+                              <input type="radio" name="estado-registros" value="activo"> Registros con estado activo
                             </label>
                           </div>
                           <div class="radio">
                             <label>
-                              <input type="radio" name="estado-registros" value="2" checked> Registros con estado inactivo
+                              <input type="radio" name="estado-registros" value="inactivo" checked> Registros con estado inactivo
                             </label>
                           </div>
-                          <div class="radio">
+                          <!-- <div class="radio">
                             <label>
-                              <input type="radio" name="estado-registros" value="null" checked> Registros con ambos tipos de estado
+                              <input type="radio" name="estado-registros" value="ambos" checked> Registros con ambos tipos de estado
                             </label>
-                          </div>
+                          </div> -->
                         </div>
                       </div>
                       <div class="col-sm-6">
@@ -159,8 +159,8 @@
           </div>
 
           <div class="col-sm-6">
-          
-      
+            <div class="row">
+              <div class="col-sm-6">
                 <div class="product-box">
                   <div class="box-header-list">
                     <h4><b>Productos agotados</b></h4>
@@ -173,9 +173,9 @@
                     <li>Producto 4</li>
                   </ul>
                 </div>
-              
+              </div>
 
-             
+              <div class="col-sm-6">
                 <div class="product-box">
                   <div class="box-header-list" id="float">
                     <h4><b>Otra caja</b></h4>
@@ -188,18 +188,13 @@
                     <li>Producto D</li>
                   </ul>
                 </div>
-            
-  
-
-        
-          </div>
+              </div>
 
         </div>
-
       </div>
-    </div>
-  </section>
-
+  </div>
+     </div>  
+  </section>     
 </div>
 
 <script>
@@ -214,6 +209,7 @@
     }
   });
 </script>
+
 <style>
   .product-box {
     border: 1px solid #ccc;
@@ -362,11 +358,11 @@
   }
 
   .posicion-abajo-izquierda {
-    align-self: flex-start;
-  }
+  align-self: flex-start;
+}
 
-  .posicion-superior-izquierda {
-    align-self: flex-start;
-    margin-bottom: auto;
-  }
+.posicion-superior-izquierda {
+  align-self: flex-start;
+  margin-bottom: auto;
+}
 </style>
