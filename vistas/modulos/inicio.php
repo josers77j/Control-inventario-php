@@ -159,42 +159,42 @@
           </div>
 
           <div class="col-sm-6">
-            <div class="row">
-              <div class="col-sm-6">
-                <div class="product-box">
-                  <div class="box-header-list">
-                    <h4><b>Productos agotados</b></h4>
-                    <span class="box-toggle"><i class="fa fa-align-justify"></i></span>
-                  </div>
-                  <ul class="box-content">
-                    <li>Producto 1</li>
-                    <li>Producto 2</li>
-                    <li>Producto 3</li>
-                    <li>Producto 4</li>
-                  </ul>
-                </div>
-              </div>
 
-              <div class="col-sm-6">
-                <div class="product-box">
-                  <div class="box-header-list" id="float">
-                    <h4><b>Otra caja</b></h4>
-                    <span class="box-toggle"><i class="fa fa-align-justify"></i></span>
-                  </div>
-                  <ul class="box-content">
-                    <li>Producto A</li>
-                    <li>Producto B</li>
-                    <li>Producto C</li>
-                    <li>Producto D</li>
-                  </ul>
-                </div>
+            <div class="product-box">
+              <div class="box-header-list">
+                <h4><b>Productos agotados</b></h4>
+                <span class="box-toggle"><i class="fa fa-align-justify"></i></span>
               </div>
+              <ul class="box-content">
+              <li class="badge label-danger">Lapiceros | Cantidad : 10 </li>
+                <li class="badge label-danger">Lapiceros | Cantidad : 10 </li>
+                <li class="badge label-danger">Lapiceros | Cantidad : 10 </li>
+                <li class="badge label-danger">Lapiceros | Cantidad : 10 </li>
+              </ul>
+            </div>
 
+
+
+            <div class="product-box">
+              <div class="box-header-list" id="float">
+                <h4><b>Productos casi agotados</b></h4>
+                <span class="box-toggle"><i class="fa fa-align-justify"></i></span>
+              </div>
+              <ul class="box-content list-unstyled">
+                <li class="badge label-warning">Lapiceros | Cantidad : 10 </li>
+                <li class="badge label-warning">Lapiceros | Cantidad : 10 </li>
+                <li class="badge label-warning">Lapiceros | Cantidad : 10 </li>
+                <li class="badge label-warning">Lapiceros | Cantidad : 10 </li>
+              </ul>
+
+            </div>
+
+
+          </div>
         </div>
       </div>
-  </div>
-     </div>  
-  </section>     
+    </div>
+  </section>
 </div>
 
 <script>
@@ -212,9 +212,8 @@
 
 <style>
   .product-box {
-    border: 1px solid #ccc;
     border-radius: 4px;
-    width: 410px;
+    width: 300px;
     overflow: hidden;
     margin-bottom: 20px;
 
@@ -254,8 +253,10 @@
   }
 
   .box-content li {
+    display: block;
+    margin-bottom: 5px;
     padding: 10px;
-    border-bottom: 1px solid #ccc;
+    /* Removemos el color de fondo */
   }
 
   .box-content li:last-child {
@@ -263,6 +264,7 @@
   }
 
   .box-open {
+    padding: 5px;
     max-height: 200px;
   }
 
@@ -358,11 +360,11 @@
   }
 
   .posicion-abajo-izquierda {
-  align-self: flex-start;
-}
+    align-self: flex-start;
+  }
 
-.posicion-superior-izquierda {
-  align-self: flex-start;
-  margin-bottom: auto;
-}
+  .posicion-superior-izquierda {
+    align-self: flex-start;
+    margin-bottom: auto;
+  }
 </style>

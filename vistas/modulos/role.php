@@ -23,9 +23,7 @@ if($_SESSION["role"] == "Usuario"){
   <section class="content">
     <div class="box">
       <div class="box-header with-border">
-        <button class="btn btn-success" data-toggle="modal" data-target="#modalAgregarRole">
-          <b>Agregar roles</b>
-        </button>
+      
       </div>
       <div class="box-body">
        <table class="table table-bordered table-striped dt-responsive tablas" width="100%">

@@ -2,7 +2,7 @@
 <div class="login-box">
   <div class="login-box-body" style="border-radius: 10px;" >
   <div class="login-logo">
-    <img src="../img/inicio/logo-insaforp.jpg" class="img-responsive" style="padding:30px 100px 0px 100px">
+    <img src="vistas/img/inicio/logo-insaforp.jpg" class="img-responsive" style="padding:30px 100px 0px 100px">
   </div>
     <h3 class="login-box-msg">Ingresar al sistema</h3>
     <form method="post">

@@ -81,6 +81,7 @@ $(document).on('click', '.eliminar-inventario', function () {
         url: "ajax/inventario.ajax.php?metodo=anular&id=" + idInventario,
         method: "GET",
         success: function (respuesta) {
+         if (respuesta.includes("ok")) {
           swal({
             type: "success",
             title: "Registro anulado Correctamente",
@@ -99,9 +100,12 @@ $(document).on('click', '.eliminar-inventario', function () {
           tablaInventario.DataTable().destroy();
 
           cargarInventario();
+         }else{
+          mostrarError(respuesta);
+         }
         },
-        error: function () {
-          mostrarError();
+        error: function (respuesta) {
+          mostrarError(respuesta);
         },
       });
     }

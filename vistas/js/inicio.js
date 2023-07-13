@@ -80,12 +80,16 @@ function dateSelected(){
   var fechaInput = document.getElementById('dateRange');
   var switchElement = document.getElementById('fechaSwitch');
 
-  if (switchElement.checked) {
+  if (selectElement.value === "1" || selectElement.value === "4") {
     fechaInput.disabled = true;
   } else {
     fechaInput.disabled = false;
+    if (switchElement.checked) {
+      fechaInput.disabled = true;
+    } else {
+      fechaInput.disabled = false;
+    }
   }
-
 }
 
 function dateSwitch() {
@@ -94,13 +98,18 @@ function dateSwitch() {
   var switchElement = document.getElementById('fechaSwitch');
   // Código para ejecutar cuando cambie el estado del switch
   console.log("Switch cambiado");
-  if (switchElement.checked) {
+  if (selectElement.value === "1" || selectElement.value === "4") {
     fechaInput.disabled = true;
   } else {
-    fechaInput.disabled = false;
+    if (switchElement.checked) {
+      fechaInput.disabled = true;
+    } else {
+      fechaInput.disabled = false;
+    }
   }
 
 }
+
 
 
 

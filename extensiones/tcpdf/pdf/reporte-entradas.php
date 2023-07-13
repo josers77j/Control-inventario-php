@@ -48,8 +48,8 @@ $pdf->AddPage();
 $pdf->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 'color'=>array(196,196,196), 'opacity'=>1, 'blend_mode'=>'Normal'));
 
 $Istatus = null;
-$fechaInicio = null;
-$fechaFin = null;
+$fechaInicio = "";
+$fechaFin = "";
 
 $Istatus = $_GET["estado-registros"];
 $fechaInicio = $_GET["fechainicio"];
@@ -57,15 +57,18 @@ $fechaFin = $_GET["fechafin"];
 
 if($fechaFin == "00000-000-00" && $fechaInicio == "0000-00-00") {
     if($Istatus == "activo"){
-        $respuesta = ModeloReportes::mdlMostrarHistorialEntrada("", "", $Istatus);
+         $respuesta = ModeloReportes::mdlMostrarHistorialEntrada("0000-00-00", "0000-00-00", 1);
     }if($Istatus == "inactivo"){
-        $respuesta = ModeloReportes::mdlMostrarHistorialEntrada("", "", $Istatus);
+        
+        $respuesta = ModeloReportes::mdlMostrarHistorialEntrada("0000-00-00", "0000-00-00", 2);
     }
 } else{
     if($Istatus == "activo"){
+        
         $respuesta = ModeloReportes::mdlMostrarHistorialEntrada($fechaInicio, $fechaFin, 1);
     }if($Istatus == "inactivo"){
-        $respuesta = ModeloReportes::mdlMostrarHistorialEntrada($fechaInicio, $fechaFin, 2);
+        
+         $respuesta = ModeloReportes::mdlMostrarHistorialEntrada($fechaInicio, $fechaFin, 2);
     }
     
 }

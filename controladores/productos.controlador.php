@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('America/Costa_Rica');
 class ControladorProductos{
 
 	static public function ctrMostrarProductos($item, $valor, $orden){
@@ -26,7 +26,9 @@ class ControladorProductos{
 							   "numero_oferta_compra" => $_POST["nuevoNumeroOfertaCompraProducto"],
 							   "fecha_recepcion" => $_POST["nuevaFechaRecepcionProducto"],
                                "id_categoria" => $_POST["nuevaIdCategoriaProducto"],
-							   "id_status" => $_POST["nuevaIdStatusProducto"],
+							   "id_status" => 1,
+							   "fecha_registro" => date("Y-m-d"),
+							   
 
 		                    );
                   
@@ -79,12 +81,10 @@ class ControladorProductos{
 				$datos = array("codigo_producto" => $_POST["editarCodigoProducto"],
 							   "nombre" => $_POST["editarNombreProducto"],
 							   "precio_unitario" => $_POST["editarPrecioUnitarioProducto"],
-							   "cantidad" => $_POST["editarCantidadProducto"],
 							   "numero_contrato" => $_POST["editarNumeroContratoProducto"],
 							   "numero_oferta_compra" => $_POST["editarNumeroOfertaCompraProducto"],
 							   "fecha_recepcion" => $_POST["editarFechaRecepcionProducto"],
                                "id_categoria" => $_POST["editarIdCategoriaProducto"],
-							   "id_status" => $_POST["editarIdStatusProducto"],
 
 		                    );
 
