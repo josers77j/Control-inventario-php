@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 07-07-2023 a las 19:40:46
+-- Tiempo de generación: 13-07-2023 a las 18:11:33
 -- Versión del servidor: 8.0.31
 -- Versión de PHP: 8.0.26
 
@@ -130,9 +130,10 @@ UPDATE tbl_productos
 END$$
 
 DROP PROCEDURE IF EXISTS `desactivateNotifications`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `desactivateNotifications` ()   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `desactivateNotifications` (IN `id` INT)   BEGIN
 UPDATE tbl_alertas as a
-SET a.id_status = 2;
+SET a.id_status = 2
+WHERE a.id_usuario = id;
 END$$
 
 DROP PROCEDURE IF EXISTS `finderProduct`$$
@@ -217,33 +218,63 @@ END$$
 
 DROP PROCEDURE IF EXISTS `getReporteHistorialEntrada`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReporteHistorialEntrada` (IN `fechaInicio` DATE, IN `fechaFin` DATE, IN `Istatus` INT)   BEGIN
-SELECT i.codigo_producto ,p.nombre as producto, i.cantidad as cantidad, i.fecha_llegada_producto as fechaLlegada, i.fecha_registro as fechaRegistro, p.precio_unitario as preciounitario
-FROM tbl_inventario AS i
-INNER JOIN tbl_productos AS p ON i.codigo_producto = p.codigo_producto
-WHERE (i.fecha_registro >= fechaInicio AND i.fecha_registro <= fechaFin) AND (p.id_status = Istatus) 
-ORDER BY p.nombre ASC, i.cantidad DESC;
+    IF fechaInicio = "0000-00-00" AND fechaFin = "0000-00-00" THEN
+        SELECT i.codigo_producto, p.nombre AS producto, i.cantidad AS cantidad, i.fecha_llegada_producto AS fechaLlegada, i.fecha_registro AS fechaRegistro, p.precio_unitario AS preciounitario,
+        i.id_status as status
+        FROM tbl_inventario AS i
+        INNER JOIN tbl_productos AS p ON i.codigo_producto = p.codigo_producto
+        WHERE i.id_status = Istatus
+        ORDER BY p.nombre ASC, i.cantidad DESC;
+    ELSE
+        SELECT i.codigo_producto, p.nombre AS producto, i.cantidad AS cantidad, i.fecha_llegada_producto AS fechaLlegada, i.fecha_registro AS fechaRegistro, p.precio_unitario AS preciounitario,i.id_status as status
+        FROM tbl_inventario AS i
+        INNER JOIN tbl_productos AS p ON i.codigo_producto = p.codigo_producto
+        WHERE (i.fecha_registro >= fechaInicio OR fechaInicio IS NULL) AND (i.fecha_registro <= fechaFin OR fechaFin IS NULL) AND (i.id_status = Istatus)
+        ORDER BY p.nombre ASC, i.cantidad DESC;
+    END IF;
 END$$
 
 DROP PROCEDURE IF EXISTS `getReporteHistorialSalida`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReporteHistorialSalida` (IN `fechaInicio` DATE, IN `fechaFin` DATE, IN `ppstatus` INT)   BEGIN
-SELECT dpp.codigo_producto, 
-			 p.nombre as producto, 
-			 dpp.cantidad as cantidadDPP, 
-             p.precio_unitario,
-             dpp.importe as importe,
-             pp.fecha as fechaprogramaproducto,
-             pp.cantidad as cantidadtotalproductos,
-             pr.nombre as programa,
-             pr.presupuesto,
-             u.usuario,
-             dpp.id_programa_productos
-FROM tbl_detalle_programa_productos as dpp
-INNER JOIN tbl_productos as p on dpp.codigo_producto = p.codigo_producto
-INNER JOIN tbl_programa_productos as pp on dpp.id_programa_productos = pp.id_programa_productos
-INNER JOIN tbl_programa as pr on pp.id_programa = pr.id_programa 
-INNER JOIN tbl_usuarios as u on pp.id_usuario = u.id_usuario
-WHERE (pp.fecha >= fechaInicio AND pp.fecha <= fechaFin) AND (pp.id_status = ppstatus) 
-ORDER BY pr.nombre ASC, dpp.id_programa_productos DESC;
+    IF fechaInicio = "0000-00-00" AND fechaFin = "0000-00-00" THEN
+        SELECT dpp.codigo_producto, 
+               p.nombre AS producto, 
+               dpp.cantidad AS cantidadDPP, 
+               p.precio_unitario,
+               dpp.importe AS importe,
+               pp.fecha AS fechaprogramaproducto,
+               pp.cantidad AS cantidadtotalproductos,
+               pr.nombre AS programa,
+               pr.presupuesto,
+               u.usuario,
+               dpp.id_programa_productos
+        FROM tbl_detalle_programa_productos AS dpp
+        INNER JOIN tbl_productos AS p ON dpp.codigo_producto = p.codigo_producto
+        INNER JOIN tbl_programa_productos AS pp ON dpp.id_programa_productos = pp.id_programa_productos
+        INNER JOIN tbl_programa AS pr ON pp.id_programa = pr.id_programa 
+        INNER JOIN tbl_usuarios AS u ON pp.id_usuario = u.id_usuario
+        WHERE pp.id_status = ppstatus
+        ORDER BY pr.nombre ASC, dpp.id_programa_productos DESC;
+    ELSE
+        SELECT dpp.codigo_producto, 
+               p.nombre AS producto, 
+               dpp.cantidad AS cantidadDPP, 
+               p.precio_unitario,
+               dpp.importe AS importe,
+               pp.fecha AS fechaprogramaproducto,
+               pp.cantidad AS cantidadtotalproductos,
+               pr.nombre AS programa,
+               pr.presupuesto,
+               u.usuario,
+               dpp.id_programa_productos
+        FROM tbl_detalle_programa_productos AS dpp
+        INNER JOIN tbl_productos AS p ON dpp.codigo_producto = p.codigo_producto
+        INNER JOIN tbl_programa_productos AS pp ON dpp.id_programa_productos = pp.id_programa_productos
+        INNER JOIN tbl_programa AS pr ON pp.id_programa = pr.id_programa 
+        INNER JOIN tbl_usuarios AS u ON pp.id_usuario = u.id_usuario
+        WHERE (pp.fecha >= fechaInicio OR fechaInicio IS NULL) AND (pp.fecha <= fechaFin OR fechaFin IS NULL) AND (pp.id_status = ppstatus)
+        ORDER BY pr.nombre ASC, dpp.id_programa_productos DESC;
+    END IF;
 END$$
 
 DROP PROCEDURE IF EXISTS `getReporteInventarioActual`$$
@@ -274,6 +305,14 @@ DROP PROCEDURE IF EXISTS `insertGestorProgram`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertGestorProgram` (IN `id_usuario` INT, IN `id_programa` INT, IN `fecha` DATE, IN `total` DECIMAL(10,2), IN `cantidad` INT, IN `id_status` INT)   BEGIN 
 INSERT into tbl_programa_productos(id_usuario,id_programa, fecha, total, cantidad, id_status)
 VALUES(id_usuario,id_programa,fecha,total,cantidad,id_status);
+
+END$$
+
+DROP PROCEDURE IF EXISTS `insertProductInventory`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertProductInventory` (IN `nombreproducto` VARCHAR(50), IN `cantidad` INT, IN `fechallegadaproducto` DATE, IN `fecharegistro` DATE, IN `idstatus` INT)   BEGIN
+
+  INSERT INTO tbl_inventario (codigo_producto, cantidad, fecha_llegada_producto, fecha_registro, id_status)
+  VALUES ((SELECT codigo_producto FROM tbl_productos WHERE nombre = nombreproducto), cantidad, fechallegadaproducto, fecharegistro, idstatus);
 
 END$$
 
@@ -506,7 +545,7 @@ CREATE TABLE IF NOT EXISTS `tbl_detalle_programa_productos` (
   PRIMARY KEY (`id_detalle_programa_productos`),
   KEY `codigo_producto` (`codigo_producto`),
   KEY `id_programa_productos` (`id_programa_productos`)
-) ENGINE=InnoDB AUTO_INCREMENT=131 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=144 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tbl_detalle_programa_productos`
@@ -522,7 +561,11 @@ INSERT INTO `tbl_detalle_programa_productos` (`id_detalle_programa_productos`, `
 (126, 5, 4, '10.00', '40.00', 1005),
 (127, 5, 14, '4.00', '56.00', 1002),
 (128, 11, 1, '10.00', '10.00', 1005),
-(129, 13, 30, '4.00', '120.00', 1002);
+(129, 13, 30, '4.00', '120.00', 1002),
+(135, 21, 2, '10.00', '20.00', 1005),
+(140, 22, 1, '4.00', '4.00', 1002),
+(141, 22, 1, '10.00', '10.00', 1005),
+(143, 22, 2, '3.00', '6.00', 1010);
 
 -- --------------------------------------------------------
 
@@ -541,7 +584,7 @@ CREATE TABLE IF NOT EXISTS `tbl_inventario` (
   PRIMARY KEY (`id_inventario`),
   KEY `codigo_producto` (`codigo_producto`),
   KEY `id_status` (`id_status`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tbl_inventario`
@@ -593,7 +636,11 @@ INSERT INTO `tbl_inventario` (`id_inventario`, `codigo_producto`, `cantidad`, `f
 (43, 1007, 12, '2023-06-29', '2023-07-06', 1),
 (44, 1007, 123, '2023-07-07', '2023-07-07', 1),
 (45, 1007, 12, '2023-07-07', '2023-07-07', 1),
-(46, 1010, 2, '2023-07-07', '2023-07-07', 1);
+(46, 1010, 2, '2023-07-07', '2023-07-07', 1),
+(47, NULL, 20, '2023-07-13', '2023-07-13', 1),
+(48, NULL, 20, '2023-07-13', '2023-07-13', 1),
+(49, 1017, 20, '2023-07-13', '2023-07-13', 1),
+(50, 1018, 30, '2023-07-13', '2023-07-13', 1);
 
 -- --------------------------------------------------------
 
@@ -613,22 +660,23 @@ CREATE TABLE IF NOT EXISTS `tbl_productos` (
   `id_categoria` int DEFAULT NULL,
   `id_status` int DEFAULT NULL,
   PRIMARY KEY (`codigo_producto`),
+  UNIQUE KEY `nombre` (`nombre`),
   KEY `id_categoria` (`id_categoria`),
   KEY `id_status` (`id_status`)
-) ENGINE=InnoDB AUTO_INCREMENT=1011 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=1019 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tbl_productos`
 --
 
 INSERT INTO `tbl_productos` (`codigo_producto`, `nombre`, `precio_unitario`, `cantidad`, `numero_contrato`, `numero_oferta_compra`, `fecha_recepcion`, `id_categoria`, `id_status`) VALUES
-(1002, 'regleta de papel bond', '4.00', 8, '0552255', '588589', '2023-06-14', 29, 1),
-(1005, 'papel', '10.00', 16, '55', '26', '2023-01-01', 113, 1),
+(1002, 'regleta de papel bond', '4.00', 7, '0552255', '588589', '2023-06-14', 29, 1),
+(1005, 'papel', '10.00', 13, '55', '26', '2023-01-01', 113, 1),
 (1006, 'lapiceros', '10.00', 24, '25', '20', '2023-06-13', 28, 1),
 (1007, 'Computadora', '2.99', 369, '2', '2', '2023-06-25', 113, 1),
-(1008, 'lapiz', '0.50', 300, '2564516', '164551', '2023-07-06', 121, 1),
-(1009, 'lapiz', '0.50', 200, '26146', '615616', '2023-07-06', 121, 1),
-(1010, 'lapiz', '3.00', 202, '2351631', '51651551', '2023-07-06', 121, 1);
+(1010, 'lapiz', '3.00', 200, '2351631', '51651551', '2023-07-06', 121, 1),
+(1017, 'borradores', '123456.00', 20, '123123', '1234567489', '2023-07-13', 121, 1),
+(1018, 'telefonos', '500.00', 30, '123456', '123789', '2023-07-13', 121, 1);
 
 -- --------------------------------------------------------
 
@@ -689,7 +737,7 @@ CREATE TABLE IF NOT EXISTS `tbl_programa_productos` (
   KEY `id_programa` (`id_programa`),
   KEY `id_usuario` (`id_usuario`),
   KEY `id_status` (`id_status`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tbl_programa_productos`
@@ -715,8 +763,9 @@ INSERT INTO `tbl_programa_productos` (`id_programa_productos`, `id_usuario`, `id
 (18, 4, 35, '2023-07-07', '0.00', 0, 1),
 (19, 4, 29, '2023-07-07', '0.00', 0, 1),
 (20, 4, 29, '2023-07-07', '0.00', 0, 1),
-(21, 4, 36, '2023-07-07', '0.00', 0, 1),
-(22, 4, 36, '2023-07-07', '0.00', 0, 1);
+(21, 4, 36, '2023-07-07', '20.00', 2, 1),
+(22, 4, 36, '2023-07-07', '20.00', 4, 1),
+(23, 10, 29, '2023-07-12', '0.00', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -789,7 +838,7 @@ CREATE TABLE IF NOT EXISTS `tbl_usuarios` (
 
 INSERT INTO `tbl_usuarios` (`id_usuario`, `token`, `usuario`, `nombres`, `correo`, `telefono`, `contrasenia`, `id_rol`, `id_status`) VALUES
 (4, NULL, 'jorguelopez', 'jorgue lopez', 'jorgue.lopez@gmail.com', 72544132, '$2a$07$asxx54ahjppf45sd87a5auXBm1Vr2M1NV5t/zNQtGHGpS5fFirrbG', 1, 1),
-(10, NULL, 'RubenTrejo', 'Jose Ruben Trejo ', 'josers772@outlook.es', 72154071, '$2a$07$asxx54ahjppf45sd87a5auXBm1Vr2M1NV5t/zNQtGHGpS5fFirrbG', 2, 1);
+(10, NULL, 'RubenTrejo', 'Jose Ruben Trejo ', 'josers772@outlook.es', 72154071, '$2a$07$asxx54ahjppf45sd87a5augtYQ5l0YJxtJ.sls/VjJvJD4Oq/Jqk2', 2, 1);
 
 --
 -- Restricciones para tablas volcadas
