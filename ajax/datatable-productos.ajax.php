@@ -31,9 +31,9 @@ class TablaProductos{
 		  	$item = "codigo_producto";
 		  	$valor = $productos[$i]["id_categoria"];
 			
-  			if($productos[$i]["cantidad"] < 10){
+  			if($productos[$i]["cantidad"] < 6){
 				$stock = "<button class='btn btn-danger'>".$productos[$i]["cantidad"]."</button>";
-			}else if($productos[$i]["cantidad"] >= 10 && $productos[$i]["cantidad"] < 20){
+			}else if($productos[$i]["cantidad"] >= 6 && $productos[$i]["cantidad"] < 10){
 				$stock = "<button class='btn btn-warning'>".$productos[$i]["cantidad"]."</button>";
 			}else{
 				$stock = "<button class='btn btn-success'>".$productos[$i]["cantidad"]."</button>";
@@ -49,13 +49,13 @@ class TablaProductos{
 			      "'.($i+1).'",
 			      "'.$productos[$i]["codigo_producto"].'",
 			      "'.$productos[$i]["nombre"].'",
+				  "'.$productos[$i]["usuario"].'",
 				  "'.$productos[$i]["precio_unitario"].'",	
 				  "'.$productos[$i]["numero_contrato"].'",	
 				  "'.$productos[$i]["numero_oferta_compra"].'",	
 			      "'.$stock.'",
 			      "'.$productos[$i]["fecha_recepcion"].'",
 			      "'.$productos[$i]["categoria"].'",
-			      "'.$productos[$i]["estado"].'",
 			      "'.$botones.'"
 			    ],';
 		                    

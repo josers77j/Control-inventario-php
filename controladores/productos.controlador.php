@@ -12,6 +12,13 @@ class ControladorProductos{
 
 	}
 
+	static public function ctrMostrarProductosInactivos(){
+		
+		$respuesta = ModeloProductos::mdlMostrarProductosInactivos();
+		return $respuesta;
+
+	}
+
 	static public function ctrCrearProducto(){
 		if(isset($_POST["nuevoNombreProducto"])){
 			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoNombreProducto"])){
@@ -28,8 +35,7 @@ class ControladorProductos{
                                "id_categoria" => $_POST["nuevaIdCategoriaProducto"],
 							   "id_status" => 1,
 							   "fecha_registro" => date("Y-m-d"),
-							   
-
+							   "token" => $_POST["token"],
 		                    );
                   
 				$respuesta = ModeloProductos::mdlIngresarProducto($tabla, $datos);
@@ -71,6 +77,8 @@ class ControladorProductos{
 		}
 
 	}
+
+
 
 	static public function ctrEditarProducto(){
 		if(isset($_POST["editarNombreProducto"])){
@@ -159,6 +167,12 @@ class ControladorProductos{
 			}		
 		}
 
+
+	}
+
+	static public function ctrReactivarProductos($id){
+		$respuesta = ModeloProductos::mdlReactivarProducto($id);
+		return $respuesta;
 
 	}
 

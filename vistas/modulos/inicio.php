@@ -165,11 +165,8 @@
                 <h4><b>Productos agotados</b></h4>
                 <span class="box-toggle"><i class="fa fa-align-justify"></i></span>
               </div>
-              <ul class="box-content">
+              <ul class="box-content" id="banner1">
               <li class="badge label-danger">Lapiceros | Cantidad : 10 </li>
-                <li class="badge label-danger">Lapiceros | Cantidad : 10 </li>
-                <li class="badge label-danger">Lapiceros | Cantidad : 10 </li>
-                <li class="badge label-danger">Lapiceros | Cantidad : 10 </li>
               </ul>
             </div>
 
@@ -180,11 +177,8 @@
                 <h4><b>Productos casi agotados</b></h4>
                 <span class="box-toggle"><i class="fa fa-align-justify"></i></span>
               </div>
-              <ul class="box-content list-unstyled">
-                <li class="badge label-warning">Lapiceros | Cantidad : 10 </li>
-                <li class="badge label-warning">Lapiceros | Cantidad : 10 </li>
-                <li class="badge label-warning">Lapiceros | Cantidad : 10 </li>
-                <li class="badge label-warning">Lapiceros | Cantidad : 10 </li>
+              <ul class="box-content" id="banner2">
+                
               </ul>
 
             </div>

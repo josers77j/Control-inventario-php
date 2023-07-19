@@ -63,16 +63,27 @@ class ControladorUsuarios{
 				$tabla = "tbl_usuarios";
 
 				$encriptar = crypt($_POST["nuevoPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+				$controlador = new ControladorUsuarios();
+				
+				$nombre = $_POST["nuevoNombre"];
+				$usuario = $_POST["nuevoUsuario"]; 
+				$correo = $_POST["nuevoCorreo"]; 
+				$telefono = $_POST["nuevoTelefono"];
+				$password = $_POST["nuevoPassword"];
+				$rol = $_POST["nuevoRol"];
 
-				$datos = array("usuario" => $_POST["nuevoUsuario"],
-					           "nombres" => $_POST["nuevoNombre"],
-							   "correo" => $_POST["nuevoCorreo"],
-							   "telefono" => $_POST["nuevoTelefono"],
+				$token = $controlador->ctrCrearToken($nombre, $usuario, $correo, $password);
+				
+				$datos = array("usuario" => $usuario,
+							   "token" => $token,
+					           "nombres" => $nombre,
+							   "correo" => $correo,
+							   "telefono" => $telefono,
 					           "contrasenia" => $encriptar,
-					           "id_rol" => $_POST["nuevoRol"],
-							   "id_status" => $_POST["nuevoStatus"]
+					           "id_rol" => $rol,
+							   "id_status" => 1
 							);
-
+							echo "<script>alert($nombre+$usuario+$correo+$telefono+$password+$token,$rol) </script>";			
 				$respuesta = ModeloUsuarios::mdlIngresarUsuario($tabla, $datos);
 			
 				if($respuesta == "ok"){
@@ -116,6 +127,22 @@ class ControladorUsuarios{
 
 	}
 
+	public function ctrCrearToken($nombre, $nombre_usuario, $correo, $contrasena) {
+		// Concatenar la información en una cadena
+		$cadena_datos = $nombre . $nombre_usuario . $correo . $contrasena;
+	
+		// Generar un identificador único
+		$salt = uniqid();
+	
+		// Concatenar el identificador único con la cadena de datos
+		$cadena_datos_con_salt = $cadena_datos . $salt;
+	
+		// Calcular el hash SHA-256 del token
+		$token = hash('sha256', $cadena_datos_con_salt);
+	
+		return $token;
+	}
+
 	static public function ctrMostrarUsuarios($item, $valor){
 		$tabla1 = "tbl_usuarios";
 		$tabla2 = "tbl_status";
@@ -123,6 +150,16 @@ class ControladorUsuarios{
 		$respuesta = ModeloUsuarios::MdlMostrarUsuarios($tabla1, $tabla2, $tabla3, $item, $valor);
 		return $respuesta;
 	}
+
+	static public function ctrMostrarUsuariosInactivos($item, $valor){
+		$tabla1 = "tbl_usuarios";
+		$tabla2 = "tbl_status";
+		$tabla3 = "tbl_roles";
+		$respuesta = ModeloUsuarios::MdlMostrarUsuariosInactivos($tabla1, $tabla2, $tabla3, $item, $valor);
+		return $respuesta;
+	}
+
+
 
 	static public function ctrEditarUsuario(){
 		if(isset($_POST["editarUsuario"])){
@@ -163,8 +200,7 @@ class ControladorUsuarios{
 							   "nombres" => $_POST["editarNombre"],
 							   "correo" => $_POST["editarCorreo"],
 							   "telefono" => $_POST["editarTelefono"],
-							   "contrasenia" => $encriptar,
-							   "id_status" => $_POST["editarStatus"]							   
+							   "contrasenia" => $encriptar							   
 							);
 							
 
@@ -245,6 +281,3 @@ class ControladorUsuarios{
 
 	}
 }
-	
-
-

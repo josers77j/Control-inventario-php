@@ -73,6 +73,39 @@ function cargarInicio() {
       mostrarError(respuesta);
     }
   });
+  $.ajax({
+    url: 'ajax/inicio.ajax.php?metodo=mostrarBanner',
+    type: "GET",
+    dataType: "json",
+    success : function(respuesta){
+          // Limpiamos los UL antes de llenarlos para evitar duplicados
+    $('#banner1').empty();
+    $('#banner2').empty();
+
+    // Iteramos sobre cada elemento de la respuesta
+    respuesta.forEach(function(elemento) {
+      var producto = elemento.producto;
+      var cantidad = elemento.cantidad;
+
+      // Creamos el contenido de cada LI
+      var liContent = producto + " | Cantidad: " + cantidad;
+      var liElementWarning = '<li class="badge label-warning">' + liContent + '</li>';
+      var liElementDanger = '<li class="badge label-danger">' + liContent + '</li>';
+
+      // Dependiendo del valor de cantidad, agregamos el LI al UL correspondiente
+      if (cantidad == 0) {
+        $('#banner1').append(liElementDanger);
+      } else if (cantidad >= 1 && cantidad <= 10) {
+        $('#banner2').append(liElementWarning);
+      } else{
+        console.log("No se pudo mostrar banner");
+      }
+    });
+    },
+    error : function(respuesta){
+
+    }
+  });
 }
 
 function dateSelected(){

@@ -1,3 +1,79 @@
+$(document).ready(function(){
+	cargarProductosInactivos();
+})
+
+function configurarDataTableProductoInactivo(selector) {
+	$(selector).DataTable({
+	  language: {
+		"sProcessing": "Procesando...",
+		"sLengthMenu": "Mostrar _MENU_ registros",
+		"sZeroRecords": "No se encontraron resultados",
+		"sEmptyTable": "Ningún dato disponible en esta tabla",
+		"sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+		"sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+		"sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+		"sInfoPostFix": "",
+		"sSearch": "Buscar:",
+		"sUrl": "",
+		"sInfoThousands": ",",
+		"sLoadingRecords": "Cargando...",
+		"oPaginate": {
+		  "sFirst": "Primero",
+		  "sLast": "Último",
+		  "sNext": "Siguiente",
+		  "sPrevious": "Anterior"
+		},
+		"oAria": {
+		  "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+		  "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+		}
+	  }
+	});
+  }
+
+function cargarProductosInactivos(){
+	configurarDataTableProductoInactivo('#tabla-productos');
+	$.ajax({
+		url:'ajax/productos.ajax.php?metodo=inactivo',
+		type: 'GET',
+		dataType: 'json',
+		success :function(respuesta){
+			var tablaProductos = $('#tabla-productos').DataTable();
+			tablaProductos.clear().draw();
+      
+      var contador = 1;
+      $.each(respuesta, function(index, producto) {
+        var rowData = [
+          contador,
+		  producto.codigo_producto,
+          producto.nombre,
+          producto.usuario,
+		  producto.precio_unitario,		  
+		  producto.numero_contrato,
+		  producto.numero_oferta_compra,
+		  producto.cantidad,
+		  producto.fecha_recepcion,
+		  producto.categoria,
+          '<div class="btn-group">' +
+            '<button class="btn btn-success reactivar-producto" data-id="' + producto.codigo_producto + '">' +
+            '<i class="fa fa-backward" aria-hidden="true"></i>' +
+            '</button>' +
+          '</div>'
+        ];
+        
+        tablaProductos.rows.add([rowData]);
+        contador++;
+      });
+
+      tablaProductos.draw();
+      
+		},
+		error : function(respuesta){
+			mostrarError(respuesta);
+		}
+	})
+}
+
 var perfilOculto = $("#perfilOculto").val();
 
 $('.tablaProductos').DataTable( {
@@ -137,7 +213,7 @@ $(".tablaProductos tbody").on("click", "button.btnEditarProducto", function(){
 				}
 
 			})
-			$("#editarIdCategoriaProducto").val(respuesta["id_categoria"]);
+		   $("#editarIdCategoriaProducto").val(respuesta["id_categoria"]);
            $("#editarCodigoProducto").val(respuesta["codigo_producto"]);
            $("#editarNombreProducto").val(respuesta["nombre"]);
 		   $("#editarPrecioUnitarioProducto").val(respuesta["precio_unitario"]);
@@ -147,7 +223,10 @@ $(".tablaProductos tbody").on("click", "button.btnEditarProducto", function(){
            $("#editarFechaRecepcionProducto").val(respuesta["fecha_recepcion"]);
 		   $("#editarIdStatusProducto").val(respuesta["id_status"]);
 
-      }
+      },
+	  error :function(respuesta){
+		
+	  }
 
   })
 
@@ -178,7 +257,64 @@ $(".tablaProductos tbody").on("click", "button.btnEliminarProducto", function(){
 	})
 
 })
-	
+
+
+$(document).on("click", ".reactivar-producto", function(){
+    var idProducto = $(this).data("id");
+    swal({
+        title: "¿Deseas Reactivar este producto?",
+        text: "¡Si reactivas este producto, será seleccionable de nuevo!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Sí, Reactivar!',
+        timer: null // Evitar que la alerta se cierre automáticamente
+    }).then(function(result) {
+        if (result.value) {
+            $.ajax({
+                url: "ajax/productos.ajax.php?metodo=reactivar&id=" + idProducto,
+                method: "GET",
+                success: function(respuesta) {
+                    if (respuesta.includes("ok")) {
+                        swal({
+                            type: "success",
+                            title: "Producto Reactivado Correctamente",
+                            showConfirmButton: true,
+                            confirmButtonText: "Cerrar",
+                            closeOnConfirm: false
+                        }).then(function() {
+							location.reload(); // Recargar la página
+                            window.location = "productos#tab2"; // Redireccionar a la pestaña "tab2"
+                   
+                        });
+                    } else {
+                        mostrarError(respuesta);
+                    }
+                },
+                error: function(respuesta) {
+                    mostrarError(respuesta);
+                },
+            });
+        }
+    });
+});
+
+
+function mostrarError(respuesta) {
+	swal({
+	  type: "error",
+	  title: "Error al procesar la información",
+	  showConfirmButton: true,
+	  confirmButtonText: "Cerrar",
+	  closeOnConfirm: false
+	}).then(function(result) {
+	  if (result.value) {}
+	});
+  }
+  
+
 $(".btnImprimirProductos").on("click", function(){
 
 	window.open("extensiones/tcpdf/pdf/productos.php", "_blank");

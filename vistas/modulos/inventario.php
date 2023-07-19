@@ -44,7 +44,7 @@
                   <th>Cantidad Ingresada</th>
                   <th>Fecha de Llegada del producto</th>
                   <th>Fecha de emision</th>
-                  <th>Estado</th>
+                  <th>Usuario</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -78,7 +78,7 @@
                   <th>Cantidad Ingresada</th>
                   <th>Fecha de Llegada del producto</th>
                   <th>Fecha de emision</th>
-                  <th>Estado</th>
+                  <th>Usuario</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -149,6 +149,7 @@
               </div>
 
             </div>
+            <input type="hidden" name="token" value="<?=$_SESSION["token"]?>">
           </div>
         </div>
         <div class="modal-footer">
@@ -218,10 +219,10 @@
 
               <div class="col-sm-6">
                 <div class="form-group">
-                  <label for="editarFechaemisionInventario">Fecha de emisión:</label>
+                  <label for="nuevoFechallegadaInventario">Fecha de Llegada:</label>
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
-                    <input type="date" class="form-control input-lg" name="editarFechaemisionInventario" id="editarFechaemisionInventario" placeholder="Ingresar fecha de emisión" required>
+                    <input type="date" class="form-control input-lg" name="nuevoFechallegadaInventario" id="editarFechaemisionInventario" placeholder="Ingresar fecha de emisión" required>
                   </div>
                 </div>
               </div>
