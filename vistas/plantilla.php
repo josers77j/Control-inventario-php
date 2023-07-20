@@ -57,7 +57,12 @@ session_start();
 
 </head>
 
-<body class="hold-transition skin-blue sidebar-collapse sidebar-mini login-page">
+<body class="hold-transition skin-blue sidebar-collapse sidebar-mini login-page"
+style='background: rgb(73,109,119);
+background: -moz-radial-gradient(circle, rgba(73,109,119,1) 23%, rgba(73,92,119,1) 76%);
+background: -webkit-radial-gradient(circle, rgba(73,109,119,1) 23%, rgba(73,92,119,1) 76%);
+background: radial-gradient(circle, rgba(73,109,119,1) 23%, rgba(73,92,119,1) 76%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#496d77",endColorstr="#495c77",GradientType=1);'>
  
   <?php
 
