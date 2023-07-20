@@ -21,14 +21,14 @@ class ModeloInventario{
 	}
 
     static public function mdlIngresarInventario($tabla, $datos){
-		$stmt = Conexion::conectar()->prepare("call InventorytoProductStock(:codigoproducto, :cantidadinventario, :fechallegadaproducto, :fecharegistro, :idstatus)");
+		$stmt = Conexion::conectar()->prepare("call InventorytoProductStock(:codigoproducto, :cantidadinventario, :fechallegadaproducto, :fecharegistro, :idstatus,:token)");
 		
         $stmt->bindParam(":codigoproducto", $datos["codigoproducto"], PDO::PARAM_INT);
         $stmt->bindParam(":cantidadinventario", $datos["cantidadinventario"], PDO::PARAM_INT);
         $stmt->bindParam(":fechallegadaproducto", $datos["fechallegadaproducto"], PDO::PARAM_STR);
         $stmt->bindParam(":fecharegistro", $datos["fecharegistro"], PDO::PARAM_STR);
         $stmt->bindParam(":idstatus", $datos["idstatus"], PDO::PARAM_INT);
-
+		$stmt->bindParam(":token", $datos["token"], PDO::PARAM_STR);
 		if($stmt->execute()){
 			return "ok";
 		}else{

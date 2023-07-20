@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('America/Costa_Rica');
 require_once "../controladores/inventario.controlador.php";
 require_once "../modelos/inventario.modelo.php";
 
@@ -30,8 +31,9 @@ class AjaxInventario{
         $data = array(  $_POST["nuevoProductoInventario"],
                         $_POST["nuevoCantidadInventario"],
                         $_POST["nuevoFechallegadaInventario"],
-                        $_POST["nuevoFechaemisionInventario"],
-                        $_POST["nuevoStatusInventario"]);
+                        date("Y-m-d"),
+                        1,
+                        $_POST["token"]);
         $respuesta = ControladorInventario::crtCrearInventario($data);
         echo json_encode($respuesta);
     }

@@ -220,7 +220,7 @@ $(document).ready(function() {
             tablaProgramaInactivos.rows.add([rowData]);
           } else {
             var rowData = [
-                contadorA,
+              contadorI,
                 programa.nombre,
                 programa.descripcion,
                 programa.presupuesto,

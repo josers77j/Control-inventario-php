@@ -24,8 +24,9 @@ class ControladorInventario
                 $datos = array( "codigoproducto" => $data[0], 
                                 "cantidadinventario" => $data[1],
                                 "fechallegadaproducto" => $data[2],
-                                "fecharegistro" => date("Y-m-d"),
-                                "idstatus" => $data[4]);
+                                "fecharegistro" => $data[3],
+                                "idstatus" => $data[4],
+                                "token" => $data[5]);
                 $respuesta = ModeloInventario::mdlIngresarInventario($tabla, $datos);
                 
                 return $respuesta;                

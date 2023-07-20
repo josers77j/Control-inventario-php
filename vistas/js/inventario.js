@@ -81,6 +81,7 @@ $(document).on('click', '.eliminar-inventario', function () {
         url: "ajax/inventario.ajax.php?metodo=anular&id=" + idInventario,
         method: "GET",
         success: function (respuesta) {
+         if (respuesta.includes("ok")) {
           swal({
             type: "success",
             title: "Registro anulado Correctamente",
@@ -99,9 +100,12 @@ $(document).on('click', '.eliminar-inventario', function () {
           tablaInventario.DataTable().destroy();
 
           cargarInventario();
+         }else{
+          mostrarError(respuesta);
+         }
         },
-        error: function () {
-          mostrarError();
+        error: function (respuesta) {
+          mostrarError(respuesta);
         },
       });
     }
@@ -185,7 +189,7 @@ function cargarInventario() {
             inventario.cantidad,
             inventario.fecha_llegada_producto,
             inventario.fecha_registro,
-            inventario.status,
+            inventario.usuario,
             '<div class="btn-group">' +
             '<button data-toggle="modal" data-target="#modalEditarInventario" class="btn btn-info editar-inventario" data-id="' + inventario.id_inventario + '">' +
             '<i class="fa fa-info-circle" aria-hidden="true"></i>' +
@@ -202,7 +206,7 @@ function cargarInventario() {
             inventario.cantidad,
             inventario.fecha_llegada_producto,
             inventario.fecha_registro,
-            inventario.status,
+            inventario.usuario,
             '<div class="btn-group">' +
             '<button data-toggle="modal" data-target="#modalEditarInventario" class="btn btn-info editar-inventario" data-id="' + inventario.id_inventario + '">' +
             '<i class="fa fa-info-circle" aria-hidden="true"></i>' +
@@ -231,10 +235,16 @@ function cargarInventario() {
 
 
 
-function mostrarError() {
+function mostrarError(respuesta) {
+var mensaje = ""
+  if (respuesta.includes("INSFP330")) {
+    var mensaje = "Ya hay stock en uso de este producto, debe eliminar dicho stock para realizar esta accion"
+  }
+
   swal({
     type: "error",
     title: "Error al procesar la información",
+    text: mensaje,
     showConfirmButton: true,
     confirmButtonText: "Cerrar",
     closeOnConfirm: false

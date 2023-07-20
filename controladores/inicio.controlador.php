@@ -6,4 +6,9 @@ class ControladorInicio
     {
         return $respuesta = ModeloInicio::mdlMostrarInicio();
     }
+
+    static public function ctrMostrarBanner()
+    {
+        return $respuesta = ModeloInicio::mdlMostrarBanner();
+    }
 }

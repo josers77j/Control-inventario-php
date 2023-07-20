@@ -8,6 +8,19 @@ if($_SESSION["role"] == "Usuario"){
 
 ?>
 <div class="content-wrapper">
+
+<div class="nav-tabs">
+    <ul class="nav nav-tabs">
+      <li class="active">
+        <a data-toggle="tab" href="#tab1"><b>Activos</b></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#tab2"><b>Inactivos</b></a>
+      </li>
+    </ul>
+  </div>
+
+
   <section class="content-header">
     <h1><b>Administrar usuarios</b></h1>
 
@@ -17,7 +30,10 @@ if($_SESSION["role"] == "Usuario"){
     </ol>
   </section>
 
-  <section class="content">
+  <div class="tab-content">
+
+<div class="tab-pane active" id="tab1">
+<section class="content">
     <div class="box">
       <div class="box-header with-border">
         <button class="btn btn-success" data-toggle="modal" data-target="#modalAgregarUsuario">  
@@ -35,11 +51,7 @@ if($_SESSION["role"] == "Usuario"){
                 <th>Telefono</th>
                 <th>Role</th>
                 <th>Estado</th>
-                <?php
-                  if($_SESSION["role"] == "Administrador"){
-                    echo '<th>Acciones</th>';
-                  }
-                ?>
+                <th>Acciones</th>
               </tr>
           </thead>
         <tbody>
@@ -90,7 +102,70 @@ if($_SESSION["role"] == "Usuario"){
     </div>
   </section>
 </div>
-							
+
+
+<div class="tab-pane" id="tab2">
+<section class="content">
+    <div class="box">
+      <div class="box-header with-border">
+        <button class="btn btn-success" data-toggle="modal" data-target="#modalAgregarUsuario">  
+          <b>Agregar usuario</b>
+        </button>
+      </div>
+      <div class="box-body">
+       <table class="table table-bordered table-striped dt-responsive tablas" width="100%" id="tabla-usuarioInactivo">
+          <thead>
+              <tr>
+                <th style="width:10px">#</th>
+                <th>Nombre</th>
+                <th>Usuario</th>
+                <th>Correo</th>
+                <th>Telefono</th>
+                <th>Role</th>
+                <th>Estado</th>
+              </tr>
+          </thead>
+        <tbody>
+        <?php
+
+        $item = null;
+        $valor = null;
+        $usuarios = ControladorUsuarios::ctrMostrarUsuariosInactivos($item, $valor);
+
+       foreach ($usuarios as $key => $value){
+
+          echo ' <tr>
+                  <td>'.($key+1).'</td>
+                  <td>'.$value["nombres"].'</td>
+                  <td>'.$value["usuario"].'</td>
+                  <td>'.$value["correo"].'</td>
+                  <td>'.$value["telefono"].'</td>';
+
+                  echo '<td>'.$value["role"].'</td>';
+
+                  if($value["estado"] != 2){
+                    echo '<td><button class="btn btn-success btn-xs btnActivar" idUsuario="'.$value["id_usuario"].'" estadoUsuario="2">Activado</button></td>';
+                  }else{
+                    echo '<td><button class="btn btn-danger btn-xs btnActivar" idUsuario="'.$value["id_usuario"].'" estadoUsuario="1">Desactivado</button></td>';
+                  }  
+
+
+               
+                  
+                echo '</tr>';
+        }
+        ?> 
+        </tbody>
+       </table>
+      </div>
+    </div>
+  </section>
+  </div>
+
+
+
+</div>
+</div>				
 <div id="modalAgregarUsuario" class="modal fade" role="dialog">
   <div class="modal-dialog modal-lg">
     <div class="modal-content" style="border-radius: 10px;">
@@ -169,23 +244,7 @@ if($_SESSION["role"] == "Usuario"){
                 </div>
               </div>
             </div>
-                <div class="form-group">
-                  <label for="nuevoStatus">Status:</label>
-                  <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-users"></i></span> 
-                    <select class="form-control input-lg" name="nuevoStatus" id="nuevoStatus">
-                      <option value="">Seleccionar status</option>
-                      <?php
-                      $item = null;
-                      $valor = null;
-                      $status = ControladorStatus::ctrMostrarStatus($item, $valor);
-                      foreach ($status as $key => $value) {
-                          echo '<option value="'.$value["id_status"].'">'.$value["nombre"].'</option>';
-                      }
-                      ?>
-                    </select>            
-              </div>
-            </div>
+          
           </div>
         </div>
 

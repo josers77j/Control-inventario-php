@@ -128,6 +128,7 @@ function getStatus(relevancia) {
 
 $(document).on('click', '.removerNotificacion', function (event) {
   event.stopPropagation();
+  event.preventDefault();
   var id = $(this).data("id");
   $.ajax({
       url: 'ajax/notificaciones.ajax.php?metodo=desactivar&id=' + id,
@@ -168,7 +169,7 @@ $(document).on('click', '.removerNotificaciones', function (event) {
           success: function (respuesta) {
             swal({
               type: "success",
-              title: "Registro anulado Correctamente",
+              title: "",
               showConfirmButton: true,
               confirmButtonText: "Cerrar",
               closeOnConfirm: false

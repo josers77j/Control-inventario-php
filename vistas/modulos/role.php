@@ -23,9 +23,7 @@ if($_SESSION["role"] == "Usuario"){
   <section class="content">
     <div class="box">
       <div class="box-header with-border">
-        <button class="btn btn-success" data-toggle="modal" data-target="#modalAgregarRole">
-          <b>Agregar roles</b>
-        </button>
+      
       </div>
       <div class="box-body">
        <table class="table table-bordered table-striped dt-responsive tablas" width="100%">
@@ -34,7 +32,7 @@ if($_SESSION["role"] == "Usuario"){
            <th style="width:10px">#</th>
            <th>Nombre</th>
            <th>Descripcion</th>
-           <th>Acciones</th>
+           
          </tr> 
         </thead>
         <tbody>
@@ -50,14 +48,7 @@ if($_SESSION["role"] == "Usuario"){
                     <td>'.$value["nombre"].'</td>
                     <td>'.$value["descripcion"].'</td>
 
-                    <td>
-                      <div class="btn-group">';
-                        if($_SESSION["role"] == "Administrador"){
-                          echo '
-                          <button class="btn btn-warning btnEditarRole"  idRole="'.$value["id_rol"].'" data-toggle="modal" data-target="#modalEditarRole"><i class="fa fa-pencil"></i></button>';
-                        }
-                      echo '</div>  
-                    </td>
+                   
                   </tr>';
           }
 

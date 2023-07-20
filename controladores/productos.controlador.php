@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('America/Costa_Rica');
 class ControladorProductos{
 
 	static public function ctrMostrarProductos($item, $valor, $orden){
@@ -8,6 +8,13 @@ class ControladorProductos{
 		$tabla3 = "tbl_status";
 
 		$respuesta = ModeloProductos::mdlMostrarProductos($tabla1, $tabla2, $tabla3, $item, $valor, $orden);
+		return $respuesta;
+
+	}
+
+	static public function ctrMostrarProductosInactivos(){
+		
+		$respuesta = ModeloProductos::mdlMostrarProductosInactivos();
 		return $respuesta;
 
 	}
@@ -26,8 +33,9 @@ class ControladorProductos{
 							   "numero_oferta_compra" => $_POST["nuevoNumeroOfertaCompraProducto"],
 							   "fecha_recepcion" => $_POST["nuevaFechaRecepcionProducto"],
                                "id_categoria" => $_POST["nuevaIdCategoriaProducto"],
-							   "id_status" => $_POST["nuevaIdStatusProducto"],
-
+							   "id_status" => 1,
+							   "fecha_registro" => date("Y-m-d"),
+							   "token" => $_POST["token"],
 		                    );
                   
 				$respuesta = ModeloProductos::mdlIngresarProducto($tabla, $datos);
@@ -70,6 +78,8 @@ class ControladorProductos{
 
 	}
 
+
+
 	static public function ctrEditarProducto(){
 		if(isset($_POST["editarNombreProducto"])){
 			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombreProducto"])){
@@ -79,12 +89,10 @@ class ControladorProductos{
 				$datos = array("codigo_producto" => $_POST["editarCodigoProducto"],
 							   "nombre" => $_POST["editarNombreProducto"],
 							   "precio_unitario" => $_POST["editarPrecioUnitarioProducto"],
-							   "cantidad" => $_POST["editarCantidadProducto"],
 							   "numero_contrato" => $_POST["editarNumeroContratoProducto"],
 							   "numero_oferta_compra" => $_POST["editarNumeroOfertaCompraProducto"],
 							   "fecha_recepcion" => $_POST["editarFechaRecepcionProducto"],
                                "id_categoria" => $_POST["editarIdCategoriaProducto"],
-							   "id_status" => $_POST["editarIdStatusProducto"],
 
 		                    );
 
@@ -159,6 +167,12 @@ class ControladorProductos{
 			}		
 		}
 
+
+	}
+
+	static public function ctrReactivarProductos($id){
+		$respuesta = ModeloProductos::mdlReactivarProducto($id);
+		return $respuesta;
 
 	}
 

@@ -7,10 +7,14 @@ class ModeloReportes{
     static public function mdlMostrarHistorialEntrada($fechaInicio, $fechaFin, $Istatus){
         
 		if($Istatus != null){
-			$stmt = Conexion::conectar()->prepare("call getReporteHistorialEntrada($fechaInicio, $fechaFin, $Istatus)");
+			$stmt = Conexion::conectar()->prepare("CALL getReporteHistorialEntrada(:fechaInicio, :fechaFin, :Istatus)");
 
-			$stmt -> execute();
-			return $stmt -> fetchAll();
+			$stmt->bindParam(':fechaInicio', $fechaInicio, PDO::PARAM_STR);
+			$stmt->bindParam(':fechaFin', $fechaFin, PDO::PARAM_STR);
+			$stmt->bindParam(':Istatus', $Istatus, PDO::PARAM_INT);
+	
+			$stmt->execute();
+			return $stmt->fetchAll();
 		}else{
 			$stmt = Conexion::conectar()->prepare("call getReporteHistorialEntrada()");
 			$stmt -> execute();
@@ -25,7 +29,11 @@ class ModeloReportes{
     static public function mdlMostrarHistorialSalida($fechaInicio, $fechaFin, $Istatus){
         
 		if($Istatus != null){
-			$stmt = Conexion::conectar()->prepare("call getReporteHistorialSalida($fechaInicio, $fechaFin, $Istatus)");
+			$stmt = Conexion::conectar()->prepare("call getReporteHistorialSalida(:fechaInicio, :fechaFin, :Istatus)");
+
+			$stmt->bindParam(':fechaInicio', $fechaInicio, PDO::PARAM_STR);
+			$stmt->bindParam(':fechaFin', $fechaFin, PDO::PARAM_STR);
+			$stmt->bindParam(':Istatus', $Istatus, PDO::PARAM_INT);
 
 			$stmt -> execute();
 			return $stmt -> fetchAll();

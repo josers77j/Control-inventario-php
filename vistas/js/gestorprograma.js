@@ -90,7 +90,7 @@ function obtenerDetalleProgramas(idProgramaProducto) {
             });
         },
         error: function (respuesta) {
-            mostrarError();
+            mostrarError(respuesta);
         }
     });
 }
@@ -116,7 +116,7 @@ function obtenerDetalleProgramasInfo(idProgramaProducto) {
             });
         },
         error: function (respuesta) {
-            mostrarError();
+            mostrarError(respuesta);
         }
     });
 }
@@ -202,21 +202,8 @@ function cargarGestorPrograma() {
             tablaGestorInactivos.draw();
         },
         error: function (respuesta) {
-            mostrarError();
+            mostrarError(respuesta);
         },
-    });
-}
-
-
-function mostrarError(respuesta) {
-    swal({
-        type: "error",
-        title: "Error al procesar la información",
-        showConfirmButton: true,
-        confirmButtonText: "Cerrar",
-        closeOnConfirm: false
-    }).then(function (result) {
-        if (result.value) { }
     });
 }
 
@@ -253,7 +240,7 @@ function finderProgram(buscar) {
 
         },
         error: function (respuesta) {
-            mostrarError();
+            mostrarError(respuesta);
         }
     });
 
@@ -273,7 +260,7 @@ function FillingProgram(buscar) {
             $("#editarNombrePrograma").html(selectOptions);
         },
         error: function (respuesta) {
-            mostrarError();
+            mostrarError(respuesta);
         }
     });
 
@@ -292,8 +279,8 @@ $("#agregarDetalleProducto").click(function (event) {
         url: "ajax/gestorprogramas.ajax.php",
         method: "POST",
         data: data,
-        success: function (response) {
-            if (response.includes("ok")) {
+        success: function (respuesta) {
+            if (respuesta.includes("ok")) {
                 swal({
                     type: "success",
                     title: "Producto Agregado Correctamente",
@@ -314,11 +301,11 @@ $("#agregarDetalleProducto").click(function (event) {
                 cargarGestorPrograma();
 
             } else {
-                mostrarError();
+                mostrarError(respuesta);
             }
         },
-        error: function (xhr, status, error) {
-            mostrarError();
+        error: function (respuesta) {
+            mostrarError(respuesta);
         }
     });
 });
@@ -363,8 +350,8 @@ $(document).on('click', '.borrar-detalleproducto', function () {
                     cargarGestorPrograma();
                     obtenerDetalleProgramas(idProgramaProducto);
                 },
-                error: function () {
-                    mostrarError();
+                error: function (respuesta) {
+                    mostrarError(respuesta);
                 },
             });
         }
@@ -435,11 +422,11 @@ $("#FormNuevagestorinventario").submit(function (event) {
                 $("#FormNuevagestorinventario")[0].reset();
                 cargarGestorPrograma();
             } else {
-                mostrarError();
+                mostrarError(respuesta);
             }
         },
-        error: function () {
-            mostrarError();
+        error: function (respuesta) {
+            mostrarError(respuesta);
         },
     });
 });
@@ -489,11 +476,11 @@ $("#FormEditarGestorProgramas").submit(function (event) {
 
                 cargarGestorPrograma();
             } else {
-                mostrarError();
+                mostrarError(respuesta);
             }
         },
-        error: function () {
-            mostrarError();
+        error: function (respuesta) {
+            mostrarError(respuesta);
         },
     });
 });
@@ -543,3 +530,23 @@ $(document).on('click', '.btnImprimirGestionarProgramas', function () {
     var idProgramaProducto = $(this).data("id");
     window.open("extensiones/tcpdf/pdf/gestionar_programa.php?idProgramaProducto=" + idProgramaProducto, "_blank");
 })
+
+function mostrarError(respuesta) {
+	var message = "";
+	if(respuesta.includes("INSFP310")){
+		message = "El importe total excede el presupuesto del programa."
+	}
+	else if(respuesta.includes("INSFP320")){
+		message = "La cantidad ingresada excede las existencias."
+	}
+	swal({
+	  type: "error",
+	  title: "Error al procesar la información",
+	  text: message,
+	  showConfirmButton: true,
+	  confirmButtonText: "Cerrar",
+	  closeOnConfirm: false
+	}).then(function(result) {
+	  if (result.value) {}
+	});
+  }

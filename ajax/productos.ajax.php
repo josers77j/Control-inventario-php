@@ -63,6 +63,20 @@ class AjaxProductos{
 
   }
 
+  public function ajaxObtenerProductosInactivos(){
+  	$respuesta = ControladorProductos::ctrMostrarProductosInactivos();
+  	echo json_encode($respuesta);
+
+  }
+
+
+  public function ajaxReactivarProductos(){
+    $id = $_GET["id"];
+  	$respuesta = ControladorProductos::ctrReactivarProductos($id);
+  	echo json_encode($respuesta);
+
+  }
+
 }
 
 if(isset($_POST["idCategoria"])){
@@ -95,4 +109,19 @@ if(isset($_POST["nombreProducto"])){
   $traerProductos -> nombreProducto = $_POST["nombreProducto"];
   $traerProductos -> ajaxEditarProducto();
 
+}
+
+if(isset($_GET["metodo"])){
+  switch ($_GET["metodo"]) {
+
+    case 'inactivo':
+      $traerProductos = new AjaxProductos();
+      $traerProductos -> ajaxObtenerProductosInactivos();
+      break;
+    case 'reactivar':
+      $reactivarProductos = new AjaxProductos();
+      $reactivarProductos ->ajaxReactivarProductos();
+    
+  
+  }
 }
