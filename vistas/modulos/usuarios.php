@@ -71,12 +71,16 @@ if($_SESSION["role"] == "Usuario"){
                   <td>'.$value["telefono"].'</td>';
 
                   echo '<td>'.$value["role"].'</td>';
-
-                  if($value["estado"] != 2){
-                    echo '<td><button class="btn btn-success btn-xs btnActivar" idUsuario="'.$value["id_usuario"].'" estadoUsuario="2">Activado</button></td>';
+                  if ($value["role"] == "Administrador") {
+                    echo '<td><span class="badge label-success">Activo</span></td>';
                   }else{
-                    echo '<td><button class="btn btn-danger btn-xs btnActivar" idUsuario="'.$value["id_usuario"].'" estadoUsuario="1">Desactivado</button></td>';
-                  }  
+                    if($value["estado"] != "Inactivo"){
+                      echo '<td><button class="btn btn-success btn-xs btnActivar recargarPagina" idUsuario="'.$value["id_usuario"].'" estadoUsuario="2">Activado</button></td>';
+                    }else{
+                      echo '<td><button class="btn btn-danger btn-xs btnActivar recargarPagina" idUsuario="'.$value["id_usuario"].'" estadoUsuario="1" >Desactivado</button></td>';
+                    }  
+                  }
+                  
 
 
                   if($_SESSION["role"] == "Administrador"){
@@ -143,10 +147,10 @@ if($_SESSION["role"] == "Usuario"){
 
                   echo '<td>'.$value["role"].'</td>';
 
-                  if($value["estado"] != 2){
-                    echo '<td><button class="btn btn-success btn-xs btnActivar" idUsuario="'.$value["id_usuario"].'" estadoUsuario="2">Activado</button></td>';
+                  if($value["estado"] != "Inactivo"){
+                    echo '<td><button class="btn btn-success btn-xs btnActivar recargarPagina" idUsuario="'.$value["id_usuario"].'" estadoUsuario="2" >Activado</button></td>';
                   }else{
-                    echo '<td><button class="btn btn-danger btn-xs btnActivar" idUsuario="'.$value["id_usuario"].'" estadoUsuario="1">Desactivado</button></td>';
+                    echo '<td><button class="btn btn-danger btn-xs btnActivar recargarPagina" idUsuario="'.$value["id_usuario"].'" estadoUsuario="1" >Desactivado</button></td>';
                   }  
 
 

@@ -185,6 +185,11 @@ $(".tablas").on("click", ".btnEliminarUsuario", function(){
 
 })
 
+$(".recargarPagina").click(function(){
+	location.reload();
+})
+
+
 
 
 

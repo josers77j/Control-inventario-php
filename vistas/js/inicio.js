@@ -86,12 +86,11 @@ function cargarInicio() {
     respuesta.forEach(function(elemento) {
       var producto = elemento.producto;
       var cantidad = elemento.cantidad;
-
+    
       // Creamos el contenido de cada LI
-      var liContent = producto + " | Cantidad: " + cantidad;
-      var liElementWarning = '<li class="badge label-warning">' + liContent + '</li>';
-      var liElementDanger = '<li class="badge label-danger">' + liContent + '</li>';
-
+      var liElementWarning = '<li><span class="badge label-warning" style="font-size:15px"> Producto: ' + producto + '</span> | <span class="badge label-warning" style="font-size:15px"> Cantidad: ' + cantidad + '</span></li>';
+      var liElementDanger = '<li><span class="badge label-danger" style="font-size:15px"> Producto: ' + producto + '</span> | <span class="badge label-danger" style="font-size:15px"> Cantidad: ' + cantidad + '</span></li>';
+    
       // Dependiendo del valor de cantidad, agregamos el LI al UL correspondiente
       if (cantidad == 0) {
         $('#banner1').append(liElementDanger);
@@ -101,6 +100,7 @@ function cargarInicio() {
         console.log("No se pudo mostrar banner");
       }
     });
+    
     },
     error : function(respuesta){
 

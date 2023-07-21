@@ -260,6 +260,15 @@ $(".tablaProductos tbody").on("click", "button.btnEliminarProducto", function(){
 
 
 $(document).on("click", ".reactivar-producto", function(){
+	    // Obtener el valor del rol del usuario desde la variable de sesión
+		var esAdmin = "<?php echo $_SESSION['role'] === 'admin' ? 'true' : 'false'; ?>";
+
+		// Verificar si el usuario es administrador
+		if (!esAdmin) {
+			// Si el usuario no es administrador, mostrar un mensaje de denegación o realizar alguna acción
+			alert("Acceso denegado. Debes ser administrador para realizar esta acción.");
+			return; // Salir de la función sin realizar más acciones
+		}
     var idProducto = $(this).data("id");
     swal({
         title: "¿Deseas Reactivar este producto?",

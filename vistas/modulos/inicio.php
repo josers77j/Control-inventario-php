@@ -207,7 +207,7 @@
 <style>
   .product-box {
     border-radius: 4px;
-    width: 300px;
+    width: 400px;
     overflow: hidden;
     margin-bottom: 20px;
 
@@ -258,7 +258,6 @@
   }
 
   .box-open {
-    padding: 5px;
     max-height: 200px;
   }
 
