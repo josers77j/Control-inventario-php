@@ -21,12 +21,15 @@ class ControladorProductos{
 
 	static public function ctrCrearProducto(){
 		if(isset($_POST["nuevoNombreProducto"])){
-			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoNombreProducto"])){
+			if(	preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoNombreProducto"]) &&
+			preg_match('/^[-+]?[0-9]+(\.[0-9]+)?$/', $_POST["nuevoPrecioUnitarioProducto"]) &&
+			preg_match('/^[0-9 ]+$/', $_POST["nuevaCantidadProducto"]) &&
+			preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoNumeroContratoProducto"]) &&
+			preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["nuevoNumeroOfertaCompraProducto"])){
 
 				$tabla = "tbl_productos";
 
-				$datos = array("codigo_producto" => $_POST["nuevoCodigoProducto"],
-							   "nombre" => $_POST["nuevoNombreProducto"],
+				$datos = array("nombre" => $_POST["nuevoNombreProducto"],
 							   "precio_unitario" => $_POST["nuevoPrecioUnitarioProducto"],
 							   "cantidad" => $_POST["nuevaCantidadProducto"],
 							   "numero_contrato" => $_POST["nuevoNumeroContratoProducto"],

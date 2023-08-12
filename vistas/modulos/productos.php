@@ -137,7 +137,7 @@
                   <label for="nuevoCodigoProducto">Código:</label>
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-code"></i></span>
-                    <input type="text" class="form-control input-lg" id="nuevoCodigoProducto" name="nuevoCodigoProducto" placeholder="Ingresar código" readonly required>
+                    <input type="text" class="form-control input-lg" id="nuevoCodigoProducto" name="nuevoCodigoProducto" placeholder="Ingresar código" readonly>
                   </div>
                 </div>
               </div>
@@ -148,7 +148,7 @@
                   <label for="nuevoNombreProducto">Nombre:</label>
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-product-hunt"></i></span>
-                    <input type="text" class="form-control input-lg" name="nuevoNombreProducto" placeholder="Ingresar nombre" required>
+                    <input type="text" class="form-control input-lg" name="nuevoNombreProducto" placeholder="Ingresar nombre" id="nuevoProducto" required>
                   </div>
                 </div>
               </div>

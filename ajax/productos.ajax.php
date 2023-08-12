@@ -77,6 +77,21 @@ class AjaxProductos{
 
   }
 
+  public $validarProducto;
+	public function ajaxValidarProducto(){
+
+    
+    $orden = "p.nombre";
+    $item = "p.nombre";
+		$valor = $this->validarProducto;
+
+  
+		$respuesta = ControladorProductos::ctrMostrarProductos($item, $valor, $orden);
+
+		echo json_encode($respuesta);
+
+	}
+
 }
 
 if(isset($_POST["idCategoria"])){
@@ -108,6 +123,14 @@ if(isset($_POST["nombreProducto"])){
   $traerProductos = new AjaxProductos();
   $traerProductos -> nombreProducto = $_POST["nombreProducto"];
   $traerProductos -> ajaxEditarProducto();
+
+}
+
+if(isset( $_POST["validarProducto"])){
+
+	$valProducto = new AjaxProductos();
+	$valProducto -> validarProducto = $_POST["validarProducto"];
+	$valProducto -> ajaxValidarProducto();
 
 }
 

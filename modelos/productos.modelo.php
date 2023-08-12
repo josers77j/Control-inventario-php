@@ -37,6 +37,7 @@ class ModeloProductos
 		$stmt->close();
 		$stmt = null;
 	}
+	
 
 	static public function mdlMostrarProductosInactivos(){
 		$stmt = Conexion::conectar()->prepare("call getProductInactive()");
@@ -53,10 +54,9 @@ class ModeloProductos
 		$status =  $datos["id_status"];
 		$token = $datos["token"];
 
-		$stmt = Conexion::conectar()->prepare("call insertProduct(:codigo_producto ,:nombre, :precio_unitario, :cantidad, :numero_contrato, :numero_oferta_compra, :fecha_recepcion, :id_categoria, :id_status,:token)");
+		$stmt = Conexion::conectar()->prepare("call insertProduct(:nombre, :precio_unitario, :cantidad, :numero_contrato, :numero_oferta_compra, :fecha_recepcion, :id_categoria, :id_status,:token)");
 
 		
-		$stmt->bindParam(":codigo_producto", $datos["codigo_producto"], PDO::PARAM_INT);
 		$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
 		$stmt->bindParam(":precio_unitario", $datos["precio_unitario"], PDO::PARAM_STR);
 		$stmt->bindParam(":cantidad", $datos["cantidad"], PDO::PARAM_STR);
@@ -66,6 +66,7 @@ class ModeloProductos
 		$stmt->bindParam(":id_categoria", $datos["id_categoria"], PDO::PARAM_STR);
 		$stmt->bindParam(":id_status", $datos["id_status"], PDO::PARAM_INT);
 		$stmt->bindParam(":token", $datos["token"], PDO::PARAM_STR);
+		
 
 		if ($stmt->execute()) {
 			$stmt2 = Conexion::conectar()->prepare("call insertProductInventory(:nombre, :cantidad, :fecharecep, :fechareg, :status, :token)");
