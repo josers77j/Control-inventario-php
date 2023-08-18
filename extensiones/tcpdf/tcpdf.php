@@ -17454,7 +17454,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 						$this->rollbackTransaction(true);
 						// restore previous values
 						foreach ($this_method_vars as $vkey => $vval) {
-							$$vkey = $vval;
+							//vkey = $vval;
 						}
 						// disable table header
 						$tmp_thead = $this->thead;
@@ -18640,7 +18640,7 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 					$this->rollbackTransaction(true);
 					// restore previous values
 					foreach ($this_method_vars as $vkey => $vval) {
-						$$vkey = $vval;
+						//vkey = $vval;
 					}
 					if (!empty($dom[$key]['thead'])) {
 						$this->inthead = true;

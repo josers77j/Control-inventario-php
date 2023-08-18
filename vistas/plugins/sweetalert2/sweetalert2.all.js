@@ -672,9 +672,9 @@ var sweetAlert$1 = function sweetAlert() {
         resolve({ dismiss: dismiss });
       }
     };
-    var errorWith = function errorWith(error$$1) {
+    var errorWith = function errorWith(error//1) {
       sweetAlert.closePopup(params.onClose);
-      reject(error$$1);
+      reject(error//1);
     };
 
     // Close on timer
@@ -760,8 +760,8 @@ var sweetAlert$1 = function sweetAlert() {
             } else {
               succeedWith(preConfirmValue || value);
             }
-          }, function (error$$1) {
-            return errorWith(error$$1);
+          }, function (error//1) {
+            return errorWith(error//1);
           });
         }
       } else {
@@ -840,8 +840,8 @@ var sweetAlert$1 = function sweetAlert() {
                     } else {
                       confirm(inputValue);
                     }
-                  }, function (error$$1) {
-                    return errorWith(error$$1);
+                  }, function (error//1) {
+                    return errorWith(error//1);
                   });
                 }
               } else {
@@ -1122,9 +1122,9 @@ var sweetAlert$1 = function sweetAlert() {
     };
 
     // Show block with validation error
-    sweetAlert.showValidationError = function (error$$1) {
+    sweetAlert.showValidationError = function (error//1) {
       var validationError = getValidationError();
-      validationError.innerHTML = error$$1;
+      validationError.innerHTML = error//1;
       show(validationError);
 
       var input = getInput();
