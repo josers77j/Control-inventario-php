@@ -259,6 +259,41 @@ $(".tablaProductos tbody").on("click", "button.btnEliminarProducto", function(){
 })
 
 
+$("#nuevoProducto").change(function(){
+
+	$(".alert").remove();
+
+	var producto = $(this).val();
+
+	var datos = new FormData();
+	datos.append("validarProducto", producto);
+
+	 $.ajax({
+	    url:"ajax/productos.ajax.php",
+	    method:"POST",
+	    data: datos,
+	    cache: false,
+	    contentType: false,
+	    processData: false,
+	    dataType: "json",
+	    success:function(respuesta){
+	    	
+	    	if(respuesta){
+
+	    		$("#nuevoProducto").parent().after('<div class="alert alert-warning">Este producto ya existe en la base de datos</div>');
+
+	    		$("#nuevoProducto").val("");
+
+	    	}
+
+	    },
+		error: function(respuesta){
+			console.log(respuesta);
+		}
+
+	})
+})
+
 $(document).on("click", ".reactivar-producto", function(){
 	    // Obtener el valor del rol del usuario desde la variable de sesión
 		var esAdmin = "<?php echo $_SESSION['role'] === 'admin' ? 'true' : 'false'; ?>";
