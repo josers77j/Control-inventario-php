@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 19-07-2023 a las 04:11:39
+-- Tiempo de generación: 14-09-2023 a las 22:35:47
 -- Versión del servidor: 8.0.31
 -- Versión de PHP: 8.0.26
 
@@ -317,7 +317,7 @@ END$$
 
 DROP PROCEDURE IF EXISTS `getReporteProductosBajoStock`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getReporteProductosBajoStock` (IN `pstatus` INT)   BEGIN
-SELECT p.codigo_producto,p.nombre,p.precio_unitario,p.cantidad,p.numero_contrato,p.numero_oferta_compra,p.fecha_recepcion,c.nombre FROM tbl_productos as p
+SELECT p.codigo_producto,p.nombre,p.precio_unitario,p.cantidad,p.numero_contrato,p.numero_oferta_compra,p.fecha_recepcion,c.nombre as nombreCategoria FROM tbl_productos as p
 INNER JOIN tbl_categoria as c on  p.id_categoria = c.id_categoria
 WHERE p.cantidad <= 10 AND p.id_status = pstatus;
 END$$
@@ -338,7 +338,7 @@ VALUES(id_usuario,id_programa,fecha,total,cantidad,id_status);
 END$$
 
 DROP PROCEDURE IF EXISTS `insertProduct`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insertProduct` (IN `codigo_producto` INT, IN `nombre` VARCHAR(50), IN `precio_unitario` DECIMAL(10,2), IN `cantidad` INT, IN `numero_contrato` TEXT, IN `numero_oferta_compra` TEXT, IN `fecha_recepcion` DATE, IN `idCategoria` INT, IN `idStatus` INT, IN `token` TEXT)   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertProduct` (IN `nombre` VARCHAR(50), IN `precio_unitario` DECIMAL(10,2), IN `cantidad` INT, IN `numero_contrato` TEXT, IN `numero_oferta_compra` TEXT, IN `fecha_recepcion` DATE, IN `idCategoria` INT, IN `idStatus` INT, IN `token` TEXT)   BEGIN
 
 DECLARE idUsuario int;
 
@@ -517,13 +517,6 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `updateProgramProduct` (IN `idProgra
 
 END$$
 
-DROP PROCEDURE IF EXISTS `z`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `z` (IN `idusuario` INT)   BEGIN
-SELECT a.codigo_productos,p.nombre,a.Mensaje,a.relevancia FROM tbl_alertas as a 
-INNER JOIN tbl_productos as p on a.codigo_productos = p.codigo_producto
-WHERE a.id_usuario = idusuario;
-END$$
-
 DELIMITER ;
 
 -- --------------------------------------------------------
@@ -543,7 +536,7 @@ CREATE TABLE IF NOT EXISTS `tbl_alertas` (
   PRIMARY KEY (`id_alerta`),
   KEY `id_status` (`id_status`),
   KEY `id_usuario` (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tbl_alertas`
@@ -564,9 +557,12 @@ INSERT INTO `tbl_alertas` (`id_alerta`, `codigo_productos`, `Mensaje`, `id_usuar
 (12, 1018, 'Niveles normales de producto', 10, 2, 3),
 (13, 1017, 'Niveles escasos de producto', 4, 2, 1),
 (14, 1017, 'Niveles escasos de producto', 10, 1, 1),
-(15, 1026, 'Niveles normales de producto', 4, 2, 3),
-(16, 1026, 'Niveles normales de producto', 10, 2, 3),
-(17, 1026, 'Niveles normales de producto', 12, 2, 3);
+(15, 1026, 'Niveles escasos de producto', 4, 2, 1),
+(16, 1026, 'Niveles escasos de producto', 10, 1, 1),
+(17, 1026, 'Niveles escasos de producto', 12, 1, 1),
+(18, 1027, 'Niveles escasos de producto', 4, 1, 1),
+(19, 1027, 'Niveles escasos de producto', 10, 1, 1),
+(20, 1027, 'Niveles escasos de producto', 12, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -608,14 +604,16 @@ CREATE TABLE IF NOT EXISTS `tbl_detalle_programa_productos` (
   PRIMARY KEY (`id_detalle_programa_productos`),
   KEY `codigo_producto` (`codigo_producto`),
   KEY `id_programa_productos` (`id_programa_productos`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tbl_detalle_programa_productos`
 --
 
 INSERT INTO `tbl_detalle_programa_productos` (`id_detalle_programa_productos`, `id_programa_productos`, `cantidad`, `precio_unitario`, `importe`, `codigo_producto`) VALUES
-(1, 24, 12, '1.00', '12.00', 1026);
+(1, 24, 12, '1.00', '12.00', 1026),
+(3, 25, 3, '1.00', '3.00', 1026),
+(4, 26, 43, '1.00', '43.00', 1027);
 
 -- --------------------------------------------------------
 
@@ -636,18 +634,22 @@ CREATE TABLE IF NOT EXISTS `tbl_inventario` (
   KEY `codigo_producto` (`codigo_producto`),
   KEY `id_status` (`id_status`),
   KEY `id_usuario` (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tbl_inventario`
 --
 
 INSERT INTO `tbl_inventario` (`id_inventario`, `codigo_producto`, `id_usuario`, `cantidad`, `fecha_llegada_producto`, `fecha_registro`, `id_status`) VALUES
-(1, 1026, 4, 12, '2023-07-18', '2023-07-18', 1),
-(2, 1026, 4, 25, '2023-07-18', '2023-07-18', 1),
+(1, 1026, 4, 12, '2023-07-18', '2023-07-18', 2),
+(2, 1026, 4, 25, '2023-07-18', '2023-07-18', 2),
 (3, 1026, 4, 20, '2023-07-14', '2023-07-18', 2),
 (4, 1026, 4, 15, '2023-07-12', '2023-07-18', 1),
-(5, 1026, 4, 600000, '2023-07-20', '2023-07-18', 1);
+(5, 1026, 4, 600000, '2023-07-20', '2023-07-18', 2),
+(6, 1027, 4, 43, '2023-07-22', '2023-07-22', 1),
+(7, 1028, 4, 45, '2023-07-22', '2023-07-22', 1),
+(8, 1029, 4, 32, '2023-08-12', '2023-08-12', 1),
+(9, 1030, 4, 4, '2023-08-12', '2023-08-12', 1);
 
 -- --------------------------------------------------------
 
@@ -672,14 +674,18 @@ CREATE TABLE IF NOT EXISTS `tbl_productos` (
   KEY `id_categoria` (`id_categoria`),
   KEY `id_status` (`id_status`),
   KEY `id_usuario` (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=1027 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=1031 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tbl_productos`
 --
 
 INSERT INTO `tbl_productos` (`codigo_producto`, `nombre`, `id_usuario`, `precio_unitario`, `cantidad`, `numero_contrato`, `numero_oferta_compra`, `fecha_recepcion`, `id_categoria`, `id_status`) VALUES
-(1026, 'Regleta de papel bond', 4, '1.00', 600040, '122312', '123123', '2023-07-18', 28, 1);
+(1026, 'Regleta de papel bond', 4, '1.00', 0, '122312', '123123', '2023-07-18', 28, 1),
+(1027, 'borradores', 4, '1.00', 0, '234324', '234234', '2023-07-22', 28, 1),
+(1028, 'cartucho imoresora', 4, '3.00', 45, '4423', '4345', '2023-07-22', 28, 1),
+(1029, 'Crayola', 4, '2.50', 32, '323243', '423243', '2023-08-12', 29, 1),
+(1030, 'calvin', 4, '323.00', 4, '434', '4343', '2023-08-12', 28, 2);
 
 -- --------------------------------------------------------
 
@@ -725,7 +731,7 @@ CREATE TABLE IF NOT EXISTS `tbl_programa_productos` (
   KEY `id_programa` (`id_programa`),
   KEY `id_usuario` (`id_usuario`),
   KEY `id_status` (`id_status`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb3;
 
 --
 -- Volcado de datos para la tabla `tbl_programa_productos`
@@ -733,7 +739,8 @@ CREATE TABLE IF NOT EXISTS `tbl_programa_productos` (
 
 INSERT INTO `tbl_programa_productos` (`id_programa_productos`, `id_usuario`, `id_programa`, `fecha`, `total`, `cantidad`, `id_status`) VALUES
 (24, 4, 47, '2023-07-18', '12.00', 12, 2),
-(25, 4, 47, '2023-07-18', '0.00', 0, 1);
+(25, 4, 47, '2023-07-18', '3.00', 3, 1),
+(26, 4, 47, '2023-08-12', '43.00', 43, 1);
 
 -- --------------------------------------------------------
 
@@ -806,7 +813,7 @@ CREATE TABLE IF NOT EXISTS `tbl_usuarios` (
 
 INSERT INTO `tbl_usuarios` (`id_usuario`, `token`, `usuario`, `nombres`, `correo`, `telefono`, `contrasenia`, `id_rol`, `id_status`) VALUES
 (4, '9ba4d747ecbfeda9ca4184a118b02f1c', 'jorguelopez', 'jorgue lopez', 'jorgue.lopez@gmail.com', 72544132, '$2a$07$asxx54ahjppf45sd87a5auXBm1Vr2M1NV5t/zNQtGHGpS5fFirrbG', 1, 1),
-(10, '71a805450311152598d9a3968c0ac8c7', 'RubenTrejo', 'Jose Ruben', 'josers772@outlook.es', 72154071, '$2a$07$asxx54ahjppf45sd87a5augtYQ5l0YJxtJ.sls/VjJvJD4Oq/Jqk2', 2, 1),
+(10, '71a805450311152598d9a3968c0ac8c7', 'RubenTrejo', 'Jose Ruben', 'josers772@outlook.es', 72154071, '$2a$07$asxx54ahjppf45sd87a5augtYQ5l0YJxtJ.sls/VjJvJD4Oq/Jqk2', 2, 2),
 (12, 'c1333ca9f7b573a43d1425c6a5ef8770074b7c4b891e422bdd167fbf0a70e1dc', 'valSaravia', 'Valery Saravia', 'val@outlook.es', 3423423, '$2a$07$asxx54ahjppf45sd87a5augtYQ5l0YJxtJ.sls/VjJvJD4Oq/Jqk2', 2, 2);
 
 --
